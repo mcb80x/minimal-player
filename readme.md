@@ -1,3 +1,21 @@
+# MCB80x (Minimal) Web Infrastructure
+
+## Dependencies
+
+- CoffeeScript (`npm install -g coffee-script`)
+- Python + Flask, MongoEngine, etc. (`pip install -r requirements.txt`)
+
+## Quickstart
+
+- Install Dependencies
+- Compile project (`make`)
+- run `./serve`
+- Open the dummy test page at `http://127.0.0.1:2664/course/test/a_few_videos/fleet_week` in a browser (Chrome is best)
+- Enjoy (... or maybe not)
+
+
+## Simple API notes:
+
 Since I'd love for this project to be generalizable not just to our player, but to almost any player, I've banged together a quick generic API with hooks to those minimal pieces of info a foreign player object would need to implement in order to give the discussion/scribble/whatever layer the info it needs to know, without inextricably tying that layer to our particular player.
 
 I've only just thrown this all together, so it is safe to expect that things won't work quite right, and I'm happy to iterate and fix broken stuff.  It's also possible (probable?) that the API is not quite right for the needs of the project, and that's part of why I'd like to iterate a bit before bulletproofing extensively.
