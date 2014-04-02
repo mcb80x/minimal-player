@@ -1,0 +1,1 @@
+When you login, you will always land on the dashboard.  Your dashboard displays your current lesson progress, your current module progress, and segments coming up next within the lesson.  Important course announcements also show up on this page, in addition to MCB80x social media posts.

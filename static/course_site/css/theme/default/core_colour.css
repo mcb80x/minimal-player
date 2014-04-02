@@ -1,0 +1,1335 @@
+/**
+ * Core Colour of the Default Skin
+ * @author  Lee Le
+ * @website http://www.melonhtml5.com
+ * @email   lee@melonhtml5.com
+ */
+
+/*
+| ====================================== |
+| ============== Share ================= |
+| ====================================== |
+*/
+.hr {
+    border-top-color: #DDDDDD;
+    border-bottom-color: #FFFFFF;
+}
+.divider-line {
+    background-color: #EEEEEE;
+}
+.sortable-placeholder {
+    height: 10px;
+    margin: 10px;
+    background: #FFFFFF;
+}
+.overlay {
+    background: url('../../../images/transparent_dark_8.png'); /* IE Fallback */
+    background: rgba(0, 0, 0, 0.8);
+}
+.lightcolour {
+    color: #AAAAAA;
+}
+.grid-border-right {
+    border-right-color: #EEEEEE;
+}
+.sidebar-widget-subtitle {
+    color: #CCCCCC;
+}
+
+/* Background Colour */
+div.slider-default .ui-slider-range,
+label.status-default,
+div.tile-default,
+div.progress-default div.bar,
+div.accordion-default,
+div.dialog-default div.title,
+div.data-table-default > table thead th,
+button.btn-default,
+button.btn-default[disabled=disabled]:hover {
+    color: #666666;
+    text-shadow: 0px 1px 1px #FFFFFF;
+    background-color: #D4D4D4;
+    background-image: -webkit-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -moz-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -ms-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -o-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: linear-gradient(top, #E0E0E0, #D0D0D0);
+}
+button.btn-default:disabled:hover { /* CSS3 pseudo selector breaks IE8, so having 2 separate gruops */
+    color: #666666;
+    text-shadow: 0px 1px 1px #FFFFFF;
+    background-color: #D4D4D4;
+    background-image: -webkit-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -moz-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -ms-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -o-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: linear-gradient(top, #E0E0E0, #D0D0D0);
+}
+div.slider-block .ui-slider-range,
+label.status-block,
+div.tile-block,
+div.note-block,
+div.alert-block,
+div.info-block:before,
+div.accordion-block,
+div.progress-block div.bar,
+div.dialog-block div.title,
+div.data-table-block > table thead th,
+button.btn-block,
+button.btn-block[disabled=disabled]:hover {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #FAB542;
+    background-image: -webkit-linear-gradient(top, #FCD244, #FAB542);
+    background-image: -moz-linear-gradient(top, #FCD244, #FAB542);
+    background-image: -ms-linear-gradient(top, #FCD244, #FAB542);
+    background-image: -o-linear-gradient(top, #FCD244, #FAB542);
+    background-image: linear-gradient(top, #FCD244, #FAB542);
+}
+button.btn-block:disabled:hover { /* CSS3 pseudo selector breaks IE8, so having 2 separate gruops */
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #FAB542;
+    background-image: -webkit-linear-gradient(top, #FCD244, #FAB542);
+    background-image: -moz-linear-gradient(top, #FCD244, #FAB542);
+    background-image: -ms-linear-gradient(top, #FCD244, #FAB542);
+    background-image: -o-linear-gradient(top, #FCD244, #FAB542);
+    background-image: linear-gradient(top, #FCD244, #FAB542);
+}
+div.slider-error .ui-slider-range,
+label.status-error,
+div.tile-error,
+div.note-error,
+div.alert-error,
+div.info-error:before,
+div.accordion-error,
+div.progress-error div.bar,
+div.dialog-error div.title,
+div.data-table-error > table thead th,
+button.btn-error,
+button.btn-error[disabled=disabled]:hover {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #C9282D;
+    background-image: -webkit-linear-gradient(top, #EB3E42, #C9282D);
+    background-image: -moz-linear-gradient(top, #EB3E42, #C9282D);
+    background-image: -ms-linear-gradient(top, #EB3E42, #C9282D);
+    background-image: -o-linear-gradient(top, #EB3E42, #C9282D);
+    background-image: linear-gradient(top, #EB3E42, #C9282D);
+}
+button.btn-error:disabled:hover { /* CSS3 pseudo selector breaks IE8, so having 2 separate gruops */
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #C9282D;
+    background-image: -webkit-linear-gradient(top, #EB3E42, #C9282D);
+    background-image: -moz-linear-gradient(top, #EB3E42, #C9282D);
+    background-image: -ms-linear-gradient(top, #EB3E42, #C9282D);
+    background-image: -o-linear-gradient(top, #EB3E42, #C9282D);
+    background-image: linear-gradient(top, #EB3E42, #C9282D);
+}
+div.slider-success .ui-slider-range,
+label.status-success,
+div.tile-success,
+div.note-success,
+div.alert-success,
+div.info-success:before,
+div.accordion-success,
+div.progress-success div.bar,
+div.dialog-success div.title,
+div.data-table-success > table thead th,
+button.btn-success,
+button.btn-success[disabled=disabled]:hover {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #91A244;
+    background-image: -webkit-linear-gradient(top, #A9BD4E, #91A244);
+    background-image: -moz-linear-gradient(top, #A9BD4E, #91A244);
+    background-image: -ms-linear-gradient(top, #A9BD4E, #91A244);
+    background-image: -o-linear-gradient(top, #A9BD4E, #91A244);
+    background-image: linear-gradient(top, #A9BD4E, #91A244);
+}
+button.btn-success:disabled:hover { /* CSS3 pseudo selector breaks IE8, so having 2 separate gruops */
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #91A244;
+    background-image: -webkit-linear-gradient(top, #A9BD4E, #91A244);
+    background-image: -moz-linear-gradient(top, #A9BD4E, #91A244);
+    background-image: -ms-linear-gradient(top, #A9BD4E, #91A244);
+    background-image: -o-linear-gradient(top, #A9BD4E, #91A244);
+    background-image: linear-gradient(top, #A9BD4E, #91A244);
+}
+div.slider-info .ui-slider-range,
+label.status-info,
+div.tile-info,
+div.note-info,
+div.alert-info,
+div.info-info:before,
+div.accordion-info,
+div.progress-info div.bar,
+div.dialog-info div.title,
+div.data-table-info > table thead th,
+button.btn-info,
+button.btn-info[disabled=disabled]:hover {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #365D95;
+    background-image: -webkit-linear-gradient(top, #3176AD, #365D95);
+    background-image: -moz-linear-gradient(top, #3176AD, #365D95);
+    background-image: -ms-linear-gradient(top, #3176AD, #365D95);
+    background-image: -o-linear-gradient(top, #3176AD, #365D95);
+    background-image: linear-gradient(top, #3176AD, #365D95);
+}
+button.btn-info:disabled:hover { /* CSS3 pseudo selector breaks IE8, so having 2 separate gruops */
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #365D95;
+    background-image: -webkit-linear-gradient(top, #3176AD, #365D95);
+    background-image: -moz-linear-gradient(top, #3176AD, #365D95);
+    background-image: -ms-linear-gradient(top, #3176AD, #365D95);
+    background-image: -o-linear-gradient(top, #3176AD, #365D95);
+    background-image: linear-gradient(top, #3176AD, #365D95);
+}
+div.slider-inverse .ui-slider-range,
+label.status-inverse,
+div.tile-inverse,
+div.note-inverse,
+div.alert-inverse,
+div.info-inverse:before,
+div.accordion-inverse,
+div.progress-inverse div.bar,
+div.dialog-inverse div.title,
+div.data-table-inverse > table thead th,
+button.btn-inverse,
+button.btn-inverse[disabled=disabled]:hover {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #474747;
+    background-image: -webkit-linear-gradient(top, #5C5C5C, #474747);
+    background-image: -moz-linear-gradient(top, #5C5C5C, #474747);
+    background-image: -ms-linear-gradient(top, #5C5C5C, #474747);
+    background-image: -o-linear-gradient(top, #5C5C5C, #474747);
+    background-image: linear-gradient(top, #5C5C5C, #474747);
+}
+button.btn-inverse:disabled:hover { /* CSS3 pseudo selector breaks IE8, so having 2 separate gruops */
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-color: #474747;
+    background-image: -webkit-linear-gradient(top, #5C5C5C, #474747);
+    background-image: -moz-linear-gradient(top, #5C5C5C, #474747);
+    background-image: -ms-linear-gradient(top, #5C5C5C, #474747);
+    background-image: -o-linear-gradient(top, #5C5C5C, #474747);
+    background-image: linear-gradient(top, #5C5C5C, #474747);
+}
+button.btn-default.active,
+button.btn-default:hover {
+    color: #333333;
+    text-shadow: 0px 1px 1px #FFFFFF;
+    background-color: #C7C7C7;
+    background-image: -webkit-linear-gradient(top, #E0E0E0, #C7C7C7);
+    background-image: -moz-linear-gradient(top, #E0E0E0, #C7C7C7);
+    background-image: -ms-linear-gradient(top, #E0E0E0, #C7C7C7);
+    background-image: -o-linear-gradient(top, #E0E0E0, #C7C7C7);
+    background-image: linear-gradient(top, #E0E0E0, #C7C7C7);
+}
+button.btn-block.active,
+button.btn-block:hover {
+    background-color: #E7A73C;
+    background-image: -webkit-linear-gradient(top, #EEC641, #E7A73C);
+    background-image: -moz-linear-gradient(top, #EEC641, #E7A73C);
+    background-image: -ms-linear-gradient(top, #EEC641, #E7A73C);
+    background-image: -o-linear-gradient(top, #EEC641, #E7A73C);
+    background-image: linear-gradient(top, #EEC641, #E7A73C);
+}
+button.btn-error.active,
+button.btn-error:hover {
+    background-color: #AD2226;
+    background-image: -webkit-linear-gradient(top, #D5383C, #AD2226);
+    background-image: -moz-linear-gradient(top, #D5383C, #AD2226);
+    background-image: -ms-linear-gradient(top, #D5383C, #AD2226);
+    background-image: -o-linear-gradient(top, #D5383C, #AD2226);
+    background-image: linear-gradient(top, #D5383C, #AD2226);
+}
+button.btn-success.active,
+button.btn-success:hover {
+    background-color: #738133;
+    background-image: -webkit-linear-gradient(top, #95A742, #738133);
+    background-image: -moz-linear-gradient(top, #95A742, #738133);
+    background-image: -ms-linear-gradient(top, #95A742, #738133);
+    background-image: -o-linear-gradient(top, #95A742, #738133);
+    background-image: linear-gradient(top, #95A742, #738133);
+}
+button.btn-info.active,
+button.btn-info:hover {
+    background-color: #3D5A7E;
+    background-image: -webkit-linear-gradient(top, #2D6B9C, #3D5A7E);
+    background-image: -moz-linear-gradient(top, #2D6B9C, #3D5A7E);
+    background-image: -ms-linear-gradient(top, #2D6B9C, #3D5A7E);
+    background-image: -o-linear-gradient(top, #2D6B9C, #3D5A7E);
+    background-image: linear-gradient(top, #2D6B9C, #3D5A7E);
+}
+button.btn-inverse.active,
+button.btn-inverse:hover {
+    background-color: #222222;
+    background-image: -webkit-linear-gradient(top, #505050, #222222);
+    background-image: -moz-linear-gradient(top, #505050, #222222);
+    background-image: -ms-linear-gradient(top, #505050, #222222);
+    background-image: -o-linear-gradient(top, #505050, #222222);
+    background-image: linear-gradient(top, #505050, #222222);
+}
+div.tile-default,
+div.dialog-default > div.title,
+div.accordion-default,
+div.accordion-default > div.active div.accordion-menu,
+div.data-table-default,
+div.data-table-default > table thead th,
+blockquote.blockquote-default {
+    border-color: #CCCCCC;
+}
+div.tile-block,
+div.dialog-block > div.title,
+div.accordion-block,
+div.accordion-block > div.active div.accordion-menu,
+div.data-table-block,
+div.data-table-block > table thead th,
+blockquote.blockquote-block {
+    border-color: #E2A33F;
+}
+div.tile-error,
+div.dialog-error > div.title,
+div.accordion-error,
+div.accordion-error > div.active div.accordion-menu,
+div.data-table-error,
+div.data-table-error > table thead th,
+blockquote.blockquote-error {
+    border-color: #B14648;
+}
+div.tile-success,
+div.dialog-success > div.title,
+div.accordion-success,
+div.accordion-success > div.active div.accordion-menu,
+div.data-table-success,
+div.data-table-success > table thead th,
+blockquote.blockquote-success {
+    border-color: #7C8A3B;
+}
+div.tile-info,
+div.dialog-info > div.title,
+div.accordion-info,
+div.accordion-info > div.active div.accordion-menu,
+div.data-table-info,
+div.data-table-info > table thead th,
+blockquote.blockquote-info {
+    border-color: #4B6788;
+}
+div.tile-inverse,
+div.dialog-inverse > div.title,
+div.accordion-inverse,
+div.accordion-inverse > div.active div.accordion-menu,
+div.data-table-inverse,
+div.data-table-inverse > table thead th,
+blockquote.blockquote-inverse {
+    border-color: #353535;
+}
+label.status {
+    background-image: none;
+    text-shadow: none;
+}
+
+/*
+| ====================================== |
+| ============= Main Layout ============ |
+| ====================================== |
+*/
+html {
+    background-color: #262D33;
+}
+#main {
+    color: #333333;
+    background-color: #F0F0F0;
+    box-shadow: -4px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+/*
+| ====================================== |
+| ============== Loading =============== |
+| ====================================== |
+*/
+#loading {
+    background-color: #DDDDDD; /* IE Fallback */
+    background-image: -webkit-radial-gradient(circle, #FFFFFF, #DDDDDD);
+    background-image: -moz-radial-gradient(circle, #FFFFFF, #DDDDDD);
+    background-image: -ms-radial-gradient(circle, #FFFFFF, #DDDDDD);
+    background-image: -o-radial-gradient(circle, #FFFFFF, #DDDDDD);
+    background-image: radial-gradient(circle, #FFFFFF, #DDDDDD);
+}
+#loading div.text {
+    color: #999999;
+    text-shadow: 0px 1px 1px #FFFFFF;
+}
+#loading div.dot {
+    border-color: #BBBBBB;
+    background-color: #CCCCCC;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1) inset;
+}
+
+/*
+| ====================================== |
+| ============ Lock Screen ============= |
+| ====================================== |
+*/
+div.lock {
+    background-color: #262D33;
+    background-image: -webkit-radial-gradient(circle, #46545F, #262D33);
+    background-image: -moz-radial-gradient(circle, #46545F, #262D33);
+    background-image: -ms-radial-gradient(circle, #46545F, #262D33);
+    background-image: -o-radial-gradient(circle, #46545F, #262D33);
+    background-image: radial-gradient(circle, #46545F, #262D33);
+}
+div.lock img.avatar {
+    border-color: #FFFFFF;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+}
+div.lock div.name {
+    color: #FFFFFF;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+div.lock a {
+    color: rgba(0, 0, 0, 0.4);
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/*
+| ====================================== |
+| =============== Form ================= |
+| ====================================== |
+*/
+div.form-row {
+    border-bottom-color: #EEEEEE;
+}
+div.form-row small {
+    color: #AAAAAA;
+}
+div.form-row div.input > i {
+    color: #AAAAAA;
+}
+div.form-row-warning div.input > i {
+    color: #FAB542;
+}
+div.form-row-error div.input > i {
+    color: #CF5054;
+}
+div.form-row-success div.input > i {
+    color: #91A244;
+}
+div.form-row div.input > i:after {
+    background-color: #EEEEEE;
+}
+div.form-wizard-indicator label {
+    background-color: #F4F4F4;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+div.form-wizard-indicator label:before {
+    background-color: #F4F4F4;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+div.form-wizard-indicator label:after {
+    border-top-color: #C3CF3F;
+    border-bottom-color: #C3CF3F;
+    background: #C6D432;
+    background-image: -webkit-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -moz-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -ms-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -o-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: linear-gradient(top, #C6D432, #B2BE23);
+}
+div.form-wizard-indicator label span {
+    color: #666666;
+    border-color: #EEEEEE;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4);
+    background-color: #DDDDDD;
+    background-image: -webkit-linear-gradient(top, #F4F4F4, #DDDDDD);
+    background-image: -moz-linear-gradient(top, #F4F4F4, #DDDDDD);
+    background-image: -ms-linear-gradient(top, #F4F4F4, #DDDDDD);
+    background-image: -o-linear-gradient(top, #F4F4F4, #DDDDDD);
+    background-image: linear-gradient(top, #F4F4F4, #DDDDDD);
+}
+div.form-wizard-indicator.current label span {
+    color: #FFFFFF;
+    border-color: #C3CF3F;
+    background: #C6D432;
+    background-image: -webkit-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -moz-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -ms-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -o-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: linear-gradient(top, #C6D432, #B2BE23);
+}
+div.form-wizard-indicator.completed label span {
+    color: #FFFFFF;
+    border-color: #C3CF3F;
+    background: #C6D432;
+    background-image: -webkit-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -moz-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -ms-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: -o-linear-gradient(top, #C6D432, #B2BE23);
+    background-image: linear-gradient(top, #C6D432, #B2BE23);
+}
+div.form-wizard-indicator.completed span.desc {
+    color: #91A244;
+    text-shadow: none;
+}
+div.form-row input[type="text"],
+div.form-row input[type="password"],
+div.form-row input[type="number"],
+div.form-row input[type="email"],
+div.form-row input[type="url"],
+div.form-row input[type="search"],
+div.form-row input[type="tel"],
+div.form-row input[type="color"],
+div.form-row input[type="range"],
+div.form-row input[type="datetime"],
+div.form-row input[type="date"],
+div.form-row input[type="month"],
+div.form-row input[type="week"],
+div.form-row input[type="time"],
+div.form-row textarea,
+div.form-row select {
+    border-color: #CCCCCC;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1) inset;
+}
+div.form-row input[type="text"]:focus,
+div.form-row input[type="password"]:focus,
+div.form-row input[type="number"]:focus,
+div.form-row input[type="email"]:focus,
+div.form-row input[type="url"]:focus,
+div.form-row input[type="search"]:focus,
+div.form-row input[type="tel"]:focus,
+div.form-row input[type="color"]:focus,
+div.form-row input[type="range"]:focus,
+div.form-row input[type="datetime"]:focus,
+div.form-row input[type="date"]:focus,
+div.form-row input[type="month"]:focus,
+div.form-row input[type="week"]:focus,
+div.form-row input[type="time"]:focus,
+div.form-row textarea:focus,
+div.form-row select:focus {
+    border-color: #AAAAAA;
+}
+div.form-row-warning input[type="text"],
+div.form-row-warning input[type="password"],
+div.form-row-warning input[type="number"],
+div.form-row-warning input[type="email"],
+div.form-row-warning input[type="url"],
+div.form-row-warning input[type="search"],
+div.form-row-warning input[type="tel"],
+div.form-row-warning input[type="color"],
+div.form-row-warning input[type="range"],
+div.form-row-warning input[type="datetime"],
+div.form-row-warning input[type="date"],
+div.form-row-warning input[type="month"],
+div.form-row-warning input[type="week"],
+div.form-row-warning input[type="time"],
+div.form-row-warning textarea,
+div.form-row-warning select {
+    border-color: #FAB542 !important;
+}
+div.form-row-error input[type="text"],
+div.form-row-error input[type="password"],
+div.form-row-error input[type="number"],
+div.form-row-error input[type="email"],
+div.form-row-error input[type="url"],
+div.form-row-error input[type="search"],
+div.form-row-error input[type="tel"],
+div.form-row-error input[type="color"],
+div.form-row-error input[type="range"],
+div.form-row-error input[type="datetime"],
+div.form-row-error input[type="date"],
+div.form-row-error input[type="month"],
+div.form-row-error input[type="week"],
+div.form-row-error input[type="time"],
+div.form-row-error textarea,
+div.form-row-error select {
+    border-color: #CF5054 !important;
+}
+div.form-row-success div.input span.icon,
+div.form-row-success input[type="text"],
+div.form-row-success input[type="password"],
+div.form-row-success input[type="number"],
+div.form-row-success input[type="email"],
+div.form-row-success input[type="url"],
+div.form-row-success input[type="search"],
+div.form-row-success input[type="tel"],
+div.form-row-success input[type="color"],
+div.form-row-success input[type="range"],
+div.form-row-success input[type="datetime"],
+div.form-row-success input[type="date"],
+div.form-row-success input[type="month"],
+div.form-row-success input[type="week"],
+div.form-row-success input[type="time"],
+div.form-row-success textarea,
+div.form-row-success select {
+    border-color: #91A244 !important;
+}
+div.form-row textarea {
+    resize: none;
+}
+div.form-row select {
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    background-color: #F5F5F5;
+    background-image: -webkit-linear-gradient(top, #FFFFFF, #F5F5F5);
+    background-image: -moz-linear-gradient(top, #FFFFFF, #F5F5F5);
+    background-image: -ms-linear-gradient(top, #FFFFFF, #F5F5F5);
+    background-image: -o-linear-gradient(top, #FFFFFF, #F5F5F5);
+    background-image: linear-gradient(top, #FFFFFF, #F5F5F5);
+}
+div.form-row-warning {
+    color: #FAB542;
+}
+div.form-row-error {
+    color: #CF5054;
+}
+div.form-row-success {
+    color: #91A244;
+}
+
+/*
+| ====================================== |
+| =============== Tooltip ============== |
+| ====================================== |
+*/
+div.tooltip {
+    color: #FFFFFF;
+    background: #111111; /* IE Fallback */
+    background: rgba(0, 0, 0, 0.8);
+}
+div.tooltip-arrow {
+    border-color: transparent;
+}
+div.tooltip-top div.tooltip-arrow {
+    border-top-color: #111111; /* IE Fallback */
+    border-top-color: rgba(0, 0, 0, 0.8);
+}
+div.tooltip-bottom div.tooltip-arrow {
+    border-bottom-color: #111111; /* IE Fallback */
+    border-bottom-color: rgba(0, 0, 0, 0.8);
+}
+div.tooltip-left div.tooltip-arrow {
+    border-left-color: #111111; /* IE Fallback */
+    border-left-color: rgba(0, 0, 0, 0.8);
+}
+div.tooltip-right div.tooltip-arrow {
+    border-right-color: #111111; /* IE Fallback */
+    border-right-color: rgba(0, 0, 0, 0.8);
+}
+
+/*
+| ====================================== |
+| ========= Dashboard Widget =========== |
+| ====================================== |
+*/
+div.dashboard-widget > div.title {
+    text-shadow: 0px 1px 1px #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+div.dashboard-widget-closed > div.title {
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+div.dashboard-widget > div.title button {
+    color: #666666;
+}
+div.dashboard-widget > div.title button:hover {
+    color: #000000;
+}
+div.dashboard-widget > div.content {
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+
+/*
+| ====================================== |
+| =============== Tab ================== |
+| ====================================== |
+*/
+div.tab > div.tab-content {
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+div.tab > div.tab-menu {
+    text-shadow: 0px 1px 1px #FFFFFF;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+div.tab > div.tab-menu li {
+    text-shadow: none;
+}
+div.tab > div.tab-menu li:hover {
+    background: url('../../../images/transparent_light_3.png') repeat; /* IE Fallback */
+    background: rgba(255, 255, 255, 0.3);
+}
+div.tab > div.tab-menu li.active {
+    color: #666666;
+    background-color: #FFFFFF;
+    text-shadow: none;
+}
+
+/*
+| ====================================== |
+| ============== Accordion ============= |
+| ====================================== |
+*/
+div.accordion > div {
+    border-bottom-color: transparent;  /* IE Falback */
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+div.accordion > div div.accordion-menu {
+    background-image: none;
+}
+div.accordion > div div.accordion-menu:hover {
+    background: url('../../../images/transparent_dark_1.png') repeat; /* IE Falback */
+    background: rgba(0, 0, 0, 0.05);
+}
+div.accordion > div div.accordion-menu span.alert {
+    background: url('../../../images/transparent_dark_1.png') repeat; /* IE Falback */
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1) inset;
+}
+div.accordion > div div.accordion-content {
+    color: #666666;
+    text-shadow: none;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1) inset;
+}
+
+/*
+| ====================================== |
+| =============== Dialog =============== |
+| ====================================== |
+*/
+div.dialog {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+div.dialog > div.content {
+    background-color: #FFFFFF;
+}
+div.dialog > div.button {
+    background-color: #FFFFFF;
+}
+div.dialog > div.title button {
+    color: #FFFFFF;
+}
+div.dialog-default > div.title button {
+    color: #666666;
+}
+
+/*
+| ====================================== |
+| ============= Data Table ============= |
+| ====================================== |
+*/
+div.data-table > table tbody {
+    background-color: #FFFFFF;
+}
+div.data-table > table tbody tr:nth-child(even) {
+    background-color: #F9F9F9;
+}
+div.data-table > table tbody tr:hover td,
+div.data-table > table tbody th.hover,
+div.data-table > table tbody td.hover {
+    background: url('../../../images/transparent_dark_1.png') repeat; /* IE Falback */
+    background: rgba(0, 0, 0, 0.08);
+}
+div.data-table > table div.data-table-search input {
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1) inset;
+}
+div.data-table > table div.data-table-search i {
+    color: #AAAAAA;
+}
+
+/*
+| ====================================== |
+| ================ Alert =============== |
+| ====================================== |
+*/
+div.alert {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+div.alert:before {
+    background: url('../../../images/transparent_light_1.png') repeat; /* IE Fallback */
+    background: rgba(255, 255, 255, 0.1);
+}
+div.alert button.close {
+    color: #FFFFFF;
+}
+
+div.note-plain,
+div.info {
+    color: #666666;
+    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    background-color: #E9E9E9;
+    background-image: -webkit-linear-gradient(top, #F0F0F0, #E9E9E9);
+    background-image: -moz-linear-gradient(top, #F0F0F0, #E9E9E9);
+    background-image: -ms-linear-gradient(top, #F0F0F0, #E9E9E9);
+    background-image: -o-linear-gradient(top, #F0F0F0, #E9E9E9);
+    background-image: linear-gradient(top, #F0F0F0, #E9E9E9);
+}
+div.info:before {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+div.info button.close {
+    color: #666666;
+}
+div.note {
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+div.note button.close {
+    color: #FFFFFF;
+}
+
+/*
+| ====================================== |
+| ============ Notification============= |
+| ====================================== |
+*/
+div.notification-container {
+}
+div.notification-container div.notification,
+div.notification-container div.notification a {
+    color: #FFFFFF;
+}
+div.notification-container div.notification:hover {
+}
+div.notification-container div.notification div.title,
+div.notification-container div.notification div.content {
+    background: url('../../../images/transparent_dark_8.png') repeat; /* IE Fallback */
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/*
+| ====================================== |
+| =============== Button =============== |
+| ====================================== |
+*/
+button.btn {
+    border-color: transparent; /* IE8 Fallback */
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+button.btn:active,
+button.btn.active {
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2) inset;
+}
+button.btn:disabled {
+    box-shadow: none;
+}
+button.btn-block:disabled,
+button.btn-error:disabled,
+button.btn-success:disabled,
+button.btn-info:disabled,
+button.btn-inverse:disabled,
+button.btn-block:disabled:hover,
+button.btn-error:disabled:hover,
+button.btn-success:disabled:hover,
+button.btn-info:disabled:hover,
+button.btn-inverse:disabled:hover {
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: none;
+}
+button.btn-loading,
+button.btn-loading:hover {
+    color: #AAAAAA;
+    text-shadow: 0px 1px 1px #FFFFFF;
+    background-size: 40px 40px;
+    background-color: #DEDEDE;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -ms-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+/* Square Button */
+div.square-btn {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    color: #666666;
+    text-shadow: 0px 1px 1px #FFFFFF;
+    background-color: #D4D4D4;
+    background-image: -webkit-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -moz-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -ms-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: -o-linear-gradient(top, #E0E0E0, #D0D0D0);
+    background-image: linear-gradient(top, #E0E0E0, #D0D0D0);
+}
+div.square-btn:hover {
+    color: #000000;
+}
+div.square-btn:active {
+    text-shadow: 0px 1px 1px #FFFFFF;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3) inset;
+}
+div.square-btn i {
+    color: #666666;
+}
+div.square-btn:hover i {
+    color: #000000;
+}
+div.square-btn span.number-alert {
+    text-shadow: none;
+}
+/* Circle Button */
+div.circle-btn {
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3) inset;
+    background-color: #F4F4F4;
+    background-image: -webkit-linear-gradient(top, #DDDDDD, #F4F4F4);
+    background-image: -moz-linear-gradient(top, #DDDDDD, #F4F4F4);
+    background-image: -ms-linear-gradient(top, #DDDDDD, #F4F4F4);
+    background-image: -o-linear-gradient(top, #DDDDDD, #F4F4F4);
+    background-image: linear-gradient(top, #DDDDDD, #F4F4F4);
+}
+div.circle-btn i {
+    color: #666666;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4);
+    background-color: #DDDDDD;
+    background-image: -webkit-linear-gradient(top, #F4F4F4, #DDDDDD);
+    background-image: -moz-linear-gradient(top, #F4F4F4, #DDDDDD);
+    background-image: -ms-linear-gradient(top, #F4F4F4, #DDDDDD);
+    background-image: -o-linear-gradient(top, #F4F4F4, #DDDDDD);
+    background-image: linear-gradient(top, #F4F4F4, #DDDDDD);
+}
+div.circle-btn i:active {
+    background-color: #F4F4F4;
+    background-image: -webkit-linear-gradient(top, #DDDDDD, #F4F4F4);
+    background-image: -moz-linear-gradient(top, #DDDDDD, #F4F4F4);
+    background-image: -ms-linear-gradient(top, #DDDDDD, #F4F4F4);
+    background-image: -o-linear-gradient(top, #DDDDDD, #F4F4F4);
+    background-image: linear-gradient(top, #DDDDDD, #F4F4F4);
+}
+div.circle-btn:hover i {
+    color: #000000;
+}
+
+/*
+| ====================================== |
+| ============= Progress Bar =========== |
+| ====================================== |
+*/
+div.progress {
+    background-color: rgba(0, 0, 0, 0.03);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1) inset;
+}
+div.progress-stripe div.bar {
+    background-size: 40px 40px;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -ms-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+
+/*
+| ====================================== |
+| ============ File Gallery ============ |
+| ====================================== |
+*/
+div.file-gallery div.detail {
+    color: #AAAAAA;
+}
+div.file-gallery div.detail a {
+    color: #666666;
+}
+div.file-gallery-grid div.preview,
+div.file-gallery-thumbnail div.preview {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+div.file-gallery-list div.item {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
+}
+
+/*
+| ====================================== |
+| ======== Project Contribution ======== |
+| ====================================== |
+*/
+div.project-contribution div.level1 {
+    background-color: #EEEEEE;
+}
+div.project-contribution div.level2 {
+    background-color: #D6E685;
+}
+div.project-contribution div.level3 {
+    background-color: #8CC665;
+}
+div.project-contribution div.level4 {
+    background-color: #44A340;
+}
+div.project-contribution div.level5 {
+    background-color: #1E6823;
+}
+div.project-contribution-alt div.level1 {
+    background-color: #EEEEEE;
+}
+div.project-contribution-alt div.level2 {
+    background-color: #9ADDE7;
+}
+div.project-contribution-alt div.level3 {
+    background-color: #7CC3CE;
+}
+div.project-contribution-alt div.level4 {
+    background-color: #418A94;
+}
+div.project-contribution-alt div.level5 {
+    background-color: #015965;
+}
+div.project-contribution div.main div.level:hover {
+    border-color: #333333;
+}
+
+/*
+| ====================================== |
+| ============= Star Rating ============ |
+| ====================================== |
+*/
+div.star-rating i.icon-star {
+    color: #FAB542;
+}
+div.star-rating i.icon-star-empty {
+    color: #999999;
+}
+
+/*
+| ====================================== |
+| ============ Typography ============== |
+| ====================================== |
+*/
+h1, h2, h4, h6 {
+    color: #000000;
+}
+h2 {
+    border-bottom-color: #000000;
+}
+h5 {
+    color: #FFFFFF;
+}
+blockquote {
+    background-color: #FFFFFF;
+}
+blockquote:before,
+blockquote:after {
+    color: #AAAAAA;
+}
+.text-inverse {
+    color: #000000;
+}
+.text-block {
+    color: #E2A33F;
+}
+.text-success {
+    color: #7C8A3B;
+}
+.text-error {
+    color: #B14648;
+}
+.text-info {
+    color: #4B6788;
+}
+.text-dollar {
+    color: #00A300;
+}
+span.number-alert {
+    color: #FFFFFF;
+    background-color: #CB252E;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1)
+}
+
+/*
+| ====================================== |
+| ============== Navigation ============ |
+| ====================================== |
+*/
+
+/* Profile */
+div.profile div.avatar {
+    -webkit-perspective: 1000px;
+       -moz-perspective: 1000px;
+        -ms-perspective: 1000px;
+         -o-perspective: 1000px;
+            perspective: 1000px;
+}
+div.profile div.avatar img {
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0px 1px 2px #000000;
+}
+div.profile div.avatar img:hover {
+    -webkit-transition: all 0.5s linear;
+       -moz-transition: all 0.5s linear;
+        -ms-transition: all 0.5s linear;
+         -o-transition: all 0.5s linear;
+            transition: all 0.5s linear;
+    -webkit-transform: rotateY(360deg);
+       -moz-transform: rotateY(360deg);
+        -ms-transform: rotateY(360deg);
+         -o-transform: rotateY(360deg);
+            transform: rotateY(360deg);
+}
+
+/* Navigation */
+ul.navigation > li > a {
+    /*color: #4E5255;*/
+    color: #999999;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+ul.navigation > li.separator div {
+    background-color: #4E5255;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+ul.navigation > li.sub:hover > a,
+ul.navigation > li > a:hover {
+    color: #FFFFFF;
+}
+ul.navigation > li > a.open,
+ul.navigation > li > a.active {
+    color: #FFFFFF;
+}
+ul.navigation-sub {
+    background-color: #262D33;
+}
+ul.navigation-sub > li > a {
+    color: #4E5255;
+    border-left-color: transparent;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+ul.navigation-sub > li > a.active,
+ul.navigation-sub > li > a:hover {
+    color: #FFFFFF;
+    background-color: #22282D;
+}
+ul.navigation-sub > li > a.active {
+    border-left-color: #CB252E;
+}
+
+/*
+| ====================================== |
+| =========== Theme Selector =========== |
+| ====================================== |
+*/
+#theme-selector,
+#theme-selector div.icon {
+    color: #FFFFFF;
+    background: url('../../../images/transparent_dark_5.png') repeat; /* IE Fallback */
+    background: rgba(0, 0, 0, 0.5);
+}
+#theme-selector:hover div.icon,
+#theme-selector:hover {
+    background: url('../../../images/transparent_dark_7.png') repeat; /* IE Fallback */
+    background: rgba(0, 0, 0, 0.7);
+}
+#theme-selector div.theme {
+    outline-color: #EEEEEE;
+}
+#theme-selector div.theme:hover {
+    outline-color: #FFFFFF;
+}
+
+/*
+| ====================================== |
+| ========== Checkbox / Radio ========== |
+| ====================================== |
+*/
+input[type="checkbox"] + label:before,
+input[type="radio"] + label:before {
+    color: #666666;
+    border-color: #AAAAAA;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.1) inset;
+}
+input[type="checkbox"] + label:hover:before,
+input[type="radio"] + label:hover:before {
+    border-color: #666666;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.3) inset;
+}
+input[type="radio"] + label:after {
+    background-color: #666666;
+}
+
+/*
+| ====================================== |
+| ============ UI Elements ============= |
+| ====================================== |
+*/
+
+/* Dropdown */
+ul.dropdown {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-color: #CCCCCC;
+    border-radius: 4px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+ul.dropdown li > a {
+    text-decoration: none;
+    color: #666666;
+    text-shadow: none;
+}
+ul.dropdown li > a:hover {
+    color: #000000;
+    background-color: #DDDDDD;
+    background-image: -webkit-linear-gradient(top, #E8E8E8, #DDDDDD);
+    background-image: -moz-linear-gradient(top, #E8E8E8, #DDDDDD);
+    background-image: -ms-linear-gradient(top, #E8E8E8, #DDDDDD);
+    background-image: -o-linear-gradient(top, #E8E8E8, #DDDDDD);
+    background-image: linear-gradient(top, #E8E8E8, #DDDDDD);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+}
+ul.dropdown li > a:active {
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1) inset;
+}
+ul.dropdown li > a.disabled,
+ul.dropdown li > a.disabled:hover,
+ul.dropdown li > a.disabled:active {
+    cursor: default;
+    color: #DDDDDD;
+    background: none;
+    box-shadow: none;
+}
+ul.dropdown li.hr {
+    background-color: #EEEEEE;
+}
+
+/* Inbox */
+div.mail-inbox {
+    border-bottom-color: #EEEEEE;
+}
+div.mail-inbox > div.subject {
+    color: #000000;
+}
+
+/* Tile */
+div.tile {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+div.tile a.view-more {
+    background: url('../../../images/transparent_dark_1.png') repeat; /* IE Fallback */
+    background: rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
+}
+div.todo div.todo-item {
+    border-bottom-color: #EEEEEE;
+}
+div.todo div.todo-item.checked {
+    color: #AAAAAA;
+}
+div.todo div.todo-item.checked label.status {
+    color: #AAAAAA;
+    background: none;
+    text-shadow: none;
+}
+
+/* HTML Meter Chart */
+div.html-meter-chart div.desc div.text {
+    color: #CCCCCC;
+}
+div.html-meter-chart div.meter > div > div {
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    background-size: 4px 4px;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -ms-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+div.html-meter-chart div.meter > div > div.bar-block {
+    background-color: #F3DEA8;
+}
+div.html-meter-chart div.meter > div > div.bar-info {
+    background-color: #B2D6F8;
+}
+div.html-meter-chart div.meter > div > div.bar-success {
+    background-color: #CAE1CA;
+}
+div.html-meter-chart div.meter > div > div.bar-error {
+    background-color: #D5D3E8;
+}
+
+div.search-bar {
+    background: url('../../../images/transparent_light_2.png') repeat; /* IE Fallback */
+    background: rgba(255, 255, 255, 0.2);
+}
+div.search-bar input {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* HTML Bar */
+div.html-bar-indicator {
+    background-color: #F0F0F0;
+}
+
+/* Social Bar */
+div.social-bar {
+    background-color: #EEEEEE;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) inset;
+}
+div.social-bar span {
+    text-shadow: 0px 1px 1px #FFFFFF;
+}
+div.social-bar div {
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.1);
+}
+div.social-bar-facebook div {
+    background-color: #3C599B;
+}
+div.social-bar-twitter div {
+    background-color: #1DADEA;
+}
+div.social-bar-google div {
+    background-color: #CE281C;
+}
+.facebook-colour {
+    color: #3C599B;
+}
+.twitter-colour {
+    color: #1DADEA;
+}
+.google-plus-colour {
+    color: #CE281C;
+}
+.linkedin-colour {
+    color: #1482BA;
+}
+.pinterest-colour {
+    color: #CC1E22;
+}
+.windows-colour {
+    color: #4F007C;
+}
+
+/* Flot Tooltip */
+#flotTip {
+    background: url('../../../images/transparent_dark_6.png') repeat; /* IE Fallback */
+    background: rgba(0, 0, 0, 0.6);
+    color: #FFFFFF;
+}
+
+/* jQuery UI */
+.slider-helper {
+    background: url('../../../images/transparent_dark_6.png') repeat; /* IE Fallback */
+    background: rgba(0, 0, 0, 0.6);
+    color: #FFFFFF;
+}
+.ui-slider-horizontal,
+.ui-slider-vertical {
+    background: #EEEEEE;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) inset;
+}
+.ui-slider-range {
+    background: none;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) inset;
+}
+.ui-slider .ui-slider-handle {
+    border-color: #BBBBBB;
+}

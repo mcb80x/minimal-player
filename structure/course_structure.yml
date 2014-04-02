@@ -1,0 +1,23 @@
+# MCB80x Master Course Structure
+---
+
+title: The Fundamentals of Neuroscience
+active: Yes
+name: mcb80x
+
+modules:
+
+  - name: test
+    title: Tests
+    active: No
+    unavailable: Yes
+    unlocked_by:
+
+    lessons:
+      - name: a_few_videos
+        title: 'A minimal player test'
+        segments:
+          - name: fleet_week
+            title: 'A Test'
+
+...

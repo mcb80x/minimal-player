@@ -1,0 +1,407 @@
+<div class="page-title">
+    <div class="menu-switch"><i class="icon-reorder"></i></div>
+    <i class="icon-list-alt"></i>
+    <span>Web Forms</span>
+</div>
+<div class="margin-container">
+    <div class="dashboard-widget">
+        <div class="title">
+            <i class="icon-user"></i> Wizard
+            <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+        </div>
+        <div class="content">
+            <form class="wizard">
+                <div class="form-row">
+                    <div class="form-wizard-indicator-container">
+                        <div class="form-wizard-indicator">
+                            <label><span>1</span></label>
+                            <span class="desc">Login Details</span>
+                        </div>
+                        <div class="form-wizard-indicator">
+                            <label><span>2</span></label>
+                            <span class="desc">Personal Information</span>
+                        </div>
+                        <div class="form-wizard-indicator">
+                            <label><span>3</span></label>
+                            <span class="desc">Payment Method</span>
+                        </div>
+                        <div class="form-wizard-indicator">
+                            <label><span>4</span></label>
+                            <span class="desc">Confirmation</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-wizard">
+                    <div class="form-row">
+                        <div class="label">Email Address:</div>
+                        <div class="input">
+                            <i class="icon-envelope"></i><input type="email" class="icon large" placeholder="Email" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Username:</div>
+                        <div class="input">
+                            <i class="icon-user"></i><input type="text" class="icon large" placeholder="Username" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Password:</div>
+                        <div class="input">
+                            <i class="icon-lock"></i><input type="password" class="icon large" placeholder="Password" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Confirm Password:</div>
+                        <div class="input">
+                            <i class="icon-lock"></i><input type="password" class="icon large" placeholder="Confirm Password" />
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="form-wizard">
+                    <div class="form-row">
+                        <div class="label">Phone:</div>
+                        <div class="input">
+                            <i class="icon-phone"></i><input type="tel" class="icon large" placeholder="Phone" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Website:</div>
+                        <div class="input">
+                            <i class="icon-globe"></i><input type="url" class="icon large" placeholder="Website" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Date of Birth:</div>
+                        <div class="input"><i class="icon-calendar"></i><input type="date" class="icon large" /></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Gender:</div>
+                        <div class="input">
+                            <input type="radio" name="gender" id="gender-btn-m" /><label for="gender-btn-m">Male</label>
+                            <input type="radio" name="gender" id="gender-btn-f" /><label for="gender-btn-f">Female</label>
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="form-wizard">
+                    <div class="form-row">
+                        <div class="label">Credit Card Type:</div>
+                        <div class="input">
+                            <select>
+                                <option>Visa</option>
+                                <option>MasterCard</option>
+                                <option>AMEX</option>
+                                <option>Dinner Club</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Credit Card Number:</div>
+                        <div class="input">
+                            <input type="text" class="mini creditcard" maxlength="4" />&nbsp;-&nbsp;
+                            <input type="text" class="mini creditcard" maxlength="4" />&nbsp;-&nbsp;
+                            <input type="text" class="mini creditcard" maxlength="4" />&nbsp;-&nbsp;
+                            <input type="text" class="mini creditcard" maxlength="4" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Expiry Date:</div>
+                        <div class="input">
+                            <input type="text" class="mini" placeholder="mm" maxlength="2" />&nbsp;/&nbsp;
+                            <input type="text" class="mini" placeholder="yy" maxlength="2" />&nbsp;<small>(mm/yy)</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">CVV:</div>
+                        <div class="input">
+                            <i class="icon-credit-card"></i><input type="text" class="icon small" placeholder="CVV" />
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="form-wizard">
+                    <div class="form-row">
+                        <div class="label">Terms & Conditions:</div>
+                        <div class="input">
+                            <textarea class="full" style="height:170px;" readonly="readonly">Terms & Conditions
+
+    1. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+
+    2. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+
+    3. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.
+
+    4. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text.
+
+    5. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+
+    6. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</textarea><br>
+                            <input type="checkbox" id="tnc" /><label for="tnc">I agree to the Terms & Conditions</label>
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="form-button-bar">
+                    <button class="btn btn-default btn-small form-wizard-previous"><i class="icon-circle-arrow-left"></i> Previous</button>&nbsp;
+                    <button class="btn btn-success btn-small form-wizard-next"><i class="icon-circle-arrow-right"></i> Next</button>
+                    <button class="btn btn-success btn-small form-wizard-submit form-submit-ajax"><i class="icon-external-link"></i> Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="grid grid-responsive grid-6">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-group"></i> Differet Size
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+            </div>
+            <div class="content">
+                <form>
+                    <div class="form-row">
+                        <div class="label">Text input:<br><small>(small)</small></div>
+                        <div class="input">
+                            <i class="icon-user"></i><input type="text" class="icon small" placeholder="small" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Text input:<br><small>(medium)</small></div>
+                        <div class="input">
+                            <i class="icon-search"></i><input type="text" class="icon medium" placeholder="medium" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Text input:<br><small>(large)</small></div>
+                        <div class="input">
+                            <i class="icon-envelope"></i><input type="text" class="icon large" placeholder="large" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Text input:<br><small>(full)</small></div>
+                        <div class="input">
+                            <i class="icon-lock"></i><input type="text" class="icon full" placeholder="full" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Dropdown:<br><small>(small)</small></div>
+                        <div class="input">
+                            <select class="small">
+                                <option>Dropdown option 1</option>
+                                <option>Dropdown option 2</option>
+                                <option>Dropdown option 3</option>
+                                <option>Dropdown option 4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Dropdown<br><small>(medium)</small></div>
+                        <div class="input">
+                            <select class="medium">
+                                <option>Dropdown option 1</option>
+                                <option>Dropdown option 2</option>
+                                <option>Dropdown option 3</option>
+                                <option>Dropdown option 4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Dropdown<br><small>(large)</small></div>
+                        <div class="input">
+                            <select class="large">
+                                <option>Dropdown option 1</option>
+                                <option>Dropdown option 2</option>
+                                <option>Dropdown option 3</option>
+                                <option>Dropdown option 4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Dropdown<br><small>(full)</small></div>
+                        <div class="input">
+                            <select class="full">
+                                <option>Dropdown option 1</option>
+                                <option>Dropdown option 2</option>
+                                <option>Dropdown option 3</option>
+                                <option>Dropdown option 4</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Textarea<br><small>(small)</small></div>
+                        <div class="input"><textarea class="small" rows="3" placeholder="small"></textarea></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Textarea<br><small>(medium)</small></div>
+                        <div class="input"><textarea class="medium" rows="6" placeholder="medium" ></textarea></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Textarea<br><small>(large)</small></div>
+                        <div class="input"><textarea class="large" rows="8" placeholder="large"></textarea></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Textarea<br><small>(full)</small></div>
+                        <div class="input"><textarea class="full" rows="8" placeholder="full"></textarea></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Radio:</div>
+                        <div class="input">
+                            <input type="radio" name="radio-btn" id="radio-btn-1" /><label for="radio-btn-1">Option1</label>
+                            <input type="radio" name="radio-btn" id="radio-btn-2" /><label for="radio-btn-2">Option2</label>
+                            <input type="radio" name="radio-btn" id="radio-btn-3" /><label for="radio-btn-3">Option3</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Radio<br><small>(grid)</small></div>
+                        <div class="input">
+                            <input type="radio" name="radio-grid-btn" id="radio-grid-btn-1" /><label for="radio-grid-btn-1">Option1</label>
+                            <br>
+                            <input type="radio" name="radio-grid-btn" id="radio-grid-btn-2" /><label for="radio-grid-btn-2">Option2</label>
+                            <br>
+                            <input type="radio" name="radio-grid-btn" id="radio-grid-btn-3" /><label for="radio-grid-btn-3">Option3</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Checkbox:</div>
+                        <div class="input">
+                            <input type="checkbox" id="checkbox-option-1" /><label for="checkbox-option-1">Option1</label>
+                            <input type="checkbox" id="checkbox-option-2" /><label for="checkbox-option-2">Option2</label>
+                            <input type="checkbox" id="checkbox-option-3" /><label for="checkbox-option-3">Option3</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Checkbox<br><small>(grid)</small></div>
+                        <div class="input">
+                            <input type="checkbox" id="checkbox-grid-option-1" /><label for="checkbox-grid-option-1">Option1</label>
+                            <br>
+                            <input type="checkbox" id="checkbox-grid-option-2" /><label for="checkbox-grid-option-2">Option2</label>
+                            <br>
+                            <input type="checkbox" id="checkbox-grid-option-3" /><label for="checkbox-grid-option-3">Option3</label>
+                        </div>
+                    </div>
+                    <div class="form-button-bar">
+                        <button class="btn btn-default btn-small"><i class="icon-off"></i> Rest Form</button>&nbsp;
+                        <button class="btn btn-success btn-small form-submit-ajax"><i class="icon-external-link"></i> Submit Form</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-responsive grid-6">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-list"></i> Validations
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+            </div>
+            <div class="content">
+                <form>
+                    <div class="form-row form-row-warning">
+                        <div class="label">Warning:</div>
+                        <div class="input"><input type="text" class="medium" placeholder="medium" /><span class="validation">Password strength is low</span></div>
+                    </div>
+                    <div class="form-row form-row-error">
+                        <div class="label">Error:</div>
+                        <div class="input"><input type="text" class="medium" placeholder="medium" /><span class="validation">Invalid Email Address</span></div>
+                    </div>
+                    <div class="form-row form-row-success">
+                        <div class="label">Success:</div>
+                        <div class="input"><input type="text" class="medium" placeholder="medium" /><span class="validation">Success Input</span></div>
+                    </div>
+                    <div class="form-row form-row-warning">
+                        <div class="label">Warning:<br><small>(inline)</small></div>
+                        <div class="input"><input type="text" class="medium" placeholder="medium" title="Password strength is low" /><span class="validation"><i class="icon-warning-sign"></i></span></div>
+                    </div>
+                    <div class="form-row form-row-error">
+                        <div class="label">Error:<br><small>(inline)</small></div>
+                        <div class="input"><input type="text" class="medium" placeholder="medium" title="Invalid Email Address" /><span class="validation"><i class="icon-exclamation-sign"></i></span></div>
+                    </div>
+                    <div class="form-row form-row-success">
+                        <div class="label">Success:<br><small>(inline)</small></div>
+                        <div class="input"><input type="text" class="medium" placeholder="medium" title="Success Input" /><span class="validation"><i class="icon-ok"></i></span></div>
+                    </div>
+                    <div class="form-row form-row-warning">
+                        <div class="label">Warning:<br><small>(inline)</small></div>
+                        <div class="input">
+                            <i class="icon-user"></i><input type="text" class="icon medium" placeholder="medium" title="Password strength is low" /><span class="validation"><i class="icon-warning-sign"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-row form-row-error">
+                        <div class="label">Error:<br><small>(inline)</small></div>
+                        <div class="input">
+                            <i class="icon-lock"></i><input type="text" class="icon medium" placeholder="medium" title="Invalid Email Address" /><span class="validation"><i class="icon-exclamation-sign"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-row form-row-success">
+                        <div class="label">Success:<br><small>(inline)</small></div>
+                        <div class="input">
+                            <i class="icon-calendar"></i><input type="date" class="icon medium" title="Success Input" /><span class="validation"><i class="icon-ok"></i></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-user"></i> Components
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+            </div>
+            <div class="content">
+                <form>
+                    <div class="form-row">
+                        <div class="label">Username:</div>
+                        <div class="input">
+                            <i class="icon-user"></i><input type="text" class="icon medium" placeholder="Username" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Password:</div>
+                        <div class="input">
+                            <i class="icon-lock"></i><input type="password" class="icon medium" placeholder="Password" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Email Address:</div>
+                        <div class="input">
+                            <i class="icon-envelope"></i><input type="email" class="icon medium" placeholder="Email" /></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Phone:</div>
+                        <div class="input">
+                            <i class="icon-phone"></i><input type="tel" class="icon medium" placeholder="Phone" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Website:</div>
+                        <div class="input">
+                            <i class="icon-globe"></i><input type="url" class="icon medium" placeholder="Website" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Date of Birth:</div>
+                        <div class="input">
+                            <i class="icon-calendar"></i><input type="date" class="icon medium" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Gender:</div>
+                        <div class="input">
+                            <input type="radio" name="gender" id="gender-btn-1" /><label for="gender-btn-1">Male</label>
+                            <input type="radio" name="gender" id="gender-btn-2" /><label for="gender-btn-2">Female</label>
+                            <input type="radio" name="gender" id="gender-btn-3" /><label for="gender-btn-3">Unknown</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="label">Credit Card:</div>
+                        <div class="input">
+                            <input type="text" class="mini creditcard" maxlength="4" />&nbsp;-&nbsp;
+                            <input type="text" class="mini creditcard" maxlength="4" />&nbsp;-&nbsp;
+                            <input type="text" class="mini creditcard" maxlength="4" />&nbsp;-&nbsp;
+                            <input type="text" class="mini creditcard" maxlength="4" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

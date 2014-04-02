@@ -1,0 +1,59 @@
+<div class="page-title">
+    <div class="menu-switch"><i class="icon-reorder"></i></div>
+    <i class="icon-tags"></i>
+    <span>System Notification</span>
+</div>
+<div class="margin-container">
+    <div class="dashboard-widget">
+        <div class="title">
+            <i class="icon-info-sign"></i> Notification
+            <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+        </div>
+        <div class="content">
+<pre class="prettyprint linenums">
+// Add a notification and make it automatically close in 20 seconds
+App.notification.add("Hello World", "You have got a new message from John Tomason. Check it out.");
+</pre>
+            <div class="divider"></div>
+            <button class="btn btn-small btn-info" id="notification-add"><i class="icon-cogs"></i> Add a Notification</button>
+            <div class="divider"></div>
+<pre class="prettyprint linenums">
+// Add a notification and make it automatically close in 20 seconds
+App.notification.add("Hello World", "You have got a new message from John Tomason. Check it out.", 20000);
+</pre>
+            <div class="divider"></div>
+            <button class="btn btn-small btn-inverse" id="notification-close"><i class="icon-cogs"></i> Close in 20 Seconds</button>
+            <div class="divider"></div>
+<pre class="prettyprint linenums">
+// remove all notifications
+App.notification.removeAll();
+</pre>
+            <div class="divider"></div>
+            <button class="btn btn-small btn-error" id="notification-remove-all"><i class="icon-cogs"></i> Remove All Notifications</button>
+            <div class="divider"></div>
+<pre class="prettyprint linenums">
+// remove the first notification
+App.notification.removeFirst();
+</pre>
+            <div class="divider"></div>
+            <button class="btn btn-small btn-success" id="notification-remove-first"><i class="icon-cogs"></i> Remove the First Notification</button>
+            <div class="divider"></div>
+<pre class="prettyprint linenums">
+// remove the last notification
+App.notification.removeLast();
+</pre>
+            <div class="divider"></div>
+            <button class="btn btn-small btn-default" id="notification-remove-last"><i class="icon-cogs"></i> Remove the Last Notification</button>
+            <div class="divider"></div>
+<pre class="prettyprint linenums">
+// remove the nth notification, index starting from 0
+App.notification.removeAt(1);
+</pre>
+            <div class="divider"></div>
+            <button class="btn btn-small btn-block" id="notification-remove-2"><i class="icon-cogs"></i> Remove the 2nd Notification</button>
+        </div>
+    </div>
+</div>
+<script>
+    notificationPage();
+</script>

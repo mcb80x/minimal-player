@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin7 - Login</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0" />
+        <link rel="stylesheet" href="css/library/normalize.css">
+        <link rel="stylesheet" href="css/library/font-awesome.min.css">
+        <link rel="stylesheet" href="css/login.css">
+        <script src="js/library/modernizr-2.6.2.min.js"></script>
+        <script src="js/library/jquery-1.10.1.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('button.submit').on('click', function() {
+                    $(this).attr('disabled', 'disabled').html('Signing in...');
+                    setTimeout(function() {
+                        window.location = window.location.href.replace(/login.html/, '');
+                    }, 2000);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="login border-box">
+            <div class="title">Sign in</div>
+            <button class="facebook border-box"><i class="icon-facebook"></i>Connect with Facebook</button>
+            <button class="twitter border-box"><i class="icon-twitter"></i>Connect with Twitter</button>
+            <div class="form-row">
+                <i class="icon-user"></i><input type="text" class="border-box" placeholder="login" autofocus="autofocus" />
+            </div>
+            <div class="form-row">
+                <i class="icon-lock"></i><input type="password" class="border-box" placeholder="password" />
+            </div>
+            <div>
+                <input type="checkbox" id="remember-login"><label for="remember-login">Keep me logged in</label>
+            </div>
+            <button class="submit">Sign in</button>
+            <a href="#">Forgotten password</a>
+        </div>
+    </body>
+</html>

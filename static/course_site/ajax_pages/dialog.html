@@ -1,0 +1,146 @@
+<div class="page-title">
+    <div class="menu-switch"><i class="icon-reorder"></i></div>
+    <i class="icon-folder-close-alt"></i>
+    <span>Modal Dialog</span>
+</div>
+<div class="margin-container">
+    <div class="dashboard-widget">
+        <div class="title">
+            <i class="icon-group"></i> Message
+            <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+        </div>
+        <div class="content">
+<pre class="prettyprint linenums">
+App.dialog.open({
+    width:     500,
+    title:     'Hello There',
+    content:   'Lorem Ipsum is simply...',
+    theme:     'block'
+});
+</pre>
+            <div class="divider"></div>
+            <div class="button-group-row message">
+                <button class="btn btn-small btn-block"><i class="icon-plus-sign"></i> Open Dialog</button>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="dashboard-widget">
+        <div class="title">
+            <i class="icon-group"></i> Buttons
+            <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+        </div>
+        <div class="content">
+<pre class="prettyprint linenums">
+App.dialog.open({
+    width:     500,
+    title:     'Hello There',
+    content:   'Lorem Ipsum is simply...',
+    theme:     'error',
+    buttons:   [
+        {
+            text:      'Cancel',
+            icon:      'icon-remove',
+            onClick:   function(evt, btn) {
+                App.dialog.close();
+            }
+        },
+        {
+            text:      'Save',
+            icon:      'icon-save',
+            onClick:   function(evt, btn) {
+                ...
+                App.dialog.close();
+            }
+        }
+    ];
+});
+</pre>
+            <div class="divider"></div>
+            <div class="button-group-row">
+                <button class="btn btn-small btn-error"><i class="icon-plus-sign"></i> Open Dialog</button>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="dashboard-widget">
+        <div class="title">
+            <i class="icon-group"></i> Countdown
+            <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+        </div>
+        <div class="content">
+<pre class="prettyprint linenums">
+App.dialog.open({
+    width:     500,
+    title:     'Hello There',
+    content:   'Lorem Ipsum is simply...',
+    theme:     'info',
+    buttons:   [
+        {
+            text:      'Cancel',
+            icon:      'icon-remove',
+            onClick:   function(evt, btn) {
+                App.dialog.close();
+            }
+        },
+        {
+            text:      'Save',
+            icon:      'icon-save',
+            countdown: 5,
+            onClick:   function(evt, btn) {
+                ...
+                App.dialog.close();
+            }
+        }
+    ];
+});
+</pre>
+            <div class="divider"></div>
+            <div class="button-group-row countdown">
+                <button class="btn btn-small btn-info"><i class="icon-plus-sign"></i> Open Dialog</button>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="dashboard-widget">
+        <div class="title">
+            <i class="icon-group"></i> Draggable
+            <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+        </div>
+        <div class="content">
+<pre class="prettyprint linenums">
+App.dialog.open({
+    width:     500,
+    title:     'Hello There',
+    content:   'Lorem Ipsum is simply...',
+    theme:     'success',
+    draggable:  true,
+    buttons:   [
+        {
+            text:      'Cancel',
+            icon:      'icon-remove',
+            onClick:   function(evt, btn) {
+                App.dialog.close();
+            }
+        },
+        {
+            text:      'Save',
+            icon:      'icon-save',
+            onClick:   function(evt, btn) {
+                ...
+                App.dialog.close();
+            }
+        }
+    ];
+});
+</pre>
+            <div class="divider"></div>
+            <div class="button-group-row draggable">
+                <button class="btn btn-small btn-success"><i class="icon-plus-sign"></i> Open Dialog</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    dialogPage();
+</script>

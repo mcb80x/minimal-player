@@ -1,0 +1,105 @@
+/* Statistics, Chart */
+.chart-container {
+    height: 300px;
+}
+.chart-container-small {
+    height: 45px;
+}
+.trendline-container {
+    height: 200px;
+    margin: 10px;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
+    background-color: #F9F9F9;
+    -webkit-transition: all 0.2s linear;
+       -moz-transition: all 0.2s linear;
+        -ms-transition: all 0.2s linear;
+         -o-transition: all 0.2s linear;
+            transition: all 0.2s linear;
+}
+.trendline-container:hover {
+    border: 1px solid #CCCCCC;
+    background-color: #F0F0F0;
+}
+#horizontal-bar-chart {
+    height: 756px;
+}
+#statistics-chart {
+    height: 313px;
+}
+.circular-pie {
+    width: 140px;
+    height: 140px;
+}
+.circular-pie span {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    height: 110px;
+    width: 110px;
+    z-index: 10;
+    line-height: 110px;
+    border-radius: 100%;
+    text-align: center;
+    font-size: 30px;
+    color: #FFFFFF;
+    background-color: #262D33;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Grid */
+.grid-row {
+    clear: both;
+}
+.grid-row:last-child .grid {
+    margin-bottom: 0px;
+}
+
+/* Tracking */
+#tracking-map {
+    height: 533px;
+}
+
+/* Icon */
+ul.example-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    overflow: hidden;
+}
+ul.example-list li {
+    float: left;
+    width: 190px;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+}
+ul.example-list li:hover {
+    background: #EEEEEE;
+}
+ul.example-list span {
+    margin-left: 10px;
+}
+
+/* Grid */
+label.grid-example {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+    margin: 5px;
+    background-color: #F4F4F4;
+    border: 1px solid #CCCCCC;
+}
+
+/* Dashboard */
+#dashboard-line-chart {
+    height: 338px;
+    margin-right: 10px;
+}
+#dashboard-area-chart {
+    height: 189px;
+}

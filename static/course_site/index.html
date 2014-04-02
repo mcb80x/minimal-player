@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin7</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0" />
+        <!-- CSS Library -->
+        <link rel="stylesheet" href="css/library/normalize.css">
+        <link rel="stylesheet" href="css/library/font-awesome.min.css">
+        <link rel="stylesheet" href="css/library/jquery-ui-1.10.3.custom.min.css">
+        <!-- Theme -->
+        <link rel="stylesheet" href="css/theme/default/layout.css">
+        <link rel="stylesheet" href="css/theme/default/core_colour.css">
+        <link rel="stylesheet" href="css/theme/default/colour.css" class="theme-colour">
+        <!-- Third Party Plugins -->
+        <link rel="stylesheet" href="plugins/fullcalendar/fullcalendar.css">
+        <link rel="stylesheet" href="plugins/google-code-prettify/prettify.css">
+        <link rel="stylesheet" href="plugins/easy-pie-chart/jquery.easy-pie-chart.css">
+        <!-- Demo -->
+        <link rel="stylesheet" href="css/demo.css">
+    </head>
+    <body>
+        <!-- Theme Selector -->
+        <div id="theme-selector">
+            <div class="icon"><i class="icon-cogs"></i></div>
+            <div class="theme" data-theme="colour"  style="background:#0B879E;"></div>
+            <div class="theme" data-theme="colour1" style="background:#980053;"></div>
+            <div class="theme" data-theme="colour2" style="background:#0F7C0F;"></div>
+            <div class="theme" data-theme="colour3" style="background:#692E00;"></div>
+            <div class="theme" data-theme="colour4" style="background:#CB252E;"></div>
+            <div class="theme" data-theme="colour5" style="background:#015077;"></div>
+            <div class="theme" data-theme="colour6" style="background:#CC4C25;"></div>
+            <div class="theme" data-theme="colour7" style="background:#91A244;"></div>
+            <div class="theme" data-theme="colour8" style="background:#444444;"></div>
+        </div>
+        <!-- End -->
+        <!-- loading screen -->
+        <div id="loading">
+            <div class="text"><span>ADMIN</span><span class="main-color">7</span></div>
+            <div class="dots"><div class="dot dot1"></div><div class="dot dot2"></div><div class="dot dot3"></div><div class="dot dot4"></div><div class="dot dot5"></div></div>
+        </div>
+        <!-- End -->
+        <!-- Portrait Detector -->
+        <div id="portrait_mode_detector"></div>
+        <!-- End -->
+        <div id="layout-container">
+            <!-- Menu -->
+            <div id="nav">
+                <!-- Profile -->
+                <div class="profile">
+                    <div class="avatar">
+                        <img src="images/profile/profile.png" alt="profile" />
+                    </div>
+                </div>
+                <!-- End -->
+                <!-- Menu -->
+                <ul class="navigation">
+                    <li class="separator"><div></div><div></div><div></div></li>
+                    <li><a href="#dashboard.html"><i class="icon-home"></i><span>Dashboard</span></a></li>
+                    <li class="separator"><div></div><div></div><div></div></li>
+                    <li><a href="#statistics.html"><i class="icon-bar-chart"></i><span>Statistics</span></a></li>
+                    <li class="separator"><div></div><div></div><div></div></li>
+                    <li><a href="#tracking.html"><i class="icon-map-marker"></i><span>Tracking</span></a></li>
+                    <li class="separator"><div></div><div></div><div></div></li>
+                    <li class="sub">
+                        <a href="#"><i class="icon-globe"></i><span>UI Elements</span></a>
+                        <ul class="navigation-sub">
+                            <li><a href="#table.html"><i class="icon-table"></i><span>Table</span></a></li>
+                            <li><a href="#button.html"><i class="icon-leaf"></i><span>Button</span></a></li>
+                            <li><a href="#grid.html"><i class="icon-th"></i><span>Grid</span></a></li>
+                            <li><a href="#tab.html"><i class="icon-laptop"></i><span>Tab / Accordion</span></a></li>
+                            <li><a href="#chart.html"><i class="icon-bar-chart"></i><span>Chart</span></a></li>
+                            <li><a href="#misc.html"><i class="icon-star-empty"></i><span>Misc</span></a></li>
+                            <li><a href="#dialog.html"><i class="icon-folder-close-alt"></i><span>Dialog</span></a></li>
+                            <li><a href="#notification.html"><i class="icon-info-sign"></i><span>Notification</span></a></li>
+                            <li><a href="#icon.html"><i class="icon-beaker"></i><span>Icon</span></a></li>
+                            <li><a href="#typography.html"><i class="icon-font"></i><span>Typography</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="separator"><div></div><div></div><div></div></li>
+                    <li class="sub">
+                        <a href="#"><i class="icon-file"></i><span>Pages</span></a>
+                        <ul class="navigation-sub">
+                            <li><a href="#lock.html"><i class="icon-lock"></i><span>Lock Screen</span></a></li>
+                            <li><a href="login.html"><i class="icon-user"></i><span>Login</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="separator"><div></div><div></div><div></div></li>
+                    <li><a href="#form.html"><i class="icon-list-alt"></i><span>Form</span></a><span class="number-alert">4</span></li>
+                    <li class="separator"><div></div><div></div><div></div></li>
+                    <li><a href="#gallery.html"><i class="icon-picture"></i><span>File Gallery</span></a></li>
+                    <li class="separator"><div></div><div></div><div></div></li>
+                    <li><a href="#calendar.html"><i class="icon-calendar"></i><span>Calendar</span></a></li>
+                    <li class="separator"><div></div><div></div><div></div></li>
+                </ul>
+                <!-- End -->
+            </div>
+            <!-- End -->
+            <!-- Page Container -->
+            <div id="main"></div>
+            <!-- End -->
+            <div class="clearfix"></div>
+        </div>
+        <!-- JavaScript Library -->
+        <script src="js/library/modernizr-2.6.2.min.js"></script>
+        <script src="js/library/jquery-1.10.1.min.js"></script>
+        <script src="js/library/jquery-ui-1.10.3.custom.min.js"></script>
+        <!--[if lte IE 8]>
+        <script src="js/library/excanvas.min.js"></script>
+        <![endif]-->
+        <!-- Main APP -->
+        <script src="js/app.js"></script>
+        <!-- Demo -->
+        <script src="js/demo.js"></script>
+        <!-- JavaScript Modules -->
+        <script src="js/module/module.min.js"></script>
+        <!-- Third Party Plugins -->
+        <script src="http://maps.googleapis.com/maps/api/js?sensor=true&key=GOOGLE_MAP_JAVASCRIPT_API_KEY"></script>
+        <script src="plugins/flot/jquery.flot.min.js"></script>
+        <script src="plugins/flot/jquery.flot.tooltip.min.js"></script>
+        <script src="plugins/flot/jquery.flot.resize.min.js"></script>
+        <script src="plugins/flot/jquery.flot.selection.min.js"></script>
+        <script src="plugins/flot/jquery.flot.time.min.js"></script>
+        <script src="plugins/flot/jquery.flot.pie.min.js"></script>
+        <script src="plugins/flot/jquery.flot.crosshair.min.js"></script>
+        <script src="plugins/fullcalendar/fullcalendar.min.js"></script>
+        <script src="plugins/google-code-prettify/prettify.js"></script>
+        <script src="plugins/ChartJS/Chart.min.js"></script>
+        <script src="plugins/easy-pie-chart/jquery.easy-pie-chart.js"></script>
+    </body>
+</html>

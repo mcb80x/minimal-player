@@ -1,0 +1,1 @@
+When you click on a lesson you will see a popup menu that shows you all of the segments and content associated with that lesson, as well as your progress.  Completion of lessons is determined by your movement through milestones within that lesson (i.e. by watching videos in full and completing interactive segments, which include questions).

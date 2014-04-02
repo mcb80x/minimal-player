@@ -1,0 +1,58 @@
+<div class="page-title">
+    <div class="menu-switch"><i class="icon-reorder"></i></div>
+    <i class="icon-calendar"></i>
+    <span>Calendar</span>
+</div>
+<div class="margin-container">
+    <div class="sidebar">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-calendar"></i> Event
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+            </div>
+            <div class="content">
+                <form>
+                    <div class="form-row form-row-noborder">
+                        Event Name:
+                        <div class="input input-nolabel">
+                            <i class="icon-tags"></i><input type="email" class="icon full" placeholder="Event Name" />
+                        </div>
+                    </div>
+                    <div class="form-row form-row-noborder">
+                        Time:
+                        <div class="input input-nolabel">
+                            <i class="icon-calendar"></i><input type="date" class="icon full" placeholder="Time" />
+                        </div>
+                    </div>
+                    <div class="form-row form-row-noborder">
+                        Category:
+                        <div class="input input-nolabel">
+                            <select class="full">
+                                <option>Meeting</option>
+                                <option>Private</option>
+                                <option>General Event</option>
+                                <option>Party</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <button class="btn btn-error btn-mini btn-full" id="calendar-event-create">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-page">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-calendar"></i> Calendar
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+            </div>
+            <div class="content">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    calendarPage();
+</script>

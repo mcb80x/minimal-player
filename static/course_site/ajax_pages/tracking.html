@@ -1,0 +1,116 @@
+<div class="page-title">
+    <div class="menu-switch"><i class="icon-reorder"></i></div>
+    <i class="icon-map-marker"></i>
+    <span>Tracking</span>
+</div>
+<div class="margin-container">
+    <div class="sidebar">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-signal"></i> Statistics
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content overflow-none">
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-title" id="facebook-fan-count">2,345</div>
+                    <div class="sidebar-widget-subtitle">Facebook Fans</div>
+                    <div class="circular-pie" id="facebook-fan" data-percent="60" data-color="#F3DEA8"><span>60%</span></div>
+                </div>
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-title" id="twitter-follower-count">16,172</div>
+                    <div class="sidebar-widget-subtitle">Twitter Followers</div>
+                    <div class="circular-pie" id="twitter-follower" data-percent="25" data-color="#CAE1CA"><span>25%</span></div>
+                </div>
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-title" id="google-friend-count">7,193</div>
+                    <div class="sidebar-widget-subtitle">Google+ Friends</div>
+                    <div class="circular-pie" id="google-friend" data-percent="15" data-color="#D5D3E8"><span>15%</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-page">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-bar-chart"></i> Map Tracking
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content">
+                <div id="tracking-map"></div>
+                <div class="divider"></div>
+                <div class="grid grid-4">
+                    <div class="social-bar social-bar-facebook">
+                        <div>Facebook</div>
+                        <span id="facebook-count"></span>
+                    </div>
+                </div>
+                <div class="grid grid-4">
+                    <div class="social-bar social-bar-twitter">
+                        <div>Twitter</div>
+                        <span id="twitter-count"></span>
+                    </div>
+                </div>
+                <div class="grid grid-4">
+                    <div class="social-bar social-bar-google">
+                        <div>Google+</div>
+                        <span id="google-count"></span>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <!-- Example -->
+    <div class="dashboard-widget">
+        <div class="title">
+            <i class="icon-user"></i> Social Accounts
+            <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+            <button class="setting" title="Setting"><i class="icon-cog"></i></button>
+            <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+        </div>
+        <div class="content">
+            <div class="chart-container" id="bar-chart"></div>
+            <div class="divider"></div>
+            <div class="data-table">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th width="20"><input type="checkbox" id="contacts-select-all" /><label for="contacts-select-all"></label></th><th class="minor"><i class="icon-sort"></i>Email</th><th><i class="icon-sort"></i>Social Network</th><th><i class="icon-sort"></i>Country</th><th><i class="icon-sort"></i>Name</th><th><i class="icon-sort"></i>Balance</th><th width="150">Progress</th>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="contacts-checkbox-1" /><label for="contacts-checkbox-1"></label></td><td class="minor"><a href="mailto:lee@melonhtml5.com">lee@melonhtml5.com</a></td><td><i class="icon-facebook-sign facebook-colour"></i> Facebook</td><td><img class="country-flag" src="images/flag/png/au.png" />Australia</td><td>Lee Le</td><td><span class="text-dollar">$123.34</span></td><td><div class="chart-container-small" id="line-chart-1"></div></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="contacts-checkbox-2" /><label for="contacts-checkbox-2"></label></td><td class="minor"><a href="mailto:jwky@gmail.com">jwky@gmail.com</a></td><td><i class="icon-twitter-sign twitter-colour"></i> Twitter</td><td><img class="country-flag" src="images/flag/png/us.png" />USA</td><td>Lee Le</td><td><span class="text-error">$2000.00</span></td><td><div class="chart-container-small" id="line-chart-2"></div></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="contacts-checkbox-3" /><label for="contacts-checkbox-3"></label></td><td class="minor"><a href="mailto:rob-dway@yahoo.com.co">rob-dway@yahoo.com.co</a></td><td><i class="icon-google-plus-sign google-plus-colour"></i> Google+</td><td><img class="country-flag" src="images/flag/png/fr.png" />France</td><td>Lee Le</td><td><span class="text-dollar">$100.10</span></td><td><div class="chart-container-small" id="line-chart-3"></div></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="contacts-checkbox-4" /><label for="contacts-checkbox-4"></label></td><td class="minor"><a href="mailto:rjay@hotmail.com">rjay@hotmail.com</a></td><td><i class="icon-twitter-sign twitter-colour"></i> Twitter</td><td><img class="country-flag" src="images/flag/png/au.png" />Australia</td><td>Lee Le</td><td><span class="text-dollar">$22.00</span></td><td><div class="chart-container-small" id="line-chart-4"></div></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="contacts-checkbox-5" /><label for="contacts-checkbox-5"></label></td><td class="minor"><a href="mailto:mjwright@hotmail.com">mjwright@hotmail.com</a></td><td><i class="icon-facebook-sign facebook-colour"></i> Facebook</td><td><img class="country-flag" src="images/flag/png/es.png" />Spain</td><td>Lee Le</td><td><span class="text-error">$87.35</span></td><td><div class="chart-container-small" id="line-chart-5"></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="divider"></div>
+            <div class="left">
+                <button class="btn btn-mini btn-info">New</button>&nbsp;
+                <button class="btn btn-mini btn-info">Edit</button>
+            </div>
+            <div class="right">
+                <button class="btn btn-mini btn-error">Delete All</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- End -->
+</div>
+<script>
+    trackingPage();
+</script>

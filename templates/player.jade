@@ -1,0 +1,245 @@
+mixin interactive_welcome_slide(div_id, title, msg, image_file)
+  div(style="display: none;")
+  .welcome-slide(style="width: 600px", id="#{div_id}")
+    div
+
+      h1 #{title}
+      p <img src="{{base_url}}/welcome_slides/interactive/images/#{image_file}" width="200px" style="float:right;">
+        | #{msg}
+
+      p <b>Click the left and right arrows to learn more!</b>
+
+      br
+
+      button.btn.btn-info.btn-small(type="button", onclick="dismissInteractiveWelcomeSlides(); return true;")
+        i.icon-comment
+        | Got it, don't show me this again
+
+
+!!! 5
+html
+
+  head
+
+    meta(http-equiv="X-UA-Compatible", content="IE=Edge")
+
+
+    title MCB80x: The Fundamentals of Neuroscience
+
+    // Standard, CDN-delivered libraries
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/d3/3.1.6/d3.min.js')
+    script(src='http://popcornjs.org/code/dist/popcorn-complete.min.js')
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/knockout/2.2.1/knockout-min.js')
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js')
+    script(src='http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js')
+
+
+    script(src="/static/course_site/js/library/jquery-ui-1.10.3.custom.min.js")
+    link(rel="stylesheet", href="/static/course_site/css/library/jquery-ui-1.10.3.custom.min.css")
+    link(rel='stylesheet', media='all', href='/static/course_site/css/library/font-awesome.min.css')
+
+
+    //- style(type='text/css')
+    //-   @font-face{font-family:'FontAwesome';src:url("/static/course_site/font-awesome/fontawesome-webfont.eot?v=3.2.1");src:url("/static/course_site/font/fontawesome-webfont.eot?#iefix&v=3.2.1") format('embedded-opentype'),url("/static/course_site/font-awesome/fontawesome-webfont.woff?v=3.2.1") format('woff'),url("/static/course_site/font-awesome/fontawesome-webfont.ttf?v=3.2.1") format('truetype'),url("/static/course_site/font-awesome/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1") format('svg');font-weight:normal;font-style:normal;}[class^="icon-"],[class*=" icon-"]{font-family:FontAwesome;font-weight:normal;font-style:normal;text-decoration:inherit;-webkit-font-smoothing:antialiased;*margin-right:.3em;}
+
+    - if(unsupported_browser)
+      script
+        window.lessonplan_autoplay = false
+    - else
+      script
+        window.lessonplan_autoplay = true
+
+
+
+    // Pass module, lesson, and segment ids in so that the scripts know about them
+    script
+      window.static_base_url = "{{static_base_url}}"
+      window.app_base_url = "{{app_base_url}}"
+      window.interactives_base_url = "{{interactives_base_url}}"
+      window.audio_base_url = "{{audio_base_url}}"
+      window.webm_base_url = "{{webm_base_url}}"
+      window.module_id = "{{module_id}}"
+      window.lesson_id = "{{lesson_id}}"
+      window.segment_id = "{{segment_id}}"
+      window.images3d_base_url = "{{content3d_base_url}}"
+      window.path_hash = "{{path_hash}}"
+
+      {% if subtitles %}
+        window.showSubtitles = true
+      {% else %}
+        window.showSubtitles = false
+      {% endif %}
+
+      {% if hdvideo %}
+        window.hdvideo = true
+      {% else %}
+        window.hdvideo = false
+      {% endif %}
+
+    // Livicons
+    script(src='{{static_base_url}}/js/raphael-min.js')
+    script(src='{{static_base_url}}/js/livicons-1.1.1.min.js')
+
+    // QTip2
+    // script(src='http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.js')
+
+
+    // The common MCB80x library
+    script(src='{{static_base_url}}/lessonplan/lessonplan{{debug_suffix}}.js')
+
+    // The compiled module code for any interactives
+    | {% if interactives %}
+    script(src='{{static_base_url}}/neurosims/neurosims{{debug_suffix}}.js')
+    | {% endif %}
+
+    // jQuery Reel plugin for 360 faux 3d
+    // script(src='http://code.vostrel.cz/jquery.reel-bundle.js')
+
+    // Interactives Code
+    | {% for interactive in interactives %}
+    script(src='{{static_base_url}}/interactives/{{interactive}}/{{interactive}}.js')
+    | {% endfor %}
+
+    // The script for this segment
+    // script(src='{{static_base_url}}/lesson_plans/{{module_id}}/{{lesson_id}}/{{segment_id}}.js')
+
+    // The "main" script
+    script
+      sceneList = {{segment_list|tojson}}
+    script(src='{{static_base_url}}/js/player_main.js')
+
+    // Style sheets
+    link(rel='stylesheet', type='text/css', href='{{static_base_url}}/css/mcb80x.css')
+    //- link(rel='stylesheet', type='text/css', href='{{static_base_url}}/css/jquery-ui-1.9.2.custom.css')
+    link(rel='stylesheet', type='text/css', href="{{static_base_url}}/css/jquery.fancybox.css?v=2.1.5", media="screen")
+
+    link(rel='stylesheet', type='text/css', href='http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.css')
+
+
+    | <!--[if lt IE 9]>
+    | <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/aight/1.1.1/aight.min.js"></script>
+    | <![endif]-->
+
+  body
+
+    #player-wrapper.standard-wrapper
+
+      .backdrop
+
+      #stage
+
+        // A container for interactive content
+        #interactive
+
+        // A container for video players
+        #video
+
+        // Loading veil
+        #loading-indicator.loading-indicator
+          span.loading-icon.livicon(title='loading', data-name='spinner-seven', data-color='#ccc', data-animate='true', data-loop='true', data-size='50')
+
+        // Loading fail
+        #load-fail-indicator.loading-indicator
+          span.loading-icon.livicon(data-name='ban', data-color='#ccc',  data-hovercolor='#c33', data-animate='false', data-size='50')
+          .alt-player-link.alt-player-link-middle
+            span Load Failed
+
+        // Logo
+        a(href='/course')
+          img.logo-overlay(src='{{static_base_url}}/images/logo_overlay.png')
+
+        // Site Navigation
+        .right-nav
+          a(href="javascript:void(0);", onclick="toggleSubtitles();")
+            span.livicon(title='toggle subtitles', data-name='quote-left', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+
+          a(href='/course#!/map')
+            span.livicon(title='Course Map', data-name='map', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+
+          a(id='video-download-link', href='download-link', style="display:none;")
+            span.livicon(title='Download Video', data-name='download', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+
+      #controls
+        #subtitle-container.subtitles
+          #interactive-subtitles
+
+        // Title / lower-third container
+        #title-banner.lower-third
+          span.lower-third-title .
+
+        // A marker indicating which segment we are currently in
+        // and allowing navigation between segments
+        #scene-indicator-container
+                #scene-indicator
+                span.scene-indicator-label segment:
+
+        // Timeline
+        #timeline-controls
+          span.livicon(data-name='video-play', data-animate='false', data-bind='visible: paused, event: {click: play, touchstart: play}', data-size='100%')
+          span.livicon(data-name='video-pause', data-animate='false', data-bind='visible: playing, event:{click: pause, touchstart: play}', data-size='100%')
+
+          // the timeline itself
+          #timeline.timeline-container
+
+
+          #clock
+            span#clock-text 00:00
+
+          //- i.volume-icon.icon-volume-down
+
+    //- #alt-player-link
+
+    //- if(show_interactive_tutorial)
+
+        //- a#first-interactive-slide-link.interactive-welcome-slide-link(style="display:none", href="#interactive-welcome-slide", data-fancybox-group='interactive-welcome-slides')
+        //- a.interactive-welcome-slide-link(style="display:none", href="#timeline-welcome-slide", data-fancybox-group='interactive-welcome-slides')
+
+
+        //- +interactive_welcome_slide('interactive-welcome-slide', 'Guided Interactives', "You’re about to launch into your first guided interactive segment.  Note that the durations of interactive segments are variable as the segments pause until you respond to questions.  Occasionally there will be video within the interactive segments.", 'slide1.png')
+
+        //- +interactive_welcome_slide('interactive-welcome-slide', 'Timeline', "The timeline that you see during interactive segments is slightly different from a video timeline: you can’t smoothly seek on this timeline, but you can skip from milestone to milestone (the circles on the timeline).  The small red circles are important concept markers and the gray circles simply lead you to the previous question.  Generally the milestones are fairly close together.  We’re working on making this timeline better!", 'slide2.png')
+
+        //- script
+
+        //-   function openInteractiveFancy() {
+        //-       setTimeout( function() {$('#first-map-slide-link').trigger('click'); },1000);
+        //-   }
+
+        //-   $(document).ready(function() {
+        //-       openInteractiveFancy();
+        //-       $('.interactive-welcome-slide-link').fancybox({
+        //-           nextClick: false,
+        //-       });
+        //-   });
+
+        //-   function dismissInteractiveWelcomeSlides() {
+        //-       $.fancybox.close();
+        //-   }
+
+
+    - if(unsupported_mobile)
+      .alt-player-link.alt-player-link-top
+
+    - if(unsupported_browser)
+
+        // script(src="/static/course_site/js/library/jquery-ui-1.10.3.custom.min.js")
+
+        #browser-dialog(style='z-index:2000000;')
+          p We cannot guarantee that you will be able to view this content.
+            | For best results, please use Chrome or Safari on a desktop computer.
+
+        script
+
+          $('#browser-dialog').dialog({
+              width:     '50%',
+              title:     'You are using an unsupported browser',
+              modal:     true,
+              close:     function(){window.sceneController.run();}
+            }
+          )
+
+    script
+      $('[title!=""]').qtip();
+
+
+

@@ -1,0 +1,203 @@
+/*
+======================================
+Login
+======================================
+*/
+html {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    background-color: #262D33;
+    background-image: -webkit-radial-gradient(circle, #46545F, #262D33);
+    background-image: -moz-radial-gradient(circle, #46545F, #262D33);
+    background-image: -ms-radial-gradient(circle, #46545F, #262D33);
+    background-image: -o-radial-gradient(circle, #46545F, #262D33);
+    background-image: radial-gradient(circle, #46545F, #262D33);
+}
+body {
+    margin: 0px;
+    padding: 0px;
+}
+div.login {
+    overflow: hidden;
+    width: 500px;
+    max-width: 100%;
+    padding: 30px;
+    margin: 100px auto;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+div.login div.title {
+    font-size: 24px;
+}
+div.login div.form-row {
+    position: relative;
+    clear: both;
+}
+div.login div.form-row i {
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+    top: 50%;
+    right: 10px;
+    margin-top: -15px;
+    color: #AAAAAA;
+}
+div.login input[type="text"],
+div.login input[type="password"] {
+    display: block;
+    width: 100%;
+    border: 1px solid #CCCCCC;
+    margin-bottom: 10px;
+    padding: 10px 30px 10px 10px;
+}
+
+div.login div.login-option {
+    position: relative;
+    clear: both;
+    margin: 10px 0px;
+}
+
+div.login button.edx,
+div.login button.google,
+div.login button.yahoo,
+div.login button.facebook,
+div.login button.twitter {
+    margin: 10px auto;
+    color: #FFFFFF;
+    padding: 10px;
+    border: none;
+    width: 49%;
+    float: left;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
+
+div.login button.edx,
+div.login button.google i,
+div.login button.yahoo i,
+div.login button.facebook i,
+div.login button.twitter i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+div.login button.facebook {
+    background-color: #3B5998;
+    margin-right: 2%;
+}
+div.login button.facebook:hover {
+    background-color: #2F4574;
+}
+div.login button.twitter {
+    background-color: #00B9F4;
+}
+div.login button.twitter:hover {
+    background-color: #01ADE4;
+}
+
+div.login button.google {
+    background-color: #FF0000;
+    margin-right: 2%;
+}
+div.login button.google:hover {
+    background-color: #DD0000;
+}
+
+div.login button.yahoo {
+    background-color: #9933FF;
+}
+div.login button.yahoo:hover {
+    background-color: #4C1A80;
+}
+
+div.login button.edx {
+    background-color: #9933FF;
+}
+div.login button.edx:hover {
+    background-color: #4C1A80;
+}
+
+
+div.login button.submit {
+    margin-top: 10px;
+    float: right;
+    border: none;
+    padding: 10px 0px;
+    text-align: center;
+    width: 130px;
+    color: #FFFFFF;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    background-color: #FF5800;
+    background-image: -webkit-linear-gradient(top, #FF8444, #FF5800);
+    background-image: -moz-linear-gradient(top, #FF8444, #FF5800);
+    background-image: -ms-linear-gradient(top, #FF8444, #FF5800);
+    background-image: -o-linear-gradient(top, #FF8444, #FF5800);
+    background-image: linear-gradient(top, #FF8444, #FF5800);
+}
+div.login button.submit:hover {
+    background: #FF5800;
+}
+div.login button.submit:active {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2) inset;
+}
+div.login button.submit[disabled=disabled] {
+    color: #AAAAAA;
+    text-shadow: 0px 1px 1px #FFFFFF;
+    background-size: 40px 40px;
+    background-color: #DEDEDE;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -ms-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    -webkit-animation: loading 1s linear infinite;
+       -moz-animation: loading 1s linear infinite;
+        -ms-animation: loading 1s linear infinite;
+         -o-animation: loading 1s linear infinite;
+            animation: loading 1s linear infinite;
+}
+div.login a.register {
+    margin-top: 20px;
+    float: left;
+    color: #FF5800;
+    font-size: 14px;
+}
+div.login label {
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+
+.clearfix:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+.border-box {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+         -o-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+@-webkit-keyframes loading {
+    from {background-position: 0px 0px;}
+    to {background-position: 40px 0px;}
+}
+@-moz-keyframes loading {
+    from {background-position: 0px 0px;}
+    to {background-position: 40px 0px;}
+}
+@-ms-keyframes loading {
+    from {background-position: 0px 0px;}
+    to {background-position: 40px 0px;}
+}
+@-o-keyframes loading {
+    from {background-position: 0px 0px;}
+    to {background-position: 40px 0px;}
+}
+@keyframes loading {
+    from {background-position: 0px 0px;}
+    to {background-position: 40px 0px;}
+}

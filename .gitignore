@@ -1,0 +1,11 @@
+venv
+*.pyc
+openid_store
+.DS_Store
+audio
+images3d
+newrelic.ini
+config.cfg
+frontend/interactives/course_map/course_map_highres.svg
+frontend/interactives/course_map/images
+ignore

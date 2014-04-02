@@ -1,0 +1,1 @@
+Whenever you login to the site, you are prompted to use any number of social media logins.  Please try to avoid using multiple accounts so we can track your completion - otherwise different accounts will show different completion percentages as you move through the course.  A simple way to accomplish this is to choose one method for logging in, and then to stick with it.

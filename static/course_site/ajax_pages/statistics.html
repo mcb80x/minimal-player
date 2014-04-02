@@ -1,0 +1,258 @@
+<div class="page-title">
+    <div class="menu-switch"><i class="icon-reorder"></i></div>
+    <i class="icon-bar-chart"></i>
+    <span>Statistics</span>
+</div>
+<div class="margin-container">
+    <div class="sidebar">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-signal"></i> Monitor
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content overflow-none">
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-title">2,345</div>
+                    <div class="sidebar-widget-subtitle">registered users</div>
+                    <div class="chart-container-small" id="bar-chart-1"></div>
+                </div>
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-title">16,172</div>
+                    <div class="sidebar-widget-subtitle">views of your projects</div>
+                    <div class="chart-container-small" id="bar-chart-2"></div>
+                </div>
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-title">7,193</div>
+                    <div class="sidebar-widget-subtitle">click throughs to your emails</div>
+                    <div class="chart-container-small" id="bar-chart-3"></div>
+                </div>
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-title">31,402</div>
+                    <div class="sidebar-widget-subtitle">active accounts</div>
+                    <div class="chart-container-small" id="bar-chart-4"></div>
+                </div>
+                <div class="sidebar-widget">
+                    <div class="sidebar-widget-title">7,809</div>
+                    <div class="sidebar-widget-subtitle">total views</div>
+                    <div id="doughnut-chart-container" align="center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-page">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-bar-chart"></i> System Usage
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content">
+                <div class="chart-container" id="statistics-chart"></div>
+                <br>
+                <div align="center">
+                    <input type="checkbox" checked="checked" id="zooming-cpu"><label for="zooming-cpu">CPU Usage</label>&nbsp;&nbsp;
+                    <input type="checkbox" checked="checked" id="zooming-memory"><label for="zooming-memory">Memory Usage</label>&nbsp;&nbsp;
+                    <input type="checkbox" checked="checked" id="zooming-disk"><label for="zooming-disk">Disk Usage</label>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-tasks"></i> Account Status
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content">
+                <div class="html-meter-chart">
+                    <div class="chart">
+                        <div class="circular-pie" data-percent="73" data-color="#F3DEA8"><span>73%</span></div>
+                    </div>
+                    <div class="desc">
+                        <div class="figure text-overflow">1,595</div>
+                        <div class="text text-overflow">Asia Pacific</div>
+
+                    </div>
+                    <div class="meter">
+                        <div>
+                            <div class="bar-block" title="Golden Account||left" style="width:90%;"><span>600</span></div>
+                            <div class="bar-success" title="Delux Account||left" style="width:70%;"><span>400</span></div>
+                            <div class="bar-error" title="Trial Account||left" style="width:50%;"><span>247</span></div>
+                            <div class="bar-info" title="Golden Account||left" style="width:30%;"><span>170</span></div>
+                            <div class="bar-success" title="Delux Account||left" style="width:10%;"><span>110</span></div>
+                            <div class="bar-error" title="Trial Account||left" style="width:5%;"><span>68</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider-line"></div>
+                <div class="html-meter-chart">
+                    <div class="chart">
+                        <div class="circular-pie" data-percent="54" data-color="#CAE1CA"><span>54%</span></div>
+                    </div>
+                    <div class="desc">
+                        <div class="figure text-overflow">876</div>
+                        <div class="text text-overflow">US & Canada</div>
+                    </div>
+                    <div class="meter">
+                        <div>
+                            <div class="bar-block" title="Golden Account||left" style="width:80%;"><span>520</span></div>
+                            <div class="bar-success" title="Delux Account||left" style="width:50%;"><span>230</span></div>
+                            <div class="bar-error" title="Trial Account||left" style="width:20%;"><span>140</span></div>
+                            <div class="bar-info" title="Golden Account||left" style="width:60%;"><span>380</span></div>
+                            <div class="bar-success" title="Delux Account||left" style="width:90%;"><span>1,100</span></div>
+                            <div class="bar-error" title="Trial Account||left" style="width:10%;"><span>99</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider-line"></div>
+                <div class="html-meter-chart">
+                    <div class="chart">
+                        <div class="circular-pie" data-percent="19" data-color="#D5D3E8"><span>19%</span></div>
+                    </div>
+                    <div class="desc">
+                        <div class="figure text-overflow">12,345</div>
+                        <div class="text text-overflow">Europe</div>
+                    </div>
+                    <div class="meter">
+                        <div>
+                            <div class="bar-block" title="Golden Account||left" style="width:10%;"><span>98</span></div>
+                            <div class="bar-success" title="Delux Account||left" style="width:30%;"><span>180</span></div>
+                            <div class="bar-error" title="Trial Account||left" style="width:60%;"><span>247</span></div>
+                            <div class="bar-info" title="Golden Account||left" style="width:90%;"><span>600</span></div>
+                            <div class="bar-success" title="Delux Account||left" style="width:20%;"><span>150</span></div>
+                            <div class="bar-error" title="Trial Account||left" style="width:40%;"><span>210</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="grid grid-responsive grid-3">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-facebook"></i> Facebook
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content" align="center">
+                <div class="grid grid-6 grid-border-right">
+                    <div><i class="icon-facebook-sign size28 facebook-colour"></i></div>
+                    <div class="lightcolour text-overflow">FAN</div>
+                    <div class="size20">89%</div>
+                </div>
+                <div class="grid grid-6">
+                    <div><i class="icon-facebook-sign size28 facebook-colour"></i></div>
+                    <div class="lightcolour text-overflow">LIKES / SHARES</div>
+                    <span class="size20">99 / 77</span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-responsive grid-3">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-twitter"></i> Twitter
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content" align="center">
+                <div class="grid grid-6 grid-border-right">
+                    <div><i class="icon-twitter-sign size28 twitter-colour"></i></div>
+                    <div class="lightcolour text-overflow">FOLLOWER</div>
+                    <div class="size20">89%</div>
+                </div>
+                <div class="grid grid-6">
+                    <div><i class="icon-twitter-sign size28 twitter-colour"></i></div>
+                    <div class="lightcolour text-overflow">TWEETS</div>
+                    <span class="size20">12,145</span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-responsive grid-3">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-linkedin"></i> LinkedIn
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content" align="center">
+                <div class="grid grid-6 grid-border-right">
+                    <div><i class="icon-linkedin-sign size28 linkedin-colour"></i></div>
+                    <div class="lightcolour text-overflow">OPEN RATE</div>
+                    <div class="size20">47%</div>
+                </div>
+                <div class="grid grid-6">
+                    <div><i class="icon-linkedin-sign size28 linkedin-colour"></i></div>
+                    <div class="lightcolour text-overflow">SHARES</div>
+                    <span class="size20">2,345</span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-responsive grid-3">
+        <div class="dashboard-widget">
+            <div class="title">
+                <i class="icon-google-plus"></i> Google+
+                <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+                <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+            </div>
+            <div class="content" align="center">
+                <div class="grid grid-6 grid-border-right">
+                    <div><i class="icon-google-plus-sign size28 google-plus-colour"></i></div>
+                    <div class="lightcolour text-overflow">CIRCLE</div>
+                    <div class="size20">21.5%</div>
+                </div>
+                <div class="grid grid-6">
+                    <div><i class="icon-google-plus-sign size28 google-plus-colour"></i></div>
+                    <div class="lightcolour text-overflow">MENTIONS</div>
+                    <span class="size20">9,731</span>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="dashboard-widget">
+        <div class="title">
+            <i class="icon-bar-chart"></i> Trendlines
+            <button class="toggle" title="Close"><i class="icon-chevron-down"></i></button>
+            <button class="refresh" title="Refresh"><i class="icon-refresh"></i></button>
+        </div>
+        <div class="content">
+            <div class="grid grid-responsive grid-4">
+                <div class="size20 margin-container">Store Traffic</div>
+                <div class="trendline-container" id="trentline1"></div>
+            </div>
+            <div class="grid grid-responsive grid-4">
+                <div class="size20 margin-container">Bounce Rate</div>
+                <div class="trendline-container" id="trentline2"></div>
+            </div>
+            <div class="grid grid-responsive grid-4">
+                <div class="size20 margin-container">Unique Vistors</div>
+                <div class="trendline-container" id="trentline3"></div>
+            </div>
+            <div class="grid grid-responsive grid-4">
+                <div class="size20 margin-container">Visitor Durating</div>
+                <div class="trendline-container" id="trentline4"></div>
+            </div>
+            <div class="grid grid-responsive grid-4">
+                <div class="size20 margin-container">Total Visitors</div>
+                <div class="trendline-container" id="trentline5"></div>
+            </div>
+            <div class="grid grid-responsive grid-4">
+                <div class="size20 margin-container">Total Traffic</div>
+                <div class="trendline-container" id="trentline6"></div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<script>
+    statisticsPage();
+</script>
