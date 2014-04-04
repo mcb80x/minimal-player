@@ -115,7 +115,6 @@ html
     link(rel='stylesheet', type='text/css', href='{{static_base_url}}/css/mcb80x.css')
     //- link(rel='stylesheet', type='text/css', href='{{static_base_url}}/css/jquery-ui-1.9.2.custom.css')
     link(rel='stylesheet', type='text/css', href="{{static_base_url}}/css/jquery.fancybox.css?v=2.1.5", media="screen")
-
     link(rel='stylesheet', type='text/css', href='http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.css')
 
 
@@ -182,6 +181,9 @@ html
                 span.scene-indicator-label segment:
 
         // Timeline
+        #additional-controls
+          a(href="javascript:void(0);", onclick="toggleComments();")
+            span.livicon(title='toggle comments', data-name='edit', data-color='#ccc', data-hovercolor='#c33', data-size='20')
         #timeline-controls
           span.livicon(data-name='video-play', data-animate='false', data-bind='visible: paused, event: {click: play, touchstart: play}', data-size='100%')
           span.livicon(data-name='video-pause', data-animate='false', data-bind='visible: playing, event:{click: pause, touchstart: play}', data-size='100%')
