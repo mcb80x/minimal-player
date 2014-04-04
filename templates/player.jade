@@ -76,6 +76,9 @@ html
         window.hdvideo = false
       {% endif %}
 
+
+
+
     // Livicons
     script(src='{{static_base_url}}/js/raphael-min.js')
     script(src='{{static_base_url}}/js/livicons-1.1.1.min.js')
@@ -150,7 +153,7 @@ html
 
         // Site Navigation
         .right-nav
-          a(href="javascript:void(0); onclick="toggleComments();")
+          a(href="javascript:void(0);" onclick="toggleComments();")
             span.livicon(title='toggle comments', data-name='circle', data-color='#ccc', data-hovercolor='#c33', data-size='20')
           
           a(href="javascript:void(0);", onclick="toggleSubtitles();")
@@ -165,6 +168,8 @@ html
       #controls
         #subtitle-container.subtitles
           #interactive-subtitles
+
+        #comment-container.comments
 
         // Title / lower-third container
         #title-banner.lower-third
@@ -189,10 +194,9 @@ html
             span#clock-text 00:00
 
           //- i.volume-icon.icon-volume-down
-        
-    form(name="comment", action="/comments", method="post")
-      input(type="text", name="comment")
-      input(type="submit", value="login")
+    .input    
+      input(id="commentField" type="text", name="comment")
+      input(id="commentButton" type="submit", value="Submit")
 
 
     //- #alt-player-link
