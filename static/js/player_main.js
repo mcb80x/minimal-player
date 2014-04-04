@@ -29,6 +29,27 @@
     if ((window.showSubtitles != null) && window.showSubtitles) {
       window.toggleSubtitles();
     }
+    $('#comment-button').on('click', function() {
+      var comment, text, timestamp, username;
+      username = 'testuser';
+      timestamp = timeline.currentTimelineURI();
+      text = $('input[name=comment-input]').val();
+      comment = {
+        username: 'testuser',
+        timestamp: timestamp,
+        text: text
+      };
+      return $.ajax({
+        type: "POST",
+        url: "/comments",
+        data: JSON.stringify(comment),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function() {
+          return alert('successful post');
+        }
+      });
+    });
     console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
     reportOnDeck = function(ondecks) {
       return console.log(ondecks);

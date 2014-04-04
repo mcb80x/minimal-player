@@ -70,5 +70,5 @@ img.lesson-teaser{float:right;}
 .alt-player-link a{color:#ccc;hover-color:#f00;}
 .ui-front{z-index:1000000 !important;}
 .input{position:absolute; bottom:0px;}
-.comments{position:absolute;height:60px;left:0;right:0;bottom:50px;z-index:900;display:none;font-size:20px;font-family:sans-serif;padding:3px;overflow-y:hidden;overflow-x:auto;}
+.submit-comment{position:absolute;height:60px;left:0;right:0;bottom:50px;z-index:900;display:none;font-size:20px;font-family:sans-serif;padding:3px;overflow-y:hidden;overflow-x:auto;}
 .comment{height:60px; border-radius: 5px; background-color: green; padding: 5px; width: 200px; margin-right: 10px; float: left; background-color:#333; color:#ff6; font-size: 12px; color: #f8f8f8;}
