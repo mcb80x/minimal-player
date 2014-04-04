@@ -150,7 +150,7 @@ html
 
         // Site Navigation
         .right-nav
-          a(href="javascript:void(0); onclick="toggleComments();")
+          a(href="javascript:void(0);", onclick="toggleComments();")
             span.livicon(title='toggle comments', data-name='circle', data-color='#ccc', data-hovercolor='#c33', data-size='20')
           
           a(href="javascript:void(0);", onclick="toggleSubtitles();")
@@ -189,10 +189,11 @@ html
             span#clock-text 00:00
 
           //- i.volume-icon.icon-volume-down
-        
-    form(name="comment", action="/comments", method="post")
-      input(type="text", name="comment")
-      input(type="submit", value="login")
+      
+    // Comment post form
+    div(class='submit-comment')
+      input(type="text", name="comment-input")
+      button(id='comment-button') Submit
 
 
     //- #alt-player-link

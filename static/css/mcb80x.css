@@ -69,4 +69,4 @@ img.lesson-teaser{float:right;}
 .alt-player-link-top{color:#ccc;position:absolute;top:0;left:0;right:0;text-align:center;font-family:Lato,sans-serif;font-size:12px;}
 .alt-player-link a{color:#ccc;hover-color:#f00;}
 .ui-front{z-index:1000000 !important;}
-form{position:absolute; bottom:0px;}
+.submit-comment{position:absolute; bottom:0px;}

@@ -22,6 +22,31 @@ $ ->
       window.toggleSubtitles()
 
 
+
+    #Create a handler for "submitComment"
+    $('#comment-button').on('click', ->
+        #change the username to refer to an actual user
+        username = 'testuser'
+        timestamp = timeline.currentTimelineURI()
+        text = $('input[name=comment-input]').val()
+        comment = 
+                    username: 'testuser',
+                    timestamp: timestamp, 
+                    text: text
+
+        $.ajax({
+          type: "POST",
+          url: "/comments",
+          data: JSON.stringify(comment),
+          contentType:"application/json; charset=utf-8",
+          dataType: "json",
+          success: ->
+            alert('successful post')
+        });
+    )
+
+
+
     # Test reportOnDeck
     console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
     reportOnDeck = (ondecks) ->
