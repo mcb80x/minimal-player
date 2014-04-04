@@ -1,3 +1,5 @@
+# Run this command from minimal-player/ to continuously monitor & compile files:
+# coffee --compile --watch --output static/js/ frontend/js/
 
 window.toggleSubtitles = ->
   $('#subtitle-container').slideToggle
@@ -39,8 +41,8 @@ $ ->
 
 
     # Test registering a callback
-    console.log "~~~~~~~~~ INSTALL TIMED CALLBACK ~~~~~~~~~~~~~"
-    timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
+    # console.log "~~~~~~~~~ INSTALL TIMED CALLBACK ~~~~~~~~~~~~~"
+    # timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
 
     window.timeline = timeline
 
