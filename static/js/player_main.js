@@ -23,10 +23,6 @@
       return console.log(ondecks);
     };
     timeline.onNewOnDeckURIs(reportOnDeck);
-    console.log("~~~~~~~~~ INSTALL TIMED CALLBACK ~~~~~~~~~~~~~");
-    timeline.atTimelineURI('fleet_week/5.0', function() {
-      return alert('This is an installed callback!');
-    });
     return window.timeline = timeline;
   });
 
