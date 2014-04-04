@@ -1,6 +1,7 @@
 import os
 import os.path
 import re
+import json
 from copy import copy
 from datetime import datetime
 
@@ -16,6 +17,9 @@ from flask import (Flask,
 
 # from flask.ext import restful
 from mongokit import Connection, Document
+import datetime
+from bson import Binary, Code
+from bson.json_util import dumps
 
 # from backend.db import User, SiteInfo, db
 # from backend.login import login, oid, get_user, require_login
@@ -40,7 +44,7 @@ import backend.config
 
 
 # -------------------------------------------------------
-# mongo database connection setup <edit>
+# Mongo Database Connection Setup
 # -------------------------------------------------------
 MONGODB_HOST = '127.0.0.1'
 MONGODB_PORT = 27017
@@ -55,13 +59,13 @@ app = Flask(__name__)
 app.jinja_env.add_extension('pyjade.ext.jinja.PyJadeExtension')
 
 # -------------------------------------------------------
-# open mongo connection <edit>
+# Open Mongo Connection
 # -------------------------------------------------------
 connection = Connection(MONGODB_HOST, MONGODB_PORT)
 
 
 # -------------------------------------------------------
-# set up database schema <edit>
+# Database Schema Setup
 # -------------------------------------------------------
 def max_length(length):
     def validate(value):
@@ -70,26 +74,26 @@ def max_length(length):
         raise Exception('%s must be at most %s characters long' % length)
     return validate
 
+@connection.register
 class Comment(Document):
     __collection__='comments'
+    __database__='comment_db'
     structure = {
-        'username': unicode,
-        'text': unicode,
-        'created_at': datetime,
-        'timestamp': unicode
+        'username': basestring,
+        'text': basestring,
+        'created_at': basestring,
+        'timestamp': basestring
     }
     validators = {
         'username': max_length(20), #change based on max username length
         'text': max_length(140)
     }
-    default_values = {'created_at': datetime.utcnow}
+    default_values = {'created_at': datetime.datetime.utcnow().isoformat()} #format: ISODate("2014-04-04T02:45:04.226Z")
+    required_fields = ['username', 'text', 'created_at', 'timestamp']
     use_dot_notation = True
-    # def __repr__(self):
-    #     return '<Comment %r>' % (self.username)
 
-# register the User document with our current connection
-connection.register([User])
-
+db = connection.comment_db
+comments = db.Comment
 
 # -------------------------------------------------------
 # Register login/openid blueprint
@@ -163,6 +167,25 @@ def page_error(e):
     parameters = copy(backend.config.site_parameters)
     return render_template('500.jade', **parameters), 500
 
+
+# -------------------------------------------------------
+# URL Routing for GET/POST Comments
+# -------------------------------------------------------
+
+@app.route('/comments', methods=['GET'])
+def comment_get():
+    return dumps(comments.find())
+
+@app.route('/comments', methods=['POST'])
+def comment_post():
+    #creates and saves posted comment
+    newComment = connection.Comment()
+    newComment['text'] = request.json['text']
+    newComment['timestamp'] = request.json['timestamp']
+    newComment['username'] = request.json['username']
+    newComment.save()
+
+    return 'COMMENTS POST'
 
 
 # -------------------------------------------------------
