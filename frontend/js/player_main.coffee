@@ -8,6 +8,16 @@ window.toggleSubtitles = ->
       $('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
+window.toggleComments = ->
+  console.log('toggle comments')
+  $('#comment-container').slideToggle
+    duration: 400
+    complete: ->
+      $('comment-container').css('display', 'none')
+      util.maintainAspect()
+
+
+
 
 $ ->
     util.maintainAspect()
@@ -21,6 +31,8 @@ $ ->
     if window.showSubtitles? and window.showSubtitles
       window.toggleSubtitles()
 
+    #if window.showComments? and window.showSubtitles
+    #  window.toggleComments()
 
 
     #Create a handler for "submitComment"
@@ -53,6 +65,11 @@ $ ->
         console.log ondecks
 
     timeline.onNewOnDeckURIs(reportOnDeck)
+
+    $('#commentButton').on('click', ->
+      newText = $('#commentField').val()
+      $('#comment-container').append('<div class="comment">' + newText + '</div>')
+    )
 
     # # Test current URI (@ 1 sec intervals)
     # console.log "~~~~~~~~~ CURRENT URI ~~~~~~~~~~~~~"

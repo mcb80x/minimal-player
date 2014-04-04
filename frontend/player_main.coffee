@@ -6,6 +6,8 @@ window.toggleSubtitles = ->
       $('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
+window.toggleComments = ->
+  alert('called from outside file')
 
 $ ->
     util.maintainAspect()
@@ -18,4 +20,7 @@ $ ->
 
     if window.showSubtitles? and window.showSubtitles
       window.toggleSubtitles()
+
+    #if window.showComments? and window.showComments
+    #  window.toggleComments
 

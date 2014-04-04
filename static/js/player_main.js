@@ -10,6 +10,17 @@
     });
   };
 
+  window.toggleComments = function() {
+    console.log('toggle comments');
+    return $('#comment-container').slideToggle({
+      duration: 400,
+      complete: function() {
+        $('comment-container').css('display', 'none');
+        return util.maintainAspect();
+      }
+    });
+  };
+
   $(function() {
     var reportOnDeck, timeline;
     util.maintainAspect();
@@ -44,6 +55,11 @@
       return console.log(ondecks);
     };
     timeline.onNewOnDeckURIs(reportOnDeck);
+    $('#commentButton').on('click', function() {
+      var newText;
+      newText = $('#commentField').val();
+      return $('#comment-container').append('<div class="comment">' + newText + '</div>');
+    });
     return window.timeline = timeline;
   });
 
