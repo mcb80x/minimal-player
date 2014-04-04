@@ -150,6 +150,9 @@ html
 
         // Site Navigation
         .right-nav
+          a(href="javascript:void(0); onclick="toggleComments();")
+            span.livicon(title='toggle comments', data-name='circle', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+          
           a(href="javascript:void(0);", onclick="toggleSubtitles();")
             span.livicon(title='toggle subtitles', data-name='quote-left', data-color='#ccc', data-hovercolor='#c33', data-size='20')
 
