@@ -16,8 +16,40 @@ window.toggleComments = ->
       $('comment-container').css('display', 'none')
       util.maintainAspect()
 
+window.toggleInput = ->
+  timeline.pause()
+  $('#inputTextArea').val('')
+  console.log('toggle comment input')
+  $('#input-container').animate
+    width: "toggle"
+    duration: 400
+    complete: ->
+      if $('#input-container').css('display') is 'block'
+        $('#input-container').css('display', 'none') 
+      else
+        $('#input-container').css('display', 'block') 
 
+window.submitInput = ->
+  #change the username to refer to an actual user
+  username = 'testuser'
+  timestamp = timeline.currentTimelineURI()
+  text = $('#inputTextArea').val()
+  comment = 
+              username: 'testuser',
+              timestamp: timestamp, 
+              text: text
 
+  $('#input-container').hide()
+
+  $.ajax({
+    type: "POST",
+    url: "/comments",
+    data: JSON.stringify(comment),
+    contentType:"application/json; charset=utf-8",
+    dataType: "json",
+    success: ->
+      alert('successful post')
+  });
 
 $ ->
     util.maintainAspect()
@@ -34,28 +66,14 @@ $ ->
     #if window.showComments? and window.showSubtitles
     #  window.toggleComments()
 
+    #limit comment length
+    left = 140
+    $('#charactersLeft').text(left);
+    $('#inputTextArea').keyup( ->
+      left = 140 - $(this).val().length;
+      $('#charactersLeft').text(left);
+    );
 
-    #Create a handler for "submitComment"
-    $('#comment-button').on('click', ->
-        #change the username to refer to an actual user
-        username = 'testuser'
-        timestamp = timeline.currentTimelineURI()
-        text = $('input[name=comment-input]').val()
-        comment = 
-                    username: 'testuser',
-                    timestamp: timestamp, 
-                    text: text
-
-        $.ajax({
-          type: "POST",
-          url: "/comments",
-          data: JSON.stringify(comment),
-          contentType:"application/json; charset=utf-8",
-          dataType: "json",
-          success: ->
-            alert('successful post')
-        });
-    )
 
 
 

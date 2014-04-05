@@ -19,9 +19,9 @@ svg{font:10px sans-serif;-webkit-touch-callout:none;-webkit-user-select:none;-kh
 .tight-wrapper{position:absolute;top:0;left:0;right:0;bottom:30px;}
 #stage{width:100%;position:absolute;top:0;bottom:50px;}
 #controls{background-color:#666;position:absolute;bottom:0;height:50px;width:100%;}
-#timeline-controls{/*width:90%;*/height:30px;/*bottom:0;position:absolute;*/opacity:0.7;z-index:101;background-color:#ccc; float:left;}
+#timeline-controls{width:90%;height:30px;bottom:0;position:absolute; left: 40px; opacity:0.7;z-index:101;background-color:#ccc;}
 .timeline-container{top:0;bottom:0;left:40px;right:70px;position:absolute;}
-#clock{bottom:8px;right:30px;width:30px;font-family:Lato,sans-serif;font-size:12px;font-weight:700;position:absolute;}
+#clock{bottom:8px; right:30px; width:30px;font-family:Lato,sans-serif;font-size:12px;font-weight:700;position:absolute;}
 .volume-icon{bottom:5px;right:8px;width:20px;height:20px;font-size:20px;position:absolute;vertical-align:middle;}
 .timeline-background-rect{fill:#ccc;opacity:0.0;}
 .timeline-segment-marker{fill:red;}
@@ -72,8 +72,12 @@ img.lesson-teaser{float:right;}
 .input{position:absolute; bottom:0px;}
 .submit-comment{position:absolute;height:60px;left:0;right:0;bottom:50px;z-index:900;display:none;font-size:20px;font-family:sans-serif;padding:3px;overflow-y:hidden;overflow-x:auto;}
 .comment{height:60px; border-radius: 5px; background-color: green; padding: 5px; width: 200px; margin-right: 10px; float: left; background-color:#333; color:#ff6; font-size: 12px; color: #f8f8f8;}
-#additional-controls{bottom: 0px; width: 30px; float: left;}
-#bottom-controls{width: 100%; height: 30px; position: absolute; bottom: 0px; left: 0px;}
+#additional-controls{position: absolute; width: 30px; left: 0px;}
+#bottom-controls{width: 100%; height: 30px; position: absolute; bottom: 0px; left: 0px; background-color: #ccc;}
+#input-container{display: none; position: absolute; left: 100px; bottom: 150px; width: 500px; height: 60px; background-color: white; opacity: 1.0; z-index: 1001; border-radius: 15px; padding: 10px;}
+#inputTextArea{font-size: 14px; border: none; width: 430px; height: 100%;}
+#charactersLeft{font-size: 12px; color: #000000; position: absolute; right: 30px; bottom: 10px;}
+.inputSubmitButton{float:right;}
 /*.input{position:absolute; bottom:0px;}*/
 /*.submit-comment{position:absolute;height:60px;left:0;right:0;bottom:50px;z-index:900;display:none;font-size:20px;font-family:sans-serif;padding:3px;overflow-y:hidden;overflow-x:auto;}*/
 /*.comment{height:60px; border-radius: 5px; background-color: green; padding: 5px; width: 200px; margin-right: 10px; float: left; background-color:#333; color:#ff6; font-size: 12px; color: #f8f8f8;}*/
