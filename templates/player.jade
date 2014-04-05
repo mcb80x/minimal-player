@@ -180,22 +180,23 @@ html
                 #scene-indicator
                 span.scene-indicator-label segment:
 
-        // Timeline
-        #additional-controls
-          a(href="javascript:void(0);", onclick="toggleComments();")
-            span.livicon(title='toggle comments', data-name='edit', data-color='#ccc', data-hovercolor='#c33', data-size='20')
-        #timeline-controls
-          span.livicon(data-name='video-play', data-animate='false', data-bind='visible: paused, event: {click: play, touchstart: play}', data-size='100%')
-          span.livicon(data-name='video-pause', data-animate='false', data-bind='visible: playing, event:{click: pause, touchstart: play}', data-size='100%')
+        #bottom-controls
+          #additional-controls
+            a(href="javascript:void(0);", onclick="toggleComments();")
+              span.livicon(title='toggle comments', data-name='edit', data-color='#ccc', data-hovercolor='#c33', data-size='30')
+          // Timeline
+          #timeline-controls
+            span.livicon(data-name='video-play', data-animate='false', data-bind='visible: paused, event: {click: play, touchstart: play}', data-size='100%')
+            span.livicon(data-name='video-pause', data-animate='false', data-bind='visible: playing, event:{click: pause, touchstart: play}', data-size='100%')
 
-          // the timeline itself
-          #timeline.timeline-container
+            // the timeline itself
+            #timeline.timeline-container
 
 
-          #clock
-            span#clock-text 00:00
+            #clock
+              span#clock-text 00:00
 
-          //- i.volume-icon.icon-volume-down
+            //- i.volume-icon.icon-volume-down
 
     // Comment post form
     div(class='submit-comment')
