@@ -17,7 +17,10 @@ window.toggleComments = ->
       util.maintainAspect()
 
 window.toggleInput = ->
-  timeline.pause()
+  if timeline.paused()
+    timeline.play()
+  else
+    timeline.pause()
   $('#inputTextArea').val('')
   console.log('toggle comment input')
   $('#input-container').animate
@@ -40,7 +43,7 @@ window.submitInput = ->
               text: text
 
   $('#input-container').hide()
-
+  timeline.play()
   $.ajax({
     type: "POST",
     url: "/comments",

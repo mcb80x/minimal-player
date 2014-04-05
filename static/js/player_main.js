@@ -22,7 +22,11 @@
   };
 
   window.toggleInput = function() {
-    timeline.pause();
+    if (timeline.paused()) {
+      timeline.play();
+    } else {
+      timeline.pause();
+    }
     $('#inputTextArea').val('');
     console.log('toggle comment input');
     return $('#input-container').animate({
@@ -49,6 +53,7 @@
       text: text
     };
     $('#input-container').hide();
+    timeline.play();
     return $.ajax({
       type: "POST",
       url: "/comments",
