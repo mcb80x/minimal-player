@@ -22,7 +22,7 @@
   };
 
   $(function() {
-    var reportOnDeck, timeline;
+    var addCallback, deleteComment, displayComment, getComments, hasCallback, reportOnDeck, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -50,16 +50,50 @@
         }
       });
     });
+    hasCallback = [];
+    deleteComment = function() {
+      return $('#comment-container div:first-child').remove();
+    };
+    displayComment = function(comment) {
+      $('#comment-container').append('<div class="comment">' + comment['username'] + ': ' + comment['text'] + '</div>');
+      return setTimeout(deleteComment, 10000);
+    };
+    addCallback = function(comments) {
+      var comment, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = comments.length; _i < _len; _i++) {
+        comment = comments[_i];
+        if (hasCallback.indexOf(JSON.stringify(comment)) === -1) {
+          timeline.atTimelineURI(comment['timestamp'], (function(comment) {
+            return function() {
+              return displayComment(comment);
+            };
+          })(comment));
+          _results.push(hasCallback.push(JSON.stringify(comment)));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+    getComments = function() {
+      return $.ajax({
+        type: "GET",
+        url: "/comments",
+        dataType: "json",
+        success: function(comments) {
+          console.log('successful comments get');
+          addCallback(comments);
+        }
+      });
+    };
+    getComments();
+    setInterval(getComments, 1000);
     console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
     reportOnDeck = function(ondecks) {
       return console.log(ondecks);
     };
     timeline.onNewOnDeckURIs(reportOnDeck);
-    $('#commentButton').on('click', function() {
-      var newText;
-      newText = $('#commentField').val();
-      return $('#comment-container').append('<div class="comment">' + newText + '</div>');
-    });
     return window.timeline = timeline;
   });
 
