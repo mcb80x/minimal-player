@@ -74,8 +74,36 @@ $ ->
       $('#charactersLeft').text(left);
     );
 
+    # Gets all comments from db, installs their callbacks
+    hasCallback = []
 
+    #removes first comment after 10000ms
+    deleteComment = ->
+      $('#comment-container div:first-child').remove()
+    displayComment = (comment)->
+      $('#comment-container').append('<div class="comment">' + comment['username'] + ': ' + comment['text'] + '</div>')
+      setTimeout(deleteComment, 10000)
 
+    addCallback = (comments)-> 
+      for comment in comments
+        if hasCallback.indexOf(JSON.stringify(comment)) is -1
+          timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
+          hasCallback.push(JSON.stringify(comment))
+
+    getComments = ->
+      #pull comments from database
+      $.ajax({
+          type: "GET",
+          url: "/comments",
+          dataType: "json",
+          success: (comments)->
+            console.log('successful comments get')
+            addCallback(comments)
+            return
+        });
+
+    getComments()
+    setInterval(getComments, 1000)
 
     # Test reportOnDeck
     console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
@@ -84,10 +112,11 @@ $ ->
 
     timeline.onNewOnDeckURIs(reportOnDeck)
 
-    $('#commentButton').on('click', ->
-      newText = $('#commentField').val()
-      $('#comment-container').append('<div class="comment">' + newText + '</div>')
-    )
+    # # Makes comments appear immediately on click
+    # $('#comment-button').on('click', ->
+    #   newText = $('#comment-field').val()
+    #   $('#comment-container').append('<div class="comment">' + newText + '</div>')
+    # )
 
     # # Test current URI (@ 1 sec intervals)
     # console.log "~~~~~~~~~ CURRENT URI ~~~~~~~~~~~~~"
@@ -102,6 +131,10 @@ $ ->
 
     # Test registering a callback
     # console.log "~~~~~~~~~ INSTALL TIMED CALLBACK ~~~~~~~~~~~~~"
+    # timeline.atTimelineURI('fleet_week/' + (i * 5) + '.0', do (i)-> -> alert(i)) for i in [1..5]
+    # timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
+    # timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
+    # timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
     # timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
 
     window.timeline = timeline
