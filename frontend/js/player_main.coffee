@@ -2,13 +2,15 @@
 # coffee --compile --watch --output static/js/ frontend/js/
 
 window.toggleSubtitles = ->
+  $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
   $('#subtitle-container').slideToggle
     duration: 400
     complete: ->
-      $('subtitle-container').css('display', 'none')
+      #$('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
 window.toggleComments = ->
+  $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   console.log('toggle comments')
   $('#comment-container').slideToggle
     duration: 400
