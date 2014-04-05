@@ -21,34 +21,59 @@
     });
   };
 
+  window.toggleInput = function() {
+    timeline.pause();
+    $('#inputTextArea').val('');
+    console.log('toggle comment input');
+    return $('#input-container').animate({
+      width: "toggle",
+      duration: 400,
+      complete: function() {
+        if ($('#input-container').css('display') === 'block') {
+          return $('#input-container').css('display', 'none');
+        } else {
+          return $('#input-container').css('display', 'block');
+        }
+      }
+    });
+  };
+
+  window.submitInput = function() {
+    var comment, text, timestamp, username;
+    username = 'testuser';
+    timestamp = timeline.currentTimelineURI();
+    text = $('#inputTextArea').val();
+    comment = {
+      username: 'testuser',
+      timestamp: timestamp,
+      text: text
+    };
+    $('#input-container').hide();
+    return $.ajax({
+      type: "POST",
+      url: "/comments",
+      data: JSON.stringify(comment),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function() {
+        return alert('successful post');
+      }
+    });
+  };
+
   $(function() {
-    var addCallback, deleteComment, displayComment, getComments, hasCallback, reportOnDeck, timeline;
+    var addCallback, deleteComment, displayComment, getComments, hasCallback, left, reportOnDeck, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
     if ((window.showSubtitles != null) && window.showSubtitles) {
       window.toggleSubtitles();
     }
-    $('#comment-button').on('click', function() {
-      var comment, text, timestamp, username;
-      username = 'testuser';
-      timestamp = timeline.currentTimelineURI();
-      text = $('input[name=comment-input]').val();
-      comment = {
-        username: 'testuser',
-        timestamp: timestamp,
-        text: text
-      };
-      return $.ajax({
-        type: "POST",
-        url: "/comments",
-        data: JSON.stringify(comment),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function() {
-          return alert('successful post');
-        }
-      });
+    left = 140;
+    $('#charactersLeft').text(left);
+    $('#inputTextArea').keyup(function() {
+      left = 140 - $(this).val().length;
+      return $('#charactersLeft').text(left);
     });
     hasCallback = [];
     deleteComment = function() {

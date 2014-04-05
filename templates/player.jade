@@ -168,8 +168,6 @@ html
         #subtitle-container.subtitles
           #interactive-subtitles
 
-        #comment-container.comments
-
         // Title / lower-third container
         #title-banner.lower-third
           span.lower-third-title .
@@ -182,8 +180,14 @@ html
 
         #bottom-controls
           #additional-controls
-            a(href="javascript:void(0);", onclick="toggleComments();")
-              span.livicon(title='toggle comments', data-name='edit', data-color='#ccc', data-hovercolor='#c33', data-size='30')
+            a(href="javascript:void(0);", onclick="toggleInput();")
+              span.livicon(title='toggle comments', data-name='edit', data-color='#999', data-hovercolor='#000000', data-size='30')
+          #input-container
+            textarea#inputTextArea(maxlength='160', placeholder="Share a comment")
+            a(href="javascript:void(0);", onclick="submitInput();", class="inputSubmitButton")
+              span.livicon(title='share comment', data-name='check', data-color='#999', data-hovercolor='#000000', data-size='50')
+              span#charactersLeft
+
           // Timeline
           #timeline-controls
             span.livicon(data-name='video-play', data-animate='false', data-bind='visible: paused, event: {click: play, touchstart: play}', data-size='100%')
@@ -198,10 +202,17 @@ html
 
             //- i.volume-icon.icon-volume-down
 
+<<<<<<< HEAD
+    //-// Comment post form
+    //-div(class='submit-comment')
+    //-  input(id="commentField", type="text", name="comment-input")
+    //-  button(id='commentButton') Submit
+=======
     // Comment post form
     div(class='submit-comment')
       input(id="comment-field", type="text", name="comment-input")
       button(id='comment-button') Submit
+>>>>>>> 6c1452255315f9a23129d36880d8187dace89d6e
 
     //- #alt-player-link
 
