@@ -66,6 +66,8 @@
     });
   };
 
+  window.submitConfusion = function() {};
+
   $(function() {
     var addCallback, deleteComment, displayComment, getComments, hasCallback, left, reportOnDeck, timeline;
     util.maintainAspect();

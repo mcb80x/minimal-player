@@ -54,6 +54,9 @@ window.submitInput = ->
       alert('successful post')
   });
 
+window.submitConfusion = ->
+  #submit confusion somehow
+
 $ ->
     util.maintainAspect()
 
