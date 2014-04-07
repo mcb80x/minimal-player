@@ -67,6 +67,20 @@
     });
   };
 
+  window.submitConfusion = function() {
+    var timestamp;
+    timestamp = timeline.currentTimelineURI();
+    return $.ajax({
+      type: "POST",
+      url: "/confusion",
+      data: timestamp,
+      dataType: "text",
+      success: function() {
+        return alert('successful post');
+      }
+    });
+  };
+
   $(function() {
     var addCallback, deleteComment, displayComment, getComments, hasCallback, left, reportOnDeck, timeline;
     util.maintainAspect();
