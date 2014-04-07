@@ -20,6 +20,7 @@ from mongokit import Connection, Document
 import datetime
 from bson import Binary, Code
 from bson.json_util import dumps
+from StringIO import StringIO
 
 # from backend.db import User, SiteInfo, db
 # from backend.login import login, oid, get_user, require_login
@@ -82,7 +83,7 @@ class Comment(Document):
         'username': basestring,
         'text': basestring,
         'created_at': basestring,
-        'timestamp': basestring
+        'timestamp': basestring,
     }
     validators = {
         'username': max_length(20), #change based on max username length
@@ -92,8 +93,20 @@ class Comment(Document):
     required_fields = ['username', 'text', 'created_at', 'timestamp']
     use_dot_notation = True
 
+@connection.register
+class Confusion(Document):
+    __collection__='confusion'
+    __database__='comment_db'
+    structure= {
+        'video': basestring,
+        'timestamps': list
+    }
+    required_fields = ['video', 'timestamps']
+    use_dot_notation = True
+
 db = connection.comment_db
 comments = db.Comment
+confusion = db.Confusion
 
 # -------------------------------------------------------
 # Register login/openid blueprint
@@ -187,6 +200,25 @@ def comment_post():
 
     return 'COMMENTS POST'
 
+# -------------------------------------------------------
+# URL Routing for GET/POST Confusion
+# -------------------------------------------------------
+
+@app.route('/confusion', methods=['POST'])
+def confusion_post():
+    videoName = request.form.keys()[0].split('/')[0]
+    timestamp = request.form.keys()[0].split('/')[1]
+    io = StringIO(dumps(confusion.find({'video': videoName})))
+
+    if(len(json.load(io)) > 0):
+        connection.comment_db.confusion.find_and_modify({'video':videoName}, {'$push':{'timestamps':timestamp}}) 
+    else:
+        newConf = connection.Confusion()
+        newConf['video'] = videoName
+        newConf['timestamps'] = [timestamp]
+        newConf.save()
+
+    return 'CONFUSION POST'
 
 # -------------------------------------------------------
 # URL Routing for Course Content

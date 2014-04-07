@@ -56,6 +56,15 @@ window.submitInput = ->
 
 window.submitConfusion = ->
   #submit confusion somehow
+  timestamp = timeline.currentTimelineURI()
+  $.ajax({
+    type: "POST",
+    url: "/confusion",
+    data: timestamp,
+    dataType: "text",
+    success: ->
+      alert('successful post')
+  });
 
 $ ->
     util.maintainAspect()
