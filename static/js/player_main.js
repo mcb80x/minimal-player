@@ -2,6 +2,12 @@
 (function() {
   window.toggleSubtitles = function() {
     $('#comment-container').css('display', 'none');
+    $('.icon-comment').removeClass('on');
+    if ($('.icon-quote-left').hasClass('on')) {
+      $('.icon-quote-left').removeClass('on');
+    } else {
+      $('.icon-quote-left').addClass('on');
+    }
     return $('#subtitle-container').slideToggle({
       duration: 400,
       complete: function() {
@@ -12,7 +18,12 @@
 
   window.toggleComments = function() {
     $('#subtitle-container').css('display', 'none');
-    console.log('toggle comments');
+    $('.icon-quote-left').removeClass('on');
+    if ($('.icon-comment').hasClass('on')) {
+      $('.icon-comment').removeClass('on');
+    } else {
+      $('.icon-comment').addClass('on');
+    }
     return $('#comment-container').slideToggle({
       duration: 400,
       complete: function() {

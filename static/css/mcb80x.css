@@ -81,6 +81,10 @@ img.lesson-teaser{float:right;}
 .inputSubmitButton{float:right;}
 #confusion-control{position: absolute; width: 100px; left: 93%; z-index: 1000;}
 .messageID{display:none;}
+a, i{text-decoration: none;}
+.right-nav i{/*text-decoration: none;*/ color:#ccc; padding-left: 3px; padding-right: 3px;}
+.right-nav i:hover{color:#c33}
+.on{color: red !important;}
 /*.input{position:absolute; bottom:0px;}*/
 /*.submit-comment{position:absolute;height:60px;left:0;right:0;bottom:50px;z-index:900;display:none;font-size:20px;font-family:sans-serif;padding:3px;overflow-y:hidden;overflow-x:auto;}*/
 /*.comment{height:60px; border-radius: 5px; background-color: green; padding: 5px; width: 200px; margin-right: 10px; float: left; background-color:#333; color:#ff6; font-size: 12px; color: #f8f8f8;}*/
