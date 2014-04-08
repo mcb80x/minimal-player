@@ -97,9 +97,11 @@ window.toggleVolume = ->
   if not video_playing.muted
     video_playing.mute()
     video_playing.muted = true
+    $( "#slider-vertical" ).slider({value: 0})
   else
     video_playing.fullvolume()
     video_playing.muted = false
+    $( "#slider-vertical" ).slider({value: 100})
 
 #window.removeComment = ->
 #  window.editComment({"selector": {"text": $('.message').text()}, "field": "display", "newValue": "false"})

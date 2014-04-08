@@ -117,10 +117,16 @@
     console.log("toggling volume");
     if (!video_playing.muted) {
       video_playing.mute();
-      return video_playing.muted = true;
+      video_playing.muted = true;
+      return $("#slider-vertical").slider({
+        value: 0
+      });
     } else {
       video_playing.fullvolume();
-      return video_playing.muted = false;
+      video_playing.muted = false;
+      return $("#slider-vertical").slider({
+        value: 100
+      });
     }
   };
 
