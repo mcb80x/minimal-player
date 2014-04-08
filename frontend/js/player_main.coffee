@@ -69,11 +69,15 @@ window.submitInput = ->
 window.submitConfusion = ->
   #submit confusion somehow
   timestamp = timeline.currentTimelineURI()
+  totalLength = timeline.totalDuration
+  
+  console.log totalLength
   $.ajax({
     type: "POST",
     url: "/confusion",
-    data: timestamp,
-    dataType: "text",
+    data: JSON.stringify({timestamp: timestamp, totalLength: totalLength})
+    contentType:"application/json; charset=utf-8",
+    dataType: "json",
     success: ->
       alert('successful post')
   });

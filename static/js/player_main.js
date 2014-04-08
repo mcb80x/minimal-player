@@ -80,13 +80,19 @@
   };
 
   window.submitConfusion = function() {
-    var timestamp;
+    var timestamp, totalLength;
     timestamp = timeline.currentTimelineURI();
+    totalLength = timeline.totalDuration;
+    console.log(totalLength);
     return $.ajax({
       type: "POST",
       url: "/confusion",
-      data: timestamp,
-      dataType: "text",
+      data: JSON.stringify({
+        timestamp: timestamp,
+        totalLength: totalLength
+      }),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
       success: function() {
         return alert('successful post');
       }

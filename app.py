@@ -100,6 +100,7 @@ class Confusion(Document):
     __database__='comment_db'
     structure= {
         'video': basestring,
+        'totalLength': float,
         'timestamps': list
     }
     required_fields = ['video', 'timestamps']
@@ -212,18 +213,27 @@ def comment_edit():
 # URL Routing for GET/POST Confusion
 # -------------------------------------------------------
 
+@app.route('/confusion', methods=['GET'])
+def confusion_get():
+    data = dumps(confusion.find())
+    return render_template('confusion.jade', data=data)
+
 @app.route('/confusion', methods=['POST'])
 def confusion_post():
-    videoName = request.form.keys()[0].split('/')[0]
-    timestamp = request.form.keys()[0].split('/')[1]
+    videoName = request.json['timestamp'].split('/')[0]
+    timestamp = request.json['timestamp'].split('/')[1]
+    totalLength = request.json['totalLength']
+    print videoName
+    print timestamp
+    print totalLength
     io = StringIO(dumps(confusion.find({'video': videoName})))
-
     if(len(json.load(io)) > 0):
         connection.comment_db.confusion.find_and_modify({'video':videoName}, {'$push':{'timestamps':timestamp}}) 
     else:
         newConf = connection.Confusion()
         newConf['video'] = videoName
         newConf['timestamps'] = [timestamp]
+        newConf['totalLength'] = totalLength
         newConf.save()
 
     return 'CONFUSION POST'
