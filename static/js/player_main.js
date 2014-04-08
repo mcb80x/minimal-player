@@ -51,7 +51,8 @@
     comment = {
       username: 'testuser',
       timestamp: timestamp,
-      text: text
+      text: text,
+      display: 'true'
     };
     $('#input-container').hide();
     timeline.play();

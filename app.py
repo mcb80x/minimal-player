@@ -90,7 +90,7 @@ class Comment(Document):
         'username': max_length(20), #change based on max username length
         'text': max_length(140)
     }
-    default_values = {'created_at': datetime.datetime.utcnow().isoformat()} #format: ISODate("2014-04-04T02:45:04.226Z")
+    default_values = {'created_at': datetime.datetime.utcnow().isoformat(), 'display': 'true'} #format: ISODate("2014-04-04T02:45:04.226Z")
     required_fields = ['username', 'text', 'created_at', 'timestamp', 'display']
     use_dot_notation = True
 
