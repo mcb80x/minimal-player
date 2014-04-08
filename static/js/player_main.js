@@ -113,6 +113,23 @@
     });
   };
 
+  window.toggleVolume = function() {
+    console.log("toggling volume");
+    if (!video_playing.muted) {
+      video_playing.mute();
+      video_playing.muted = true;
+      return $("#slider-vertical").slider({
+        value: 0
+      });
+    } else {
+      video_playing.fullvolume();
+      video_playing.muted = false;
+      return $("#slider-vertical").slider({
+        value: 100
+      });
+    }
+  };
+
   $(function() {
     var addCallback, displayComment, getComments, hasCallback, hideComment, left, reportOnDeck, timeline;
     util.maintainAspect();
@@ -179,11 +196,40 @@
     };
     getComments();
     setInterval(getComments, 1000);
+    $("#slider-vertical").slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 95,
+      slide: function(event, ui) {
+        console.log(ui);
+        video_playing.muted = false;
+        return video_playing.changevolume(ui.value / 100);
+      }
+    });
+    $(".icon-volume-down").on({
+      mouseenter: function() {
+        return $(".ui-slider-vertical").show();
+      },
+      mouseleave: function() {
+        return $(".ui-slider-vertical").hide();
+      }
+    });
+    $(".ui-slider-vertical").on({
+      mouseenter: function() {
+        return $(".ui-slider-vertical").show();
+      },
+      mouseleave: function() {
+        return $(".ui-slider-vertical").hide();
+      }
+    });
     console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
     reportOnDeck = function(ondecks) {
       return console.log(ondecks);
     };
     timeline.onNewOnDeckURIs(reportOnDeck);
+    $(".ui-slider-vertical").hide();
     return window.timeline = timeline;
   });
 
