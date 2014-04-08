@@ -181,6 +181,17 @@
     };
     getComments();
     setInterval(getComments, 1000);
+    $("#slider-vertical").slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 95,
+      slide: function(event, ui) {
+        console.log(ui);
+        return video_playing.changevolume(ui.value / 100);
+      }
+    });
     console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
     reportOnDeck = function(ondecks) {
       return console.log(ondecks);

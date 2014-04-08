@@ -163,6 +163,18 @@ $ ->
     getComments()
     setInterval(getComments, 1000)
 
+    #volume control
+    $( "#slider-vertical" ).slider(
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 95,
+      slide: ( event, ui )->
+        console.log ui
+        video_playing.changevolume(ui.value/100)
+    );
+
     # Test reportOnDeck
     console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
     reportOnDeck = (ondecks) ->
