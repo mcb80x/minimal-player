@@ -153,16 +153,19 @@ html
         // Site Navigation
         .right-nav
           a(href="javascript:void(0);", onclick="toggleComments();")
-            span.livicon(title='toggle comments', data-name='comments', data-color='#ccc', data-hovercolor='#c33', data-size='20')
-          
+            i(class="icon-comment", title="toggle comments")
+                    
           a(href="javascript:void(0);", onclick="toggleSubtitles();")
-            span.livicon(title='toggle subtitles', data-name='quote-left', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+            i(class="icon-quote-left", title="toggle subtitles")
+            //-span.livicon(title='toggle subtitles', data-name='quote-left', data-color='#ccc', data-hovercolor='#c33', data-size='20')
 
           a(href='/course#!/map')
-            span.livicon(title='Course Map', data-name='map', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+            i(class="icon-map-marker", title="Course Map")
+            //-span.livicon(title='Course Map', data-name='map', data-color='#ccc', data-hovercolor='#c33', data-size='20')
 
           a(id='video-download-link', href='download-link', style="display:none;")
-            span.livicon(title='Download Video', data-name='download', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+            i(class="icon-download", title="Download Video")
+            //- span.livicon(title='Download Video', data-name='download', data-color='#ccc', data-hovercolor='#c33', data-size='20')
 
       #controls
         #subtitle-container.subtitles
@@ -215,7 +218,7 @@ html
 
           #volume-control
             a(href="javascript:void(0);", onclick="submitConfusion();")
-              i(title="VOLUMEYO", class="icon-volume-down")
+              i(title="Volume control", class="icon-volume-down")
 
             //- i.volume-icon.icon-volume-down
 
