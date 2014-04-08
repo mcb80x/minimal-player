@@ -33,7 +33,7 @@ html
     script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js')
     script(src='http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js')
 
-
+    script(src="/static/course_site/js/library/jquery.als.js")
     script(src="/static/course_site/js/library/jquery-ui-1.10.3.custom.min.js")
     link(rel="stylesheet", href="/static/course_site/css/library/jquery-ui-1.10.3.custom.min.css")
     link(rel='stylesheet', media='all', href='/static/course_site/css/library/font-awesome.min.css')
@@ -172,14 +172,37 @@ html
           #interactive-subtitles
           
         #comment-container.comments
-          span(id='currentCommentSpan')
-          //-span.livicon(data-name='star-empty', data-color='#000', data-hovercolor='#000', data-size='20')
-          a(href="javascript:void(0);", onclick="toggleInput();")
-            span.livicon(title='toggle comments', data-name='edit', data-color='#ccc', data-hovercolor='#c33', data-size='50')
-          a(href="javascript: void(0);", onclick="deleteComment();")
-            span.livicon(data-name='remove', data-color='#000', data-hovercolor='#000', data-size='20')
-          span.livicon(data-name='edit', data-color='#000', data-hovercolor='#000', data-size='20')
+          span.prev
+            i(class="icon-backward", title="Previous Message")
+          span.next
+            i(class="icon-forward", title="Next Message")
+          #comment-bar
+            .comment.first
+              .commentbody
+              a(href="javascript:void(0);", onclick="toggleInput();")
+                i(class="icon-mail-reply", title="Reply to this Comment")
+              a(href="javascript:void(0);", onclick="deleteComment();")
+                i(class="icon-warning-sign", title="Flag Comment for Removal")
+            .comment.third
+              .commentbody
+              a(href="javascript:void(0);", onclick="toggleInput();")
+                i(class="icon-mail-reply", title="Reply to this Comment")
+              a(href="javascript:void(0);", onclick="deleteComment();")
+                i(class="icon-warning-sign", title="Flag Comment for Removal")
+            .comment.second
+              .commentbody
+              a(href="javascript:void(0);", onclick="toggleInput();")
+                i(class="icon-mail-reply", title="Reply to this Comment")
+              a(href="javascript:void(0);", onclick="deleteComment();")
+                i(class="icon-warning-sign", title="Flag Comment for Removal")
 
+          //- span(id='currentCommentSpan')
+          //-a(href="javascript:void(0);", onclick="toggleInput();")
+          //-  span.livicon(title='toggle comments', data-name='edit', data-color='#ccc', data-hovercolor='#c33', data-size='50')
+          //-a(href="javascript: void(0);", onclick="deleteComment();")
+          //-  span.livicon(data-name='remove', data-color='#000', data-hovercolor='#000', data-size='20')
+          //-span.livicon(data-name='edit', data-color='#000', data-hovercolor='#000', data-size='20')
+          
         // Title / lower-third container
         #title-banner.lower-third
           span.lower-third-title .
