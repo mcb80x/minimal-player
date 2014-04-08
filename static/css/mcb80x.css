@@ -81,13 +81,19 @@ img.lesson-teaser{float:right;}
 .inputSubmitButton{float:right;}
 #confusion-control{position: absolute; width: 30px; right: 10px; z-index: 1010;}
 .messageID{display:none;}
-#volume-control{position: absolute; width: 30px; right: 50px; z-index: 1010;}
 a, i{text-decoration: none;}
 .right-nav i{/*text-decoration: none;*/ color:#ccc; padding-left: 3px; padding-right: 3px;}
 .right-nav i:hover{color:#c33}
 .on{color: red !important;}
 .icon-volume-down{width:30px;height:30px;color:#999;}
+#volume-control{position: absolute; width: 30px; right: 50px; z-index: 1010;}
 #volume-control i:hover{color:#3d3d3d;}
+#volume {width: 10px;}
+#slider-vertical .ui-slider {top:-1000px;}
+.ui-slider-vertical {margin-right: 63px;
+margin-left: auto;
+z-index: 10000;
+bottom: 82px;}
 /*.input{position:absolute; bottom:0px;}*/
 /*.submit-comment{position:absolute;height:60px;left:0;right:0;bottom:50px;z-index:900;display:none;font-size:20px;font-family:sans-serif;padding:3px;overflow-y:hidden;overflow-x:auto;}*/
 /*.comment{height:60px; border-radius: 5px; background-color: green; padding: 5px; width: 200px; margin-right: 10px; float: left; background-color:#333; color:#ff6; font-size: 12px; color: #f8f8f8;}*/

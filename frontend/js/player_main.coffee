@@ -92,15 +92,14 @@ window.deleteComment = ->
       alert('successful post')
   });
 
-muted = false
 window.toggleVolume = ->
   console.log("toggling volume")
-  if not muted
+  if not video_playing.muted
     video_playing.mute()
-    muted = true
+    video_playing.muted = true
   else
     video_playing.fullvolume()
-    muted = false
+    video_playing.muted = false
 
 #window.removeComment = ->
 #  window.editComment({"selector": {"text": $('.message').text()}, "field": "display", "newValue": "false"})
@@ -172,7 +171,25 @@ $ ->
       value: 95,
       slide: ( event, ui )->
         console.log ui
+        video_playing.muted = false
         video_playing.changevolume(ui.value/100)
+    );
+
+    $(".icon-volume-down").on(
+      mouseenter: ->
+          #stuff to do on mouse enter
+          $(".ui-slider-vertical").show()
+      mouseleave: ->
+          #stuff to do on mouse leave
+          $(".ui-slider-vertical").hide()
+    );
+    $(".ui-slider-vertical").on(
+      mouseenter: ->
+          #stuff to do on mouse enter
+          $(".ui-slider-vertical").show()
+      mouseleave: ->
+          #stuff to do on mouse leave
+          $(".ui-slider-vertical").hide()
     );
 
     # Test reportOnDeck
@@ -207,5 +224,7 @@ $ ->
     # timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
     # timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
 
+    #hides the volume slider on load
+    $(".ui-slider-vertical").hide()
     window.timeline = timeline
 
