@@ -17,7 +17,7 @@ window.toggleSubtitles = ->
 window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   $('.icon-quote-left').removeClass('on')
-  
+
   if $('.icon-comment').hasClass('on')
     $('.icon-comment').removeClass('on')
   else $('.icon-comment').addClass('on')
@@ -119,18 +119,30 @@ $ ->
       $('#charactersLeft').text(left);
     );
 
+    $('.comment a, .comment i').hide()
+
+    $('.first, .second, .third').mouseenter(->
+      $(this).find('a, i').show()
+    )
+    $('.first, .second, .third').mouseleave(->
+      $(this).find('a, i').hide()
+    )
+
+
     # Gets all comments from db, installs their callbacks
     hasCallback = []
 
     #removes first comment after 10000ms
-    #deleteComment = ->
-    #  $('#comment-container div:first-child').remove()
+    hideComment = ->
+      console.log('deleting')
+      $('.comments div:first').remove()
+
     displayComment = (comment)->
       if comment['display'] is 'true'
-        #$('#comment-container').append('<div class="comment">' + comment['username'] + ': ' + comment['text'] + '</div>')
         newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>'
-        $('#currentCommentSpan').html(newText)
-        #setTimeout(deleteComment, 10000)
+        $('.first div').html($('.second div').html())
+        $('.second div').html($('.third div').html())
+        $('.third div').html(newText)
 
     addCallback = (comments)-> 
       for comment in comments
@@ -152,6 +164,7 @@ $ ->
 
     getComments()
     setInterval(getComments, 1000)
+
 
     # Test reportOnDeck
     console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"

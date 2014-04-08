@@ -114,7 +114,7 @@
   };
 
   $(function() {
-    var addCallback, displayComment, getComments, hasCallback, left, reportOnDeck, timeline;
+    var addCallback, displayComment, getComments, hasCallback, hideComment, left, reportOnDeck, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -127,12 +127,25 @@
       left = 140 - $(this).val().length;
       return $('#charactersLeft').text(left);
     });
+    $('.comment a, .comment i').hide();
+    $('.first, .second, .third').mouseenter(function() {
+      return $(this).find('a, i').show();
+    });
+    $('.first, .second, .third').mouseleave(function() {
+      return $(this).find('a, i').hide();
+    });
     hasCallback = [];
+    hideComment = function() {
+      console.log('deleting');
+      return $('.comments div:first').remove();
+    };
     displayComment = function(comment) {
       var newText;
       if (comment['display'] === 'true') {
         newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>';
-        return $('#currentCommentSpan').html(newText);
+        $('.first div').html($('.second div').html());
+        $('.second div').html($('.third div').html());
+        return $('.third div').html(newText);
       }
     };
     addCallback = function(comments) {
