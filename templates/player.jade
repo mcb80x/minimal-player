@@ -169,8 +169,13 @@ html
           #interactive-subtitles
           
         #comment-container.comments
-
-        #comment-container.comments
+          span(id='currentCommentSpan')
+          //-span.livicon(data-name='star-empty', data-color='#000', data-hovercolor='#000', data-size='20')
+          a(href="javascript:void(0);", onclick="toggleInput();")
+            span.livicon(title='toggle comments', data-name='edit', data-color='#ccc', data-hovercolor='#c33', data-size='50')
+          a(href="javascript: void(0);", onclick="deleteComment();")
+            span.livicon(data-name='remove', data-color='#000', data-hovercolor='#000', data-size='20')
+          span.livicon(data-name='edit', data-color='#000', data-hovercolor='#000', data-size='20')
 
         // Title / lower-third container
         #title-banner.lower-third

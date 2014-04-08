@@ -68,6 +68,24 @@ window.submitConfusion = ->
       alert('successful post')
   });
 
+window.deleteComment = ->
+  updateParameters =
+    selector: {"text": $('.message').text()}
+  console.log('updateParameters', updateParameters)
+  $.ajax({
+    type: "POST",
+    url: "/delete",
+    data: JSON.stringify(updateParameters),
+    contentType:"application/json; charset=utf-8",
+    dataType: "json",
+    success: ->
+      alert('successful post')
+  });
+
+#window.removeComment = ->
+#  window.editComment({"selector": {"text": $('.message').text()}, "field": "display", "newValue": "false"})
+
+
 $ ->
     util.maintainAspect()
 
@@ -95,11 +113,14 @@ $ ->
     hasCallback = []
 
     #removes first comment after 10000ms
-    deleteComment = ->
-      $('#comment-container div:first-child').remove()
+    #deleteComment = ->
+    #  $('#comment-container div:first-child').remove()
     displayComment = (comment)->
-      $('#comment-container').append('<div class="comment">' + comment['username'] + ': ' + comment['text'] + '</div>')
-      setTimeout(deleteComment, 10000)
+      if comment['display'] is 'true'
+        #$('#comment-container').append('<div class="comment">' + comment['username'] + ': ' + comment['text'] + '</div>')
+        newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>'
+        $('#currentCommentSpan').html(newText)
+        #setTimeout(deleteComment, 10000)
 
     addCallback = (comments)-> 
       for comment in comments

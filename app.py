@@ -84,13 +84,14 @@ class Comment(Document):
         'text': basestring,
         'created_at': basestring,
         'timestamp': basestring,
+        'display': basestring
     }
     validators = {
         'username': max_length(20), #change based on max username length
         'text': max_length(140)
     }
     default_values = {'created_at': datetime.datetime.utcnow().isoformat()} #format: ISODate("2014-04-04T02:45:04.226Z")
-    required_fields = ['username', 'text', 'created_at', 'timestamp']
+    required_fields = ['username', 'text', 'created_at', 'timestamp', 'display']
     use_dot_notation = True
 
 @connection.register
@@ -196,9 +197,16 @@ def comment_post():
     newComment['text'] = request.json['text']
     newComment['timestamp'] = request.json['timestamp']
     newComment['username'] = request.json['username']
+    newComment['display'] = request.json['display']
     newComment.save()
 
     return 'COMMENTS POST'
+
+@app.route('/delete', methods=['POST'])
+def comment_edit():
+  comment = connection.Comment.find_one(request.json['selector'])
+  comment['display'] = 'false'
+  comment.save()
 
 # -------------------------------------------------------
 # URL Routing for GET/POST Confusion

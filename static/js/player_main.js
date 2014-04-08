@@ -81,8 +81,28 @@
     });
   };
 
+  window.deleteComment = function() {
+    var updateParameters;
+    updateParameters = {
+      selector: {
+        "text": $('.message').text()
+      }
+    };
+    console.log('updateParameters', updateParameters);
+    return $.ajax({
+      type: "POST",
+      url: "/delete",
+      data: JSON.stringify(updateParameters),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function() {
+        return alert('successful post');
+      }
+    });
+  };
+
   $(function() {
-    var addCallback, deleteComment, displayComment, getComments, hasCallback, left, reportOnDeck, timeline;
+    var addCallback, displayComment, getComments, hasCallback, left, reportOnDeck, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -96,12 +116,12 @@
       return $('#charactersLeft').text(left);
     });
     hasCallback = [];
-    deleteComment = function() {
-      return $('#comment-container div:first-child').remove();
-    };
     displayComment = function(comment) {
-      $('#comment-container').append('<div class="comment">' + comment['username'] + ': ' + comment['text'] + '</div>');
-      return setTimeout(deleteComment, 10000);
+      var newText;
+      if (comment['display'] === 'true') {
+        newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>';
+        return $('#currentCommentSpan').html(newText);
+      }
     };
     addCallback = function(comments) {
       var comment, _i, _len, _results;
