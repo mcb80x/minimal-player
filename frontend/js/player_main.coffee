@@ -3,6 +3,11 @@
 
 window.toggleSubtitles = ->
   $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
+  $('.icon-comment').removeClass('on')
+
+  if $('.icon-quote-left').hasClass('on')
+    $('.icon-quote-left').removeClass('on')
+  else $('.icon-quote-left').addClass('on')
   $('#subtitle-container').slideToggle
     duration: 400
     complete: ->
@@ -11,7 +16,11 @@ window.toggleSubtitles = ->
 
 window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
-  console.log('toggle comments')
+  $('.icon-quote-left').removeClass('on')
+  
+  if $('.icon-comment').hasClass('on')
+    $('.icon-comment').removeClass('on')
+  else $('.icon-comment').addClass('on')
   $('#comment-container').slideToggle
     duration: 400
     complete: ->
