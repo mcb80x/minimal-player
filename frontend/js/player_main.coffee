@@ -92,6 +92,16 @@ window.deleteComment = ->
       alert('successful post')
   });
 
+muted = false
+window.toggleVolume = ->
+  console.log("toggling volume")
+  if not muted
+    video_playing.mute()
+    muted = true
+  else
+    video_playing.fullvolume()
+    muted = false
+
 #window.removeComment = ->
 #  window.editComment({"selector": {"text": $('.message').text()}, "field": "display", "newValue": "false"})
 
