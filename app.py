@@ -212,6 +212,10 @@ def comment_edit():
 # URL Routing for GET/POST Confusion
 # -------------------------------------------------------
 
+@app.route('/confusion', methods=['GET'])
+def confusion_get():
+    return dumps(confusion.find())
+
 @app.route('/confusion', methods=['POST'])
 def confusion_post():
     videoName = request.form.keys()[0].split('/')[0]
