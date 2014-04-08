@@ -1,0 +1,22 @@
+html
+
+  head
+    link(href='http://fonts.googleapis.com/css?family=Lato:900,900italic|Oswald|Open+Sans:400,600', rel='stylesheet', type='text/css')
+
+  body
+    script(src="http://d3js.org/d3.v3.js")
+
+    script.
+
+        var data = #{data}
+        var totalLength = data.totalLength
+        var timestamps = data.timestamps
+        var videoName = data.video
+        //- d3
+
+    #hello
+
+      h1 Confusion in Each Video
+      h2 Videos: #{data}
+
+      p Click <a href="/course">here</a> to return to the course map.

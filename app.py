@@ -215,7 +215,8 @@ def comment_edit():
 
 @app.route('/confusion', methods=['GET'])
 def confusion_get():
-    return dumps(confusion.find())
+    data = dumps(confusion.find())
+    return render_template('confusion.jade', data=data)
 
 @app.route('/confusion', methods=['POST'])
 def confusion_post():
