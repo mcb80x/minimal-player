@@ -27,11 +27,17 @@ window.toggleComments = ->
       $('comment-container').css('display', 'none')
       util.maintainAspect()
 
+wasPausedByInput = false
 window.toggleInput = ->
-  if timeline.paused()
-    timeline.play()
-  else
+  if not timeline.paused()
     timeline.pause()
+    wasPausedByInput = true
+  else if wasPausedByInput
+    timeline.play()
+    wasPausedByInput = false
+  else
+    wasPausedByInput = false
+
   $('#inputTextArea').val('')
   console.log('toggle comment input')
   $('#input-container').animate
