@@ -68,6 +68,7 @@
     timestamp = timeline.currentTimelineURI();
     text = $('#inputTextArea').val();
     comment = {
+      video: timestamp.split('/')[0],
       username: 'testuser',
       timestamp: timestamp,
       text: text,
