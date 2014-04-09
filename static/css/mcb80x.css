@@ -79,14 +79,14 @@ img.lesson-teaser{float:right;}
 .inputSubmitButton{float:right;}
 
 /* ------------------------ Comments ----------------- */
-.comments{bottom: 75px; display:none; position: absolute; z-index:900; width: 100%;}
-.comment{background-color:#fff; border: 1px solid black; border-bottom: 0px; border-radius: 5px 5px 0px 0px; color: #000; height: 50px; opacity: 0.8; padding: 2px; position: relative;}
+.comments{background-color: #666; bottom: 50px; display:none; height: 66px; position: absolute; z-index:900; width: 100%;}
+.comment{background-color:#fff; border-radius: 5px 5px 0px 0px; color: #000; height: 35px; opacity: 0.8; padding: 2px; position: relative; top: 5px;}
 .comment:hover{background-color: #fff; border: 2px solid black; border-bottom: 0px; color: #000; opacity: 1.0;}
 #first{float:left; margin: 0px 5px; width: 33.33%;}
 #second{margin: 0 5px; overflow: auto;}
 #third{float:right; margin: 0px 5px; width: 33.33%;}
 .userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; left: 0px;}
-.message{font-size: 14px; margin: 0px;}
+.message{font-size: 16px; margin: 0px;}
 .messageID{display:none;}
 #comment-bar{margin-left: 20px; margin-right: 20px;}
 .comment i{bottom: 0px; color:#ccc; margin: 3px; position: absolute;}
@@ -94,12 +94,12 @@ img.lesson-teaser{float:right;}
 .icon-mail-reply:hover{color:#000;}
 .icon-warning-sign{right:0px;}
 .icon-warning-sign:hover{color:#c33}
-#prev{float: left; width: 20px;}
-#next{float: right; width: 20px;}
-.comment a{float: right; margin: 0px 5px;}
+#prev{left: 0px; position: absolute; top: 15px; width: 20px;}
+#next{position: absolute; right: 0px; top: 15px; width: 20px;}
+.comment a{float: right; margin: 0px 5px; position: absolute; top: 15px;}
 /* Comment Submission */
-#input-container{bottom: -25px; background-color: #666; position: absolute; width: 100%;}
-input{border: 0; border-radius: 10px; font-size: 16px; margin: 1% 2% 0% 2%; padding-left: 1%; width: 95%;}
+#input-container{bottom: 0px; position: absolute; width: 100%;}
+input{border: 0; font-size: 16px; padding-left: 1%; width: 99%}
 
 /* --- Right-nav Links --- */
 a, i{text-decoration: none;}
