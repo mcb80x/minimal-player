@@ -55,13 +55,13 @@ replyToID = null
 discussionID = null
 window.submitInput = ()->
   #change the username to refer to an actual user
-  username = 'testuser'
+  user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#input-field').val()
   $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
-              username: 'testuser',
+              username: 'user',
               timestamp: timestamp, 
               text: text,
               display: 'true'
@@ -217,7 +217,7 @@ $ ->
         $('#second .userAndTime').text($('#third .userAndTime').text())
 
         $('#third .message').text(comment['text'])
-        $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
+        $('#third .userAndTime').text(comment['user']['username'] + ' @ ' + new Date().toDateString())
 
 
     addCallback = (comments)-> 
