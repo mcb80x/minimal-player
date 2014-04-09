@@ -81,18 +81,24 @@ img.lesson-teaser{float:right;}
 
 /* --- Comment Display --- */
 .comments{bottom: 50px; display:none; position: absolute; z-index:900; width: 100%;}
-.comment{background-color:#000; border: 1px solid white; border-bottom: 0px; border-radius: 5px 5px 0px 0px; color: #fff; font-size: 14px; height: 50px; opacity: 0.8; padding: 2px;}
-.comment:hover{background-color: #fff; border: 2px solid black; border-bottom: 0px; color: #000;}
+.comment{background-color:#fff; border: 1px solid black; border-bottom: 0px; border-radius: 5px 5px 0px 0px; color: #000; height: 50px; opacity: 0.8; padding: 2px; position: relative;}
+.comment:hover{background-color: #fff; border: 2px solid black; border-bottom: 0px; color: #000; opacity: 1.0;}
 .first{float:left; margin: 0px 5px; width: 33.33%;}
 .second{margin: 0 5px; overflow: auto;}
 .third{float:right; margin: 0px 5px; width: 33.33%;}
-.username{}
-.message{}
+.userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; left: 0px;}
+.message{font-size: 14px; margin: 0px;}
 .messageID{display:none;}
 #comment-bar{margin-left: 20px; margin-right: 20px;}
+.comment i{color:#ccc; padding-left: 3px; padding-right: 3px;}
+.icon-mail-reply{bottom: 0px; margin: 3px; position: absolute; right: 20px;}
+.icon-mail-reply:hover{color:#000;}
+.icon-warning-sign{bottom: 0px; margin: 3px; position: absolute; right:0px;}
+.icon-warning-sign:hover{color:#c33}
 .prev{float: left; width: 20px;}
 .next{float: right; width: 20px;}
 .comment a{float: right; margin: 0px 5px;}
+.hideUntilMosueOver{bottom: 0px; position: absolute;}
 
 /* --- Right-nav Links --- */
 a, i{text-decoration: none;}

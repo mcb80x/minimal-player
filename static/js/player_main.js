@@ -158,12 +158,12 @@
       left = 140 - $(this).val().length;
       return $('#charactersLeft').text(left);
     });
-    $('.comment a, .comment i').hide();
+    $('.hideUntilMouseOver').hide();
     $('.first, .second, .third').mouseenter(function() {
-      return $(this).find('a, i').show();
+      return $(this).find('.hideUntilMouseOver').show();
     });
     $('.first, .second, .third').mouseleave(function() {
-      return $(this).find('a, i').hide();
+      return $(this).find('.hideUntilMouseOver').hide();
     });
     hasCallback = [];
     hideComment = function() {
@@ -171,12 +171,13 @@
       return $('.comments div:first').remove();
     };
     displayComment = function(comment) {
-      var newText;
       if (comment['display'] === 'true') {
-        newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>';
-        $('.first div').html($('.second div').html());
-        $('.second div').html($('.third div').html());
-        return $('.third div').html(newText);
+        $('.first .message').text($('.second .message').text());
+        $('.first .userAndTime').text($('.second .userAndTime').text());
+        $('.second .message').text($('.third .message').text());
+        $('.second .userAndTime').text($('.third .userAndTime').text());
+        $('.third .message').text(comment['text']);
+        return $('.third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString());
       }
     };
     addCallback = function(comments) {

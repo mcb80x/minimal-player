@@ -178,23 +178,29 @@ html
             i(class="icon-forward", title="Next Message")
           #comment-bar
             .comment.first
-              .commentbody
-              a(href="javascript:void(0);", onclick="toggleInput();")
-                i(class="icon-mail-reply", title="Reply to this Comment")
-              a(href="javascript:void(0);", onclick="deleteComment();")
-                i(class="icon-warning-sign", title="Flag Comment for Removal")
+              p.message 
+              span.userAndTime.hideUntilMouseOver
+              span.messageID
+              a.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
+                i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
+              a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
+                i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
             .comment.third
-              .commentbody
-              a(href="javascript:void(0);", onclick="toggleInput();")
-                i(class="icon-mail-reply", title="Reply to this Comment")
-              a(href="javascript:void(0);", onclick="deleteComment();")
-                i(class="icon-warning-sign", title="Flag Comment for Removal")
+              p.message
+              span.userAndTime.hideUntilMouseOver
+              span.messageID
+              a.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
+                i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
+              a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
+                i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
             .comment.second
-              .commentbody
-              a(href="javascript:void(0);", onclick="toggleInput();")
-                i(class="icon-mail-reply", title="Reply to this Comment")
-              a(href="javascript:void(0);", onclick="deleteComment();")
-                i(class="icon-warning-sign", title="Flag Comment for Removal")
+              p.message
+              span.userAndTime.hideUntilMouseOver
+              span.messageID
+              a.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
+                i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
+              a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
+                i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
 
           //- span(id='currentCommentSpan')
           //-a(href="javascript:void(0);", onclick="toggleInput();")

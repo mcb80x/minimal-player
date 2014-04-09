@@ -140,13 +140,13 @@ $ ->
       $('#charactersLeft').text(left);
     );
 
-    $('.comment a, .comment i').hide()
+    $('.hideUntilMouseOver').hide()
 
     $('.first, .second, .third').mouseenter(->
-      $(this).find('a, i').show()
+      $(this).find('.hideUntilMouseOver').show()
     )
     $('.first, .second, .third').mouseleave(->
-      $(this).find('a, i').hide()
+      $(this).find('.hideUntilMouseOver').hide()
     )
 
 
@@ -160,10 +160,18 @@ $ ->
 
     displayComment = (comment)->
       if comment['display'] is 'true'
-        newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>'
-        $('.first div').html($('.second div').html())
-        $('.second div').html($('.third div').html())
-        $('.third div').html(newText)
+        $('.first .message').text($('.second .message').text())
+        $('.first .userAndTime').text($('.second .userAndTime').text())
+
+        $('.second .message').text($('.third .message').text())
+        $('.second .userAndTime').text($('.third .userAndTime').text())
+
+        $('.third .message').text(comment['text'])
+        $('.third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
+        #newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>'
+        #$('.first div').html($('.second div').html())
+        #$('.second div').html($('.third div').html())
+        #$('.third div').html(newText)
 
     addCallback = (comments)-> 
       for comment in comments
