@@ -172,12 +172,10 @@ html
           #interactive-subtitles
           
         #comment-container.comments
-          span#prev
-            i(class="icon-backward", title="Previous Message")
-          span#next
-            i(class="icon-forward", title="Next Message")
           #comment-bar
             .comment#first
+              span#prev
+                i(class="icon-backward", title="Previous Message")
               p.message 
               span.userAndTime.hideUntilMouseOver
               span.messageID
@@ -186,6 +184,8 @@ html
               a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
                 i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
             .comment#third
+              span#next
+                i(class="icon-forward", title="Next Message")
               p.message
               span.userAndTime.hideUntilMouseOver
               span.messageID
@@ -201,8 +201,7 @@ html
                 i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
               a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
                 i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-          #input-container
-            input#input-field(value="Say something...", onfocus="if (this.value=='Say something...') this.value='';")
+          input#input-field(value="Say something...", onfocus="if (this.value=='Say something...') this.value='';")
 
           //- span(id='currentCommentSpan')
           //-a(href="javascript:void(0);", onclick="toggleInput();")
