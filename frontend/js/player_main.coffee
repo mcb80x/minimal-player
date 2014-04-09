@@ -143,14 +143,6 @@ $ ->
     #if window.showComments? and window.showSubtitles
     #  window.toggleComments()
 
-    #limit comment length
-    left = 140
-    $('#charactersLeft').text(left);
-    $('#inputTextArea').keyup( ->
-      left = 140 - $(this).val().length;
-      $('#charactersLeft').text(left);
-    );
-
     $('#input-field').focus( ->
       if this.value is this.defaultValue
         this.value = '';
@@ -175,10 +167,22 @@ $ ->
     )
 
     #appropriately thread reply-comments
-    $(".icon-mail-reply").on("click", ->
-      parent = $(this).parent()
-      replyToID = parent.data("messageID")
-      discussionID = parent.data("discussionID")
+    $("#first .icon-mail-reply").on("click", ->
+      alert "clicked first reply"
+      replyToID = $("#first").data("messageID")
+      discussionID = $("#first").data("discussionID")
+    )
+    
+    $("#second .icon-mail-reply").on("click", ->
+      alert "clicked second reply"
+      replyToID = $("#second").data("messageID")
+      discussionID = $("#second").data("discussionID")
+    )
+
+    $("#third .icon-mail-reply").on("click", ->
+      alert "clicked third reply"
+      replyToID = $("#third").data("messageID")
+      discussionID = $("#third").data("discussionID")
     )
 
     $('#input-field').keypress((e)->
@@ -232,7 +236,7 @@ $ ->
             console.log('successful comments get')
             addCallback(comments)
             return
-        });
+      });
 
     getComments()
     setInterval(getComments, 1000)

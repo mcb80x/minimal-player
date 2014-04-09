@@ -155,19 +155,13 @@
   };
 
   $(function() {
-    var addCallback, displayComment, getComments, hasCallback, hideComment, left, reportOnDeck, timeline;
+    var addCallback, displayComment, getComments, hasCallback, hideComment, reportOnDeck, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
     if ((window.showSubtitles != null) && window.showSubtitles) {
       window.toggleSubtitles();
     }
-    left = 140;
-    $('#charactersLeft').text(left);
-    $('#inputTextArea').keyup(function() {
-      left = 140 - $(this).val().length;
-      return $('#charactersLeft').text(left);
-    });
     $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';
@@ -189,11 +183,20 @@
       $(this).removeClass('expanded');
       return $(this).find('.hideUntilMouseOver').hide();
     });
-    $(".icon-mail-reply").on("click", function() {
-      var parent;
-      parent = $(this).parent();
-      replyToID = parent.data("messageID");
-      return discussionID = parent.data("discussionID");
+    $("#first .icon-mail-reply").on("click", function() {
+      alert("clicked first reply");
+      replyToID = $("#first").data("messageID");
+      return discussionID = $("#first").data("discussionID");
+    });
+    $("#second .icon-mail-reply").on("click", function() {
+      alert("clicked second reply");
+      replyToID = $("#second").data("messageID");
+      return discussionID = $("#second").data("discussionID");
+    });
+    $("#third .icon-mail-reply").on("click", function() {
+      alert("clicked third reply");
+      replyToID = $("#third").data("messageID");
+      return discussionID = $("#third").data("discussionID");
     });
     $('#input-field').keypress(function(e) {
       if (e.which === 13) {
