@@ -29,6 +29,7 @@ window.toggleComments = ->
 
 wasPausedByInput = false
 window.toggleInput = ->
+  ###
   if not timeline.paused()
     timeline.pause()
     wasPausedByInput = true
@@ -48,19 +49,19 @@ window.toggleInput = ->
         $('#input-container').css('display', 'none') 
       else
         $('#input-container').css('display', 'block') 
+  ###
 
 window.submitInput = ->
   #change the username to refer to an actual user
   username = 'testuser'
   timestamp = timeline.currentTimelineURI()
-  text = $('#inputTextArea').val()
+  text = $('#input-field').val()
+  $('#input-field').val('')
   comment = 
               username: 'testuser',
               timestamp: timestamp, 
               text: text,
               display: 'true'
-
-  $('#input-container').hide()
   timeline.play()
   $.ajax({
     type: "POST",
@@ -149,6 +150,9 @@ $ ->
       $(this).find('.hideUntilMouseOver').hide()
     )
 
+    $('#input-field').keypress((e)->
+      if e.which is 13 then submitInput()
+    )
 
     # Gets all comments from db, installs their callbacks
     hasCallback = []

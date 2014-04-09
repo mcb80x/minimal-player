@@ -38,42 +38,42 @@
   wasPausedByInput = false;
 
   window.toggleInput = function() {
-    if (!timeline.paused()) {
-      timeline.pause();
-      wasPausedByInput = true;
-    } else if (wasPausedByInput) {
-      timeline.play();
-      wasPausedByInput = false;
-    } else {
-      wasPausedByInput = false;
-    }
-    $('#inputTextArea').val('');
-    console.log('toggle comment input');
-    return $('#input-container').animate({
-      width: "toggle",
-      duration: 400,
-      complete: function() {
-        if ($('#input-container').css('display') === 'block') {
-          return $('#input-container').css('display', 'none');
-        } else {
-          return $('#input-container').css('display', 'block');
-        }
-      }
-    });
+
+    /*
+    if not timeline.paused()
+      timeline.pause()
+      wasPausedByInput = true
+    else if wasPausedByInput
+      timeline.play()
+      wasPausedByInput = false
+    else
+      wasPausedByInput = false
+    
+    $('#inputTextArea').val('')
+    console.log('toggle comment input')
+    $('#input-container').animate
+      width: "toggle"
+      duration: 400
+      complete: ->
+        if $('#input-container').css('display') is 'block'
+          $('#input-container').css('display', 'none') 
+        else
+          $('#input-container').css('display', 'block')
+     */
   };
 
   window.submitInput = function() {
     var comment, text, timestamp, username;
     username = 'testuser';
     timestamp = timeline.currentTimelineURI();
-    text = $('#inputTextArea').val();
+    text = $('#input-field').val();
+    $('#input-field').val('');
     comment = {
       username: 'testuser',
       timestamp: timestamp,
       text: text,
       display: 'true'
     };
-    $('#input-container').hide();
     timeline.play();
     return $.ajax({
       type: "POST",
@@ -164,6 +164,11 @@
     });
     $('#first, #second, #third').mouseleave(function() {
       return $(this).find('.hideUntilMouseOver').hide();
+    });
+    $('#input-field').keypress(function(e) {
+      if (e.which === 13) {
+        return submitInput();
+      }
     });
     hasCallback = [];
     hideComment = function() {
