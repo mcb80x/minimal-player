@@ -29,6 +29,7 @@ window.toggleComments = ->
 
 wasPausedByInput = false
 window.toggleInput = ->
+  ###
   if not timeline.paused()
     timeline.pause()
     wasPausedByInput = true
@@ -48,6 +49,7 @@ window.toggleInput = ->
         $('#input-container').css('display', 'none') 
       else
         $('#input-container').css('display', 'block') 
+  ###
 
 replyToID = null
 discussionID = null
@@ -55,7 +57,8 @@ window.submitInput = ()->
   #change the username to refer to an actual user
   username = 'testuser'
   timestamp = timeline.currentTimelineURI()
-  text = $('#inputTextArea').val()
+  text = $('#input-field').val()
+  $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
               username: 'testuser',
@@ -66,6 +69,7 @@ window.submitInput = ()->
               discussion_id: discussionID
 
   $('#input-container').hide()
+
   timeline.play()
   $.ajax({
     type: "POST",
@@ -147,14 +151,15 @@ $ ->
       $('#charactersLeft').text(left);
     );
 
-    $('.comment a, .comment i').hide()
+    $('.hideUntilMouseOver').hide()
 
-    $('.first, .second, .third').mouseenter(->
-      $(this).find('a, i').show()
+    $('#first, #second, #third').mouseenter(->
+      $(this).find('.hideUntilMouseOver').show()
     )
-    $('.first, .second, .third').mouseleave(->
-      $(this).find('a, i').hide()
+    $('#first, #second, #third').mouseleave(->
+      $(this).find('.hideUntilMouseOver').hide()
     )
+
     #appropriately thread reply-comments
     $(".comment.first .icon-mail-reply").on("click", ->
       alert "clicked first reply"
@@ -171,6 +176,11 @@ $ ->
       replyToID = $(".comment.third .messageID").text()
       discussionID = $(".comment.third .discussionID").text()
     )
+
+    $('#input-field').keypress((e)->
+      if e.which is 13 then submitInput()
+    )
+
     # Gets all comments from db, installs their callbacks
     hasCallback = []
 
@@ -181,12 +191,27 @@ $ ->
 
     displayComment = (comment)->
       if comment['display'] is 'true'
+
         if comment['discussion_id'] is null
           comment['discussion_id'] = comment['_id']['$oid']
-        newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span><span class="discussionID">' + comment['discussion_id'] + '</span>'
+        newHTML = '<span class="messageID">' + comment['_id']['$oid'] + '</span><span class="discussionID">' + comment['discussion_id'] + '</span>'
         $('.first div').html($('.second div').html())
         $('.second div').html($('.third div').html())
-        $('.third div').html(newText)
+        $('.third div').html(newHTML)
+
+        $('#first .message').text($('#second .message').text())
+        $('#first .userAndTime').text($('#second .userAndTime').text())
+
+        $('#second .message').text($('#third .message').text())
+        $('#second .userAndTime').text($('#third .userAndTime').text())
+
+        $('#third .message').text(comment['text'])
+        $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
+        #newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>'
+        #$('.first div').html($('.second div').html())
+        #$('.second div').html($('.third div').html())
+        #$('.third div').html(newText)
+
 
     addCallback = (comments)-> 
       for comment in comments

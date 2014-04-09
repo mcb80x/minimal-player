@@ -38,28 +38,28 @@
   wasPausedByInput = false;
 
   window.toggleInput = function() {
-    if (!timeline.paused()) {
-      timeline.pause();
-      wasPausedByInput = true;
-    } else if (wasPausedByInput) {
-      timeline.play();
-      wasPausedByInput = false;
-    } else {
-      wasPausedByInput = false;
-    }
-    $('#inputTextArea').val('');
-    console.log('toggle comment input');
-    return $('#input-container').animate({
-      width: "toggle",
-      duration: 400,
-      complete: function() {
-        if ($('#input-container').css('display') === 'block') {
-          return $('#input-container').css('display', 'none');
-        } else {
-          return $('#input-container').css('display', 'block');
-        }
-      }
-    });
+
+    /*
+    if not timeline.paused()
+      timeline.pause()
+      wasPausedByInput = true
+    else if wasPausedByInput
+      timeline.play()
+      wasPausedByInput = false
+    else
+      wasPausedByInput = false
+    
+    $('#inputTextArea').val('')
+    console.log('toggle comment input')
+    $('#input-container').animate
+      width: "toggle"
+      duration: 400
+      complete: ->
+        if $('#input-container').css('display') is 'block'
+          $('#input-container').css('display', 'none') 
+        else
+          $('#input-container').css('display', 'block')
+     */
   };
 
   replyToID = null;
@@ -70,7 +70,8 @@
     var comment, text, timestamp, username;
     username = 'testuser';
     timestamp = timeline.currentTimelineURI();
-    text = $('#inputTextArea').val();
+    text = $('#input-field').val();
+    $('#input-field').val('');
     comment = {
       video: timestamp.split('/')[0],
       username: 'testuser',
@@ -167,12 +168,12 @@
       left = 140 - $(this).val().length;
       return $('#charactersLeft').text(left);
     });
-    $('.comment a, .comment i').hide();
-    $('.first, .second, .third').mouseenter(function() {
-      return $(this).find('a, i').show();
+    $('.hideUntilMouseOver').hide();
+    $('#first, #second, #third').mouseenter(function() {
+      return $(this).find('.hideUntilMouseOver').show();
     });
-    $('.first, .second, .third').mouseleave(function() {
-      return $(this).find('a, i').hide();
+    $('#first, #second, #third').mouseleave(function() {
+      return $(this).find('.hideUntilMouseOver').hide();
     });
     $(".comment.first .icon-mail-reply").on("click", function() {
       alert("clicked first reply");
@@ -189,21 +190,32 @@
       replyToID = $(".comment.third .messageID").text();
       return discussionID = $(".comment.third .discussionID").text();
     });
+    $('#input-field').keypress(function(e) {
+      if (e.which === 13) {
+        return submitInput();
+      }
+    });
     hasCallback = [];
     hideComment = function() {
       console.log('deleting');
       return $('.comments div:first').remove();
     };
     displayComment = function(comment) {
-      var newText;
+      var newHTML;
       if (comment['display'] === 'true') {
         if (comment['discussion_id'] === null) {
           comment['discussion_id'] = comment['_id']['$oid'];
         }
-        newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span><span class="discussionID">' + comment['discussion_id'] + '</span>';
+        newHTML = '<span class="messageID">' + comment['_id']['$oid'] + '</span><span class="discussionID">' + comment['discussion_id'] + '</span>';
         $('.first div').html($('.second div').html());
         $('.second div').html($('.third div').html());
-        return $('.third div').html(newText);
+        $('.third div').html(newHTML);
+        $('#first .message').text($('#second .message').text());
+        $('#first .userAndTime').text($('#second .userAndTime').text());
+        $('#second .message').text($('#third .message').text());
+        $('#second .userAndTime').text($('#third .userAndTime').text());
+        $('#third .message').text(comment['text']);
+        return $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString());
       }
     };
     addCallback = function(comments) {
