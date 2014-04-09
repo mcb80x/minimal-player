@@ -127,6 +127,9 @@ window.toggleVolume = ->
 #window.removeComment = ->
 #  window.editComment({"selector": {"text": $('.message').text()}, "field": "display", "newValue": "false"})
 
+window.timelineURItoX = (uri) ->
+  time = uri.split('/')[1]
+  (time/timeline.totalDuration) * 100
 
 $ ->
     util.maintainAspect()
@@ -220,13 +223,23 @@ $ ->
         $('#third .userAndTime').text(comment['user']['username'] + ' @ ' + new Date().toDateString())
 
 
-
     addCallback = (comments)-> 
       for comment in comments
         if hasCallback.indexOf(JSON.stringify(comment)) is -1
           timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
           hasCallback.push(JSON.stringify(comment))
 
+    draw = (comments)->
+      canvas = document.getElementById('comment-timeline-canvas')
+      ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#f00";
+      for comment in comments
+        # console.log canvas.width #300
+        # x/300 = percent/100
+        percentOfCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
+        ctx.fillRect(percentOfCanvas,0,1,300); #x, y, w, h
+    
     getComments = ->
       #pull comments from database
       $.ajax({
@@ -235,6 +248,7 @@ $ ->
           dataType: "json",
           success: (comments)->
             console.log('successful comments get')
+            draw(comments)
             addCallback(comments)
             return
       });

@@ -158,8 +158,14 @@
     }
   };
 
+  window.timelineURItoX = function(uri) {
+    var time;
+    time = uri.split('/')[1];
+    return (time / timeline.totalDuration) * 100;
+  };
+
   $(function() {
-    var addCallback, displayComment, getComments, hasCallback, hideComment, reportOnDeck, timeline;
+    var addCallback, displayComment, draw, getComments, hasCallback, hideComment, reportOnDeck, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -267,6 +273,20 @@
       }
       return _results;
     };
+    draw = function(comments) {
+      var canvas, comment, ctx, percentOfCanvas, _i, _len, _results;
+      canvas = document.getElementById('comment-timeline-canvas');
+      ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#f00";
+      _results = [];
+      for (_i = 0, _len = comments.length; _i < _len; _i++) {
+        comment = comments[_i];
+        percentOfCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2);
+        _results.push(ctx.fillRect(percentOfCanvas, 0, 1, 300));
+      }
+      return _results;
+    };
     getComments = function() {
       return $.ajax({
         type: "GET",
@@ -274,6 +294,7 @@
         dataType: "json",
         success: function(comments) {
           console.log('successful comments get');
+          draw(comments);
           addCallback(comments);
         }
       });
