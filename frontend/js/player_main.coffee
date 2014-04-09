@@ -132,10 +132,10 @@ $ ->
 
     $('.hideUntilMouseOver').hide()
 
-    $('.first, .second, .third').mouseenter(->
+    $('#first, #second, #third').mouseenter(->
       $(this).find('.hideUntilMouseOver').show()
     )
-    $('.first, .second, .third').mouseleave(->
+    $('#first, #second, #third').mouseleave(->
       $(this).find('.hideUntilMouseOver').hide()
     )
 
@@ -150,14 +150,14 @@ $ ->
 
     displayComment = (comment)->
       if comment['display'] is 'true'
-        $('.first .message').text($('.second .message').text())
-        $('.first .userAndTime').text($('.second .userAndTime').text())
+        $('#first .message').text($('#second .message').text())
+        $('#first .userAndTime').text($('#second .userAndTime').text())
 
-        $('.second .message').text($('.third .message').text())
-        $('.second .userAndTime').text($('.third .userAndTime').text())
+        $('#second .message').text($('#third .message').text())
+        $('#second .userAndTime').text($('#third .userAndTime').text())
 
-        $('.third .message').text(comment['text'])
-        $('.third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
+        $('#third .message').text(comment['text'])
+        $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
         #newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>'
         #$('.first div').html($('.second div').html())
         #$('.second div').html($('.third div').html())

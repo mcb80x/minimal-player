@@ -172,12 +172,12 @@ html
           #interactive-subtitles
           
         #comment-container.comments
-          span.prev
+          span#prev
             i(class="icon-backward", title="Previous Message")
-          span.next
+          span#next
             i(class="icon-forward", title="Next Message")
           #comment-bar
-            .comment.first
+            .comment#first
               p.message 
               span.userAndTime.hideUntilMouseOver
               span.messageID
@@ -185,7 +185,7 @@ html
                 i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
               a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
                 i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-            .comment.third
+            .comment#third
               p.message
               span.userAndTime.hideUntilMouseOver
               span.messageID
@@ -193,7 +193,7 @@ html
                 i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
               a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
                 i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-            .comment.second
+            .comment#second
               p.message
               span.userAndTime.hideUntilMouseOver
               span.messageID

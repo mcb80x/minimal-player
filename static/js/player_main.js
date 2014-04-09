@@ -145,10 +145,10 @@
       return $('#charactersLeft').text(left);
     });
     $('.hideUntilMouseOver').hide();
-    $('.first, .second, .third').mouseenter(function() {
+    $('#first, #second, #third').mouseenter(function() {
       return $(this).find('.hideUntilMouseOver').show();
     });
-    $('.first, .second, .third').mouseleave(function() {
+    $('#first, #second, #third').mouseleave(function() {
       return $(this).find('.hideUntilMouseOver').hide();
     });
     hasCallback = [];
@@ -158,12 +158,12 @@
     };
     displayComment = function(comment) {
       if (comment['display'] === 'true') {
-        $('.first .message').text($('.second .message').text());
-        $('.first .userAndTime').text($('.second .userAndTime').text());
-        $('.second .message').text($('.third .message').text());
-        $('.second .userAndTime').text($('.third .userAndTime').text());
-        $('.third .message').text(comment['text']);
-        return $('.third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString());
+        $('#first .message').text($('#second .message').text());
+        $('#first .userAndTime').text($('#second .userAndTime').text());
+        $('#second .message').text($('#third .message').text());
+        $('#second .userAndTime').text($('#third .userAndTime').text());
+        $('#third .message').text(comment['text']);
+        return $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString());
       }
     };
     addCallback = function(comments) {
