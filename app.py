@@ -87,7 +87,7 @@ class Comment(Document):
         'timestamp': basestring,
         'display': basestring,
         'parent_id': basestring,
-        'original_id': basestring #ids are basestring because mongokit is not recognising objid
+        'discussion_id': basestring #ids are basestring because mongokit is not recognising objid
     }
     validators = {
         'username': max_length(20), #change based on max username length
@@ -203,6 +203,8 @@ def comment_post():
     newComment['timestamp'] = request.json['timestamp']
     newComment['username'] = request.json['username']
     newComment['display'] = request.json['display']
+    newComment['parent_id'] = request.json['parent_id']
+    newComment['discussion_id'] = request.json['discussion_id']
     newComment.save()
 
     return 'COMMENTS POST'

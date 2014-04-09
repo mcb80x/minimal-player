@@ -49,7 +49,9 @@ window.toggleInput = ->
       else
         $('#input-container').css('display', 'block') 
 
-window.submitInput = ->
+replyToID = null
+discussionID = null
+window.submitInput = ()->
   #change the username to refer to an actual user
   username = 'testuser'
   timestamp = timeline.currentTimelineURI()
@@ -60,6 +62,8 @@ window.submitInput = ->
               timestamp: timestamp, 
               text: text,
               display: 'true'
+              parent_id: replyToID
+              discussion_id: discussionID
 
   $('#input-container').hide()
   timeline.play()
@@ -71,6 +75,8 @@ window.submitInput = ->
     dataType: "json",
     success: ->
       alert('successful post')
+      replyToID = null
+      discussionID = null
   });
 
 window.submitConfusion = ->
@@ -149,8 +155,22 @@ $ ->
     $('.first, .second, .third').mouseleave(->
       $(this).find('a, i').hide()
     )
-
-
+    #appropriately thread reply-comments
+    $(".comment.first .icon-mail-reply").on("click", ->
+      alert "clicked first reply"
+      replyToID = $(".comment.first .messageID").text()
+      discussionID = $(".comment.first .discussionID").text()
+    )
+    $(".comment.second .icon-mail-reply").on("click", ->
+      alert "clicked second reply"
+      replyToID = $(".comment.second .messageID").text()
+      discussionID = $(".comment.second .discussionID").text()
+    )
+    $(".comment.third .icon-mail-reply").on("click", ->
+      alert "clicked third reply"
+      replyToID = $(".comment.third .messageID").text()
+      discussionID = $(".comment.third .discussionID").text()
+    )
     # Gets all comments from db, installs their callbacks
     hasCallback = []
 
@@ -161,7 +181,9 @@ $ ->
 
     displayComment = (comment)->
       if comment['display'] is 'true'
-        newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>'
+        if comment['discussion_id'] is null
+          comment['discussion_id'] = comment['_id']['$oid']
+        newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span><span class="discussionID">' + comment['discussion_id'] + '</span>'
         $('.first div').html($('.second div').html())
         $('.second div').html($('.third div').html())
         $('.third div').html(newText)

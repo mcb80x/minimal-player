@@ -89,6 +89,7 @@ img.lesson-teaser{float:right;}
 .username{}
 .message{}
 .messageID{display:none;}
+.discussionID{display:none;}
 #comment-bar{margin-left: 20px; margin-right: 20px;}
 .prev{float: left; width: 20px;}
 .next{float: right; width: 20px;}
