@@ -27,11 +27,17 @@ window.toggleComments = ->
       $('comment-container').css('display', 'none')
       util.maintainAspect()
 
+wasPausedByInput = false
 window.toggleInput = ->
-  if timeline.paused()
-    timeline.play()
-  else
+  if not timeline.paused()
     timeline.pause()
+    wasPausedByInput = true
+  else if wasPausedByInput
+    timeline.play()
+    wasPausedByInput = false
+  else
+    wasPausedByInput = false
+
   $('#inputTextArea').val('')
   console.log('toggle comment input')
   $('#input-container').animate
@@ -69,11 +75,15 @@ window.submitInput = ->
 window.submitConfusion = ->
   #submit confusion somehow
   timestamp = timeline.currentTimelineURI()
+  totalLength = timeline.totalDuration
+  
+  console.log totalLength
   $.ajax({
     type: "POST",
     url: "/confusion",
-    data: timestamp,
-    dataType: "text",
+    data: JSON.stringify({timestamp: timestamp, totalLength: totalLength})
+    contentType:"application/json; charset=utf-8",
+    dataType: "json",
     success: ->
       alert('successful post')
   });
