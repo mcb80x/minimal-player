@@ -151,32 +151,34 @@ $ ->
       $('#charactersLeft').text(left);
     );
 
+    $('#input-field').focus( ->
+      if this.value is this.defaultValue
+        this.value = '';
+        $(this).removeClass('default');
+    )
+
+    $('#input-field').blur( ->
+      if this.value is ''
+        this.value = this.defaultValue;
+        $(this).addClass('default');
+    )
+
     $('.hideUntilMouseOver').hide()
 
     $('#first, #second, #third').mouseenter(->
-      $(this).css('height', '200px')
+      $(this).addClass('expanded')
       $(this).find('.hideUntilMouseOver').show()
     )
     $('#first, #second, #third').mouseleave(->
-      $(this).css('height', '50px')
+      $(this).removeClass('expanded')
       $(this).find('.hideUntilMouseOver').hide()
     )
 
     #appropriately thread reply-comments
-    $("#first .icon-mail-reply").on("click", ->
-      alert "clicked first reply"
-      replyToID = $("#first").data("messageID")
-      discussionID = $("#first").data("discussionID")
-    )
-    $("#second .icon-mail-reply").on("click", ->
-      alert "clicked second reply"
-      replyToID = $("#second").data("messageID")
-      discussionID = $("#second").data("discussionID")
-    )
-    $("#third .icon-mail-reply").on("click", ->
-      alert "clicked third reply"
-      replyToID = $("#third").data("messageID")
-      discussionID = $("#third").data("discussionID")
+    $(".icon-mail-reply").on("click", ->
+      parent = $(this).parent()
+      replyToID = parent.data("messageID")
+      discussionID = parent.data("discussionID")
     )
 
     $('#input-field').keypress((e)->
@@ -212,10 +214,6 @@ $ ->
 
         $('#third .message').text(comment['text'])
         $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
-        #newText = '<span class="username">' + comment['username'] + ': </span><span class="message">' + comment['text'] + '</span><span class="messageID">' + comment['_id']['$oid'] + '</span>'
-        #$('.first div').html($('.second div').html())
-        #$('.second div').html($('.third div').html())
-        #$('.third div').html(newText)
 
 
     addCallback = (comments)-> 

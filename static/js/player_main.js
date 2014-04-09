@@ -168,29 +168,32 @@
       left = 140 - $(this).val().length;
       return $('#charactersLeft').text(left);
     });
+    $('#input-field').focus(function() {
+      if (this.value === this.defaultValue) {
+        this.value = '';
+        return $(this).removeClass('default');
+      }
+    });
+    $('#input-field').blur(function() {
+      if (this.value === '') {
+        this.value = this.defaultValue;
+        return $(this).addClass('default');
+      }
+    });
     $('.hideUntilMouseOver').hide();
     $('#first, #second, #third').mouseenter(function() {
-      $(this).css('height', '200px');
+      $(this).addClass('expanded');
       return $(this).find('.hideUntilMouseOver').show();
     });
     $('#first, #second, #third').mouseleave(function() {
-      $(this).css('height', '50px');
+      $(this).removeClass('expanded');
       return $(this).find('.hideUntilMouseOver').hide();
     });
-    $("#first .icon-mail-reply").on("click", function() {
-      alert("clicked first reply");
-      replyToID = $("#first").data("messageID");
-      return discussionID = $("#first").data("discussionID");
-    });
-    $("#second .icon-mail-reply").on("click", function() {
-      alert("clicked second reply");
-      replyToID = $("#second").data("messageID");
-      return discussionID = $("#second").data("discussionID");
-    });
-    $("#third .icon-mail-reply").on("click", function() {
-      alert("clicked third reply");
-      replyToID = $("#third").data("messageID");
-      return discussionID = $("#third").data("discussionID");
+    $(".icon-mail-reply").on("click", function() {
+      var parent;
+      parent = $(this).parent();
+      replyToID = parent.data("messageID");
+      return discussionID = parent.data("discussionID");
     });
     $('#input-field').keypress(function(e) {
       if (e.which === 13) {

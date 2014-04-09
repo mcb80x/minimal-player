@@ -80,11 +80,12 @@ img.lesson-teaser{float:right;}
 
 /* ------------------------ Comments ----------------- */
 #comment-container{bottom: 48px; display:none; height: 70px; position: absolute; z-index:900; width: 100%;}
-.comment{background-color:#fff; border-radius: 5px; bottom: 30px; color: #000; height: 34px; opacity: 0.8; padding: 2px; position: absolute;}
+.comment{background-color:#fff; border-radius: 5px; bottom: 30px; color: #000; height: 34px; overflow: hidden; opacity: 0.8; padding: 2px; position: absolute;}
 .comment:hover{background-color: #fff; border: 2px solid black; color: #000; opacity: 1.0;}
 #first{left: 3%; width: 30%;}
 #second{left: 35%; width: 30%;}
 #third{left: 67%; width: 30%;}
+.expanded{height: 134px;}
 .userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; right: 50px;}
 .message{font-size: 16px; margin: 0px;}
 .messageID{display:none;}
@@ -105,7 +106,7 @@ img.lesson-teaser{float:right;}
 #prev i:hover, #next i:hover{color: #999;}
 /* Comment Submission */
 input{border: 0; bottom: 0px; font-size: 16px; padding: 2px 0% 2px 1%; position: absolute; width: 99%}
-
+.default{color: gray;}
 /* --- Upper-righthand corner navigation --- */
 a, i{text-decoration: none;}
 .right-nav i{color:#ccc; padding-left: 3px; padding-right: 3px;}
