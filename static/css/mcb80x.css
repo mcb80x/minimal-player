@@ -79,30 +79,34 @@ img.lesson-teaser{float:right;}
 .inputSubmitButton{float:right;}
 
 /* ------------------------ Comments ----------------- */
-.comments{bottom: 75px; display:none; position: absolute; z-index:900; width: 100%;}
-.comment{background-color:#fff; border: 1px solid black; border-bottom: 0px; border-radius: 5px 5px 0px 0px; color: #000; height: 50px; opacity: 0.8; padding: 2px; position: relative;}
-.comment:hover{background-color: #fff; border: 2px solid black; border-bottom: 0px; color: #000; opacity: 1.0;}
-#first{float:left; margin: 0px 5px; width: 33.33%;}
-#second{margin: 0 5px; overflow: auto;}
-#third{float:right; margin: 0px 5px; width: 33.33%;}
-.userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; left: 0px;}
-.message{font-size: 14px; margin: 0px;}
+#comment-container{bottom: 48px; display:none; height: 70px; position: absolute; z-index:900; width: 100%;}
+.comment{background-color:#fff; border-radius: 5px; bottom: 30px; color: #000; height: 34px; opacity: 0.8; padding: 2px; position: absolute;}
+.comment:hover{background-color: #fff; border: 2px solid black; color: #000; opacity: 1.0;}
+#first{left: 3%; width: 30%;}
+#second{left: 35%; width: 30%;}
+#third{left: 67%; width: 30%;}
+.userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; right: 50px;}
+.message{font-size: 16px; margin: 0px;}
 .messageID{display:none;}
 .discussionID{display:none;}
 #comment-bar{margin-left: 20px; margin-right: 20px;}
-.comment i{bottom: 0px; color:#ccc; margin: 3px; position: absolute;}
-.icon-mail-reply{right: 20px;}
+/* Comment Action Buttons */
+.icon-mail-reply{color: #999;}
 .icon-mail-reply:hover{color:#000;}
-.icon-warning-sign{right:0px;}
+.reply{right: 0px;}
+.flag{right: 20px;}
+.icon-warning-sign{color: #999;}
 .icon-warning-sign:hover{color:#c33}
-#prev{float: left; width: 20px;}
-#next{float: right; width: 20px;}
-.comment a{float: right; margin: 0px 5px;}
+.comment a{bottom: 0px; margin: 0px 5px; position: absolute;}
+/* Forward/Next Buttons */
+#prev, #next{top: 3px; font-size: 36px;  position: absolute; width: 20px;}
+#prev{left: 0px;}
+#next{right: 0px;}
+#prev i:hover, #next i:hover{color: #999;}
 /* Comment Submission */
-#input-container{bottom: -25px; background-color: #666; position: absolute; width: 100%;}
-input{border: 0; border-radius: 10px; font-size: 16px; margin: 1% 2% 0% 2%; padding-left: 1%; width: 95%;}
+input{border: 0; bottom: 0px; font-size: 16px; padding: 2px 0% 2px 1%; position: absolute; width: 99%}
 
-/* --- Right-nav Links --- */
+/* --- Upper-righthand corner navigation --- */
 a, i{text-decoration: none;}
 .right-nav i{color:#ccc; padding-left: 3px; padding-right: 3px;}
 .right-nav i:hover{color:#c33}
