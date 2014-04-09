@@ -159,26 +159,32 @@
   };
 
   $(function() {
-    var addCallback, displayComment, getComments, hasCallback, hideComment, left, reportOnDeck, timeline;
+    var addCallback, displayComment, getComments, hasCallback, hideComment, reportOnDeck, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
     if ((window.showSubtitles != null) && window.showSubtitles) {
       window.toggleSubtitles();
     }
-    left = 140;
-    $('#charactersLeft').text(left);
-    $('#inputTextArea').keyup(function() {
-      left = 140 - $(this).val().length;
-      return $('#charactersLeft').text(left);
+    $('#input-field').focus(function() {
+      if (this.value === this.defaultValue) {
+        this.value = '';
+        return $(this).removeClass('default');
+      }
+    });
+    $('#input-field').blur(function() {
+      if (this.value === '') {
+        this.value = this.defaultValue;
+        return $(this).addClass('default');
+      }
     });
     $('.hideUntilMouseOver').hide();
     $('#first, #second, #third').mouseenter(function() {
-      $(this).css('height', '200px');
+      $(this).addClass('expanded');
       return $(this).find('.hideUntilMouseOver').show();
     });
     $('#first, #second, #third').mouseleave(function() {
-      $(this).css('height', '50px');
+      $(this).removeClass('expanded');
       return $(this).find('.hideUntilMouseOver').hide();
     });
     $("#first .icon-mail-reply").on("click", function() {
