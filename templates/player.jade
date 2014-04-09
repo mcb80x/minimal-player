@@ -171,44 +171,36 @@ html
         #subtitle-container.subtitles
           #interactive-subtitles
           
-        #comment-container.comments
-          #comment-bar
-            .comment#first
-              span#prev
-                i(class="icon-backward", title="Previous Message")
-              p.message 
-              span.userAndTime.hideUntilMouseOver
-              span.messageID
-              a.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
-                i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
-              a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
-                i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-            .comment#third
-              span#next
-                i(class="icon-forward", title="Next Message")
-              p.message
-              span.userAndTime.hideUntilMouseOver
-              span.messageID
-              a.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
-                i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
-              a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
-                i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-            .comment#second
-              p.message
-              span.userAndTime.hideUntilMouseOver
-              span.messageID
-              a.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
-                i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
-              a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
-                i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
+        #comment-container
+          .comment#first
+            //-span#prev
+              i(class="icon-caret-left", title="Previous Message")
+            p.message 
+            span.userAndTime.hideUntilMouseOver
+            span.messageID
+            a.reply.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
+              i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
+            a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
+              i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
+          .comment#third
+            //-span#next
+              i(class="icon-caret-right", title="Next Message")
+            p.message
+            span.userAndTime.hideUntilMouseOver
+            span.messageID
+            a.reply.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
+              i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
+            a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
+              i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
+          .comment#second
+            p.message
+            span.userAndTime.hideUntilMouseOver
+            span.messageID
+            a.reply.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
+              i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
+            a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
+              i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
           input#input-field(value="Say something...", onfocus="if (this.value=='Say something...') this.value='';")
-
-          //- span(id='currentCommentSpan')
-          //-a(href="javascript:void(0);", onclick="toggleInput();")
-          //-  span.livicon(title='toggle comments', data-name='edit', data-color='#ccc', data-hovercolor='#c33', data-size='50')
-          //-a(href="javascript: void(0);", onclick="deleteComment();")
-          //-  span.livicon(data-name='remove', data-color='#000', data-hovercolor='#000', data-size='20')
-          //-span.livicon(data-name='edit', data-color='#000', data-hovercolor='#000', data-size='20')
           
         // Title / lower-third container
         #title-banner.lower-third

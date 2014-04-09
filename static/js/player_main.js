@@ -160,9 +160,11 @@
     });
     $('.hideUntilMouseOver').hide();
     $('#first, #second, #third').mouseenter(function() {
+      $(this).css('height', '200px');
       return $(this).find('.hideUntilMouseOver').show();
     });
     $('#first, #second, #third').mouseleave(function() {
+      $(this).css('height', '50px');
       return $(this).find('.hideUntilMouseOver').hide();
     });
     $('#input-field').keypress(function(e) {
@@ -173,7 +175,7 @@
     hasCallback = [];
     hideComment = function() {
       console.log('deleting');
-      return $('.comments div:first').remove();
+      return $('#comment-container div:first').remove();
     };
     displayComment = function(comment) {
       if (comment['display'] === 'true') {

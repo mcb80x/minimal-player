@@ -144,9 +144,11 @@ $ ->
     $('.hideUntilMouseOver').hide()
 
     $('#first, #second, #third').mouseenter(->
+      $(this).css('height', '200px')
       $(this).find('.hideUntilMouseOver').show()
     )
     $('#first, #second, #third').mouseleave(->
+      $(this).css('height', '50px')
       $(this).find('.hideUntilMouseOver').hide()
     )
 
@@ -160,7 +162,7 @@ $ ->
     #removes first comment after 10000ms
     hideComment = ->
       console.log('deleting')
-      $('.comments div:first').remove()
+      $('#comment-container div:first').remove()
 
     displayComment = (comment)->
       if comment['display'] is 'true'
