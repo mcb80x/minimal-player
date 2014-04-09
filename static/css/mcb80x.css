@@ -20,8 +20,8 @@ svg{font:10px sans-serif;-webkit-touch-callout:none;-webkit-user-select:none;-kh
 #stage{width:100%;position:absolute;top:0;bottom:50px;}
 #controls{background-color:#666;position:absolute;bottom:0;height:50px;width:100%;}
 #timeline-controls{left:0px;right:70px;height:30px;bottom:0;position:absolute;opacity:0.7;z-index:101;background-color:#ccc;}
-.timeline-container{top:0;bottom:0;left:40px;right:70px;position:absolute;}
-#clock{bottom:8px; right:30px; width:30px;font-family:Lato,sans-serif;font-size:12px;font-weight:700;position:absolute;}
+.timeline-container{top:0;bottom:0;left:40px;right:53px;position:absolute;}
+#clock{bottom:8px; right:10px; width:30px;font-family:Lato,sans-serif;font-size:12px;font-weight:700;position:absolute;}
 /*.volume-icon{bottom:5px;right:8px;width:20px;height:20px;font-size:20px;position:absolute;vertical-align:middle;}*/
 .timeline-background-rect{fill:#ccc;opacity:0.0;}
 .timeline-segment-marker{fill:red;}
@@ -114,15 +114,15 @@ a, i{text-decoration: none;}
 
 /* --- Volume Control --- */
 .icon-volume-down{width:30px;height:30px;color:#999;}
-#volume-control{position: absolute; width: 30px; right: 50px; z-index: 1010;}
+#volume-control{position: absolute; width: 30px; right: 34px; z-index: 1010;}
 #volume-control i:hover{color:#3d3d3d;}
 #volume {width: 10px;}
 #slider-vertical .ui-slider {top:-1000px;}
-.ui-slider-vertical {margin-right: 63px;
+.ui-slider-vertical {margin-right: 48px;
 margin-left: auto;
 z-index: 10000;
 bottom: 82px;}
 
 /* --- Confusion Control --- */
-#confusion-control{position: absolute; width: 100px; left: 93%; z-index: 1000;}
+#confusion-control{position: absolute; width: 30px; right: 5px; z-index: 1000;}
 
