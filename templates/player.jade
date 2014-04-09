@@ -172,12 +172,12 @@ html
           #interactive-subtitles
           
         #comment-container.comments
-          span.prev
+          span#prev
             i(class="icon-backward", title="Previous Message")
-          span.next
+          span#next
             i(class="icon-forward", title="Next Message")
           #comment-bar
-            .comment.first
+            .comment#first
               p.message 
               span.userAndTime.hideUntilMouseOver
               span.messageID
@@ -185,7 +185,7 @@ html
                 i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
               a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
                 i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-            .comment.third
+            .comment#third
               p.message
               span.userAndTime.hideUntilMouseOver
               span.messageID
@@ -193,7 +193,7 @@ html
                 i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
               a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
                 i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-            .comment.second
+            .comment#second
               p.message
               span.userAndTime.hideUntilMouseOver
               span.messageID
@@ -201,6 +201,8 @@ html
                 i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
               a.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
                 i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
+          #input-container
+            input#input-field(value="Say something...", onfocus="if (this.value=='Say something...') this.value='';")
 
           //- span(id='currentCommentSpan')
           //-a(href="javascript:void(0);", onclick="toggleInput();")
@@ -220,14 +222,9 @@ html
                 span.scene-indicator-label segment:
 
         #bottom-controls
-          #additional-controls
+          //-#additional-controls
             a(href="javascript:void(0);", onclick="toggleInput();")
-              span.livicon(title='toggle comments', data-name='edit', data-color='#999', data-hovercolor='#000000', data-size='30')
-          #input-container
-            textarea#inputTextArea(maxlength='160', placeholder="Share a comment")
-            a(href="javascript:void(0);", onclick="submitInput();", class="inputSubmitButton")
-              span.livicon(title='share comment', data-name='check', data-color='#999', data-hovercolor='#000000', data-size='50')
-              span#charactersLeft
+            //-  span.livicon(title='toggle comments', data-name='edit', data-color='#999', data-hovercolor='#000000', data-size='30')
 
           // Timeline
           #timeline-controls

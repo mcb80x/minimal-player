@@ -19,7 +19,7 @@ svg{font:10px sans-serif;-webkit-touch-callout:none;-webkit-user-select:none;-kh
 .tight-wrapper{position:absolute;top:0;left:0;right:0;bottom:30px;}
 #stage{width:100%;position:absolute;top:0;bottom:50px;}
 #controls{background-color:#666;position:absolute;bottom:0;height:50px;width:100%;}
-#timeline-controls{left:40px;right:70px;height:30px;bottom:0;position:absolute;opacity:0.7;z-index:101;background-color:#ccc;}
+#timeline-controls{left:0px;right:70px;height:30px;bottom:0;position:absolute;opacity:0.7;z-index:101;background-color:#ccc;}
 .timeline-container{top:0;bottom:0;left:40px;right:70px;position:absolute;}
 #clock{bottom:8px; right:30px; width:30px;font-family:Lato,sans-serif;font-size:12px;font-weight:700;position:absolute;}
 /*.volume-icon{bottom:5px;right:8px;width:20px;height:20px;font-size:20px;position:absolute;vertical-align:middle;}*/
@@ -75,30 +75,31 @@ img.lesson-teaser{float:right;}
 .submit-comment{position:absolute;height:60px;left:0;right:0;bottom:50px;z-index:900;display:none;font-size:20px;font-family:sans-serif;padding:3px;overflow-y:hidden;overflow-x:auto;}
 #additional-controls{position: absolute; width: 30px; left: 0px;}
 #bottom-controls{width: 100%; height: 30px; position: absolute; bottom: 0px; left: 0px; background-color: #ccc;}
-#input-container{display: none; position: absolute; left: 100px; bottom: 150px; width: 500px; height: 60px; background-color: white; opacity: 1.0; z-index: 1001; border-radius: 15px; padding: 10px;}
 #inputTextArea{font-size: 14px; border: none; width: 430px; height: 100%;}
 .inputSubmitButton{float:right;}
 
-/* --- Comment Display --- */
-.comments{bottom: 50px; display:none; position: absolute; z-index:900; width: 100%;}
+/* ------------------------ Comments ----------------- */
+.comments{bottom: 75px; display:none; position: absolute; z-index:900; width: 100%;}
 .comment{background-color:#fff; border: 1px solid black; border-bottom: 0px; border-radius: 5px 5px 0px 0px; color: #000; height: 50px; opacity: 0.8; padding: 2px; position: relative;}
 .comment:hover{background-color: #fff; border: 2px solid black; border-bottom: 0px; color: #000; opacity: 1.0;}
-.first{float:left; margin: 0px 5px; width: 33.33%;}
-.second{margin: 0 5px; overflow: auto;}
-.third{float:right; margin: 0px 5px; width: 33.33%;}
+#first{float:left; margin: 0px 5px; width: 33.33%;}
+#second{margin: 0 5px; overflow: auto;}
+#third{float:right; margin: 0px 5px; width: 33.33%;}
 .userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; left: 0px;}
 .message{font-size: 14px; margin: 0px;}
 .messageID{display:none;}
 #comment-bar{margin-left: 20px; margin-right: 20px;}
-.comment i{color:#ccc; padding-left: 3px; padding-right: 3px;}
-.icon-mail-reply{bottom: 0px; margin: 3px; position: absolute; right: 20px;}
+.comment i{bottom: 0px; color:#ccc; margin: 3px; position: absolute;}
+.icon-mail-reply{right: 20px;}
 .icon-mail-reply:hover{color:#000;}
-.icon-warning-sign{bottom: 0px; margin: 3px; position: absolute; right:0px;}
+.icon-warning-sign{right:0px;}
 .icon-warning-sign:hover{color:#c33}
-.prev{float: left; width: 20px;}
-.next{float: right; width: 20px;}
+#prev{float: left; width: 20px;}
+#next{float: right; width: 20px;}
 .comment a{float: right; margin: 0px 5px;}
-.hideUntilMosueOver{bottom: 0px; position: absolute;}
+/* Comment Submission */
+#input-container{bottom: -25px; background-color: #666; position: absolute; width: 100%;}
+input{border: 0; border-radius: 10px; font-size: 16px; margin: 1% 2% 0% 2%; padding-left: 1%; width: 95%;}
 
 /* --- Right-nav Links --- */
 a, i{text-decoration: none;}
