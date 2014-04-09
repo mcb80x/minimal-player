@@ -81,18 +81,20 @@ img.lesson-teaser{float:right;}
 
 /* --- Comment Display --- */
 .comments{bottom: 50px; display:none; position: absolute; z-index:900; width: 100%;}
-.comment{background-color:#000; border: 1px solid white; border-bottom: 0px; border-radius: 5px 5px 0px 0px; color: #fff; font-size: 14px; height: 50px; opacity: 0.8; padding: 2px;}
-.comment:hover{background-color: #fff; border: 2px solid black; border-bottom: 0px; color: #000;}
+.comment{background-color:#fff; border: 1px solid black; border-bottom: 0px; border-radius: 5px 5px 0px 0px; color: #000; height: 50px; opacity: 0.8; padding: 2px; position: relative;}
+.comment:hover{background-color: #fff; border: 2px solid black; border-bottom: 0px; color: #000; opacity: 1.0;}
 .first{float:left; margin: 0px 5px; width: 33.33%;}
 .second{margin: 0 5px; overflow: auto;}
 .third{float:right; margin: 0px 5px; width: 33.33%;}
-.username{}
-.message{}
+.username{font-size: 12px;}
+.message{font-size: 14px; margin: 0px;}
+.timestamp{font-size: 12px;}
 .messageID{display:none;}
 #comment-bar{margin-left: 20px; margin-right: 20px;}
 .prev{float: left; width: 20px;}
 .next{float: right; width: 20px;}
 .comment a{float: right; margin: 0px 5px;}
+.hideUntilMosueOver{bottom: 0px; position: absolute;}
 
 /* --- Right-nav Links --- */
 a, i{text-decoration: none;}
