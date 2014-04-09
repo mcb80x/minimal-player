@@ -105,8 +105,11 @@ img.lesson-teaser{float:right;}
 #next{right: 0px;}
 #prev i:hover, #next i:hover{color: #999;}
 /* Comment Submission */
-input{border: 0; bottom: 0px; font-size: 16px; padding: 2px 0% 2px 1%; position: absolute; width: 99%}
+input{border: 0; bottom: 0px; font-size: 16px; padding: 2px 0% 2px 3%; position: absolute; width: 97%}
 .default{color: gray;}
+#submit-button{bottom: 5px; color: #999; position: absolute; right: 5px;}
+#submit-button:hover{color: #000;}
+#input-icon{bottom: 5px; left: 5px; color: #999; position: absolute;}
 /* --- Upper-righthand corner navigation --- */
 a, i{text-decoration: none;}
 .right-nav i{color:#ccc; padding-left: 3px; padding-right: 3px;}
