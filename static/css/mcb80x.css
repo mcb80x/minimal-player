@@ -88,6 +88,7 @@ img.lesson-teaser{float:right;}
 .userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; right: 50px;}
 .message{font-size: 16px; margin: 0px;}
 .messageID{display:none;}
+.discussionID{display:none;}
 #comment-bar{margin-left: 20px; margin-right: 20px;}
 /* Comment Action Buttons */
 .icon-mail-reply{color: #999;}

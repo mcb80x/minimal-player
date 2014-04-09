@@ -51,17 +51,25 @@ window.toggleInput = ->
         $('#input-container').css('display', 'block') 
   ###
 
-window.submitInput = ->
+replyToID = null
+discussionID = null
+window.submitInput = ()->
   #change the username to refer to an actual user
   username = 'testuser'
   timestamp = timeline.currentTimelineURI()
   text = $('#input-field').val()
   $('#input-field').val('')
   comment = 
+              video: timestamp.split('/')[0]
               username: 'testuser',
               timestamp: timestamp, 
               text: text,
               display: 'true'
+              parent_id: replyToID
+              discussion_id: discussionID
+
+  $('#input-container').hide()
+
   timeline.play()
   $.ajax({
     type: "POST",
@@ -71,6 +79,8 @@ window.submitInput = ->
     dataType: "json",
     success: ->
       alert('successful post')
+      replyToID = null
+      discussionID = null
   });
 
 window.submitConfusion = ->
@@ -152,6 +162,23 @@ $ ->
       $(this).find('.hideUntilMouseOver').hide()
     )
 
+    #appropriately thread reply-comments
+    $("#first .icon-mail-reply").on("click", ->
+      alert "clicked first reply"
+      replyToID = $("#first").data("messageID")
+      discussionID = $("#first").data("discussionID")
+    )
+    $("#second .icon-mail-reply").on("click", ->
+      alert "clicked second reply"
+      replyToID = $("#second").data("messageID")
+      discussionID = $("#second").data("discussionID")
+    )
+    $("#third .icon-mail-reply").on("click", ->
+      alert "clicked third reply"
+      replyToID = $("#third").data("messageID")
+      discussionID = $("#third").data("discussionID")
+    )
+
     $('#input-field').keypress((e)->
       if e.which is 13 then submitInput()
     )
@@ -166,6 +193,17 @@ $ ->
 
     displayComment = (comment)->
       if comment['display'] is 'true'
+
+        if comment['discussion_id'] is null
+          comment['discussion_id'] = comment['_id']['$oid']
+
+        $('#first').data( {messageID: null, discussionID: null})                
+        $('#first').data( {messageID: $("#second").data("messageID"), discussionID: $("#second").data("discussionID")})                
+        $('#second').data( {messageID: null, discussionID: null})        
+        $('#second').data( {messageID: $("#third").data("messageID"), discussionID: $("#third").data("discussionID")})          
+        $('#third').data( {messageID: null, discussionID: null})
+        $('#third').data( {messageID: comment['_id']['$oid'], discussionID: comment['discussion_id']})
+
         $('#first .message').text($('#second .message').text())
         $('#first .userAndTime').text($('#second .userAndTime').text())
 
@@ -178,6 +216,7 @@ $ ->
         #$('.first div').html($('.second div').html())
         #$('.second div').html($('.third div').html())
         #$('.third div').html(newText)
+
 
     addCallback = (comments)-> 
       for comment in comments
