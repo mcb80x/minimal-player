@@ -161,20 +161,20 @@ $ ->
     )
 
     #appropriately thread reply-comments
-    $(".comment.first .icon-mail-reply").on("click", ->
+    $("#first .icon-mail-reply").on("click", ->
       alert "clicked first reply"
-      replyToID = $(".comment.first .messageID").text()
-      discussionID = $(".comment.first .discussionID").text()
+      replyToID = $("#first").data("messageID")
+      discussionID = $("#first").data("discussionID")
     )
-    $(".comment.second .icon-mail-reply").on("click", ->
+    $("#second .icon-mail-reply").on("click", ->
       alert "clicked second reply"
-      replyToID = $(".comment.second .messageID").text()
-      discussionID = $(".comment.second .discussionID").text()
+      replyToID = $("#second").data("messageID")
+      discussionID = $("#second").data("discussionID")
     )
-    $(".comment.third .icon-mail-reply").on("click", ->
+    $("#third .icon-mail-reply").on("click", ->
       alert "clicked third reply"
-      replyToID = $(".comment.third .messageID").text()
-      discussionID = $(".comment.third .discussionID").text()
+      replyToID = $("#third").data("messageID")
+      discussionID = $("#third").data("discussionID")
     )
 
     $('#input-field').keypress((e)->
@@ -194,10 +194,13 @@ $ ->
 
         if comment['discussion_id'] is null
           comment['discussion_id'] = comment['_id']['$oid']
-        newHTML = '<span class="messageID">' + comment['_id']['$oid'] + '</span><span class="discussionID">' + comment['discussion_id'] + '</span>'
-        $('.first div').html($('.second div').html())
-        $('.second div').html($('.third div').html())
-        $('.third div').html(newHTML)
+
+        $('#first').data( {messageID: null, discussionID: null})                
+        $('#first').data( {messageID: $("#second").data("messageID"), discussionID: $("#second").data("discussionID")})                
+        $('#second').data( {messageID: null, discussionID: null})        
+        $('#second').data( {messageID: $("#third").data("messageID"), discussionID: $("#third").data("discussionID")})          
+        $('#third').data( {messageID: null, discussionID: null})
+        $('#third').data( {messageID: comment['_id']['$oid'], discussionID: comment['discussion_id']})
 
         $('#first .message').text($('#second .message').text())
         $('#first .userAndTime').text($('#second .userAndTime').text())

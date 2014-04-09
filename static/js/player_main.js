@@ -175,20 +175,20 @@
     $('#first, #second, #third').mouseleave(function() {
       return $(this).find('.hideUntilMouseOver').hide();
     });
-    $(".comment.first .icon-mail-reply").on("click", function() {
+    $("#first .icon-mail-reply").on("click", function() {
       alert("clicked first reply");
-      replyToID = $(".comment.first .messageID").text();
-      return discussionID = $(".comment.first .discussionID").text();
+      replyToID = $("#first").data("messageID");
+      return discussionID = $("#first").data("discussionID");
     });
-    $(".comment.second .icon-mail-reply").on("click", function() {
+    $("#second .icon-mail-reply").on("click", function() {
       alert("clicked second reply");
-      replyToID = $(".comment.second .messageID").text();
-      return discussionID = $(".comment.second .discussionID").text();
+      replyToID = $("#second").data("messageID");
+      return discussionID = $("#second").data("discussionID");
     });
-    $(".comment.third .icon-mail-reply").on("click", function() {
+    $("#third .icon-mail-reply").on("click", function() {
       alert("clicked third reply");
-      replyToID = $(".comment.third .messageID").text();
-      return discussionID = $(".comment.third .discussionID").text();
+      replyToID = $("#third").data("messageID");
+      return discussionID = $("#third").data("discussionID");
     });
     $('#input-field').keypress(function(e) {
       if (e.which === 13) {
@@ -201,15 +201,34 @@
       return $('.comments div:first').remove();
     };
     displayComment = function(comment) {
-      var newHTML;
       if (comment['display'] === 'true') {
         if (comment['discussion_id'] === null) {
           comment['discussion_id'] = comment['_id']['$oid'];
         }
-        newHTML = '<span class="messageID">' + comment['_id']['$oid'] + '</span><span class="discussionID">' + comment['discussion_id'] + '</span>';
-        $('.first div').html($('.second div').html());
-        $('.second div').html($('.third div').html());
-        $('.third div').html(newHTML);
+        $('#first').data({
+          messageID: null,
+          discussionID: null
+        });
+        $('#first').data({
+          messageID: $("#second").data("messageID"),
+          discussionID: $("#second").data("discussionID")
+        });
+        $('#second').data({
+          messageID: null,
+          discussionID: null
+        });
+        $('#second').data({
+          messageID: $("#third").data("messageID"),
+          discussionID: $("#third").data("discussionID")
+        });
+        $('#third').data({
+          messageID: null,
+          discussionID: null
+        });
+        $('#third').data({
+          messageID: comment['_id']['$oid'],
+          discussionID: comment['discussion_id']
+        });
         $('#first .message').text($('#second .message').text());
         $('#first .userAndTime').text($('#second .userAndTime').text());
         $('#second .message').text($('#third .message').text());
