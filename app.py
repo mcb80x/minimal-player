@@ -81,7 +81,7 @@ class Comment(Document):
     __database__='comment_db'
     structure = {
         'video': basestring,
-        'user': dict,
+        'username': basestring,
         'text': basestring,
         'created_at': basestring,
         'timestamp': basestring,
@@ -90,10 +90,11 @@ class Comment(Document):
         'discussion_id': basestring #ids are basestring because mongokit is not recognising objid
     }
     validators = {
+        'username': max_length(20), #change based on max username length
         'text': max_length(140)
     }
     default_values = {'created_at': datetime.datetime.utcnow().isoformat(), 'display': 'true'} #format: ISODate("2014-04-04T02:45:04.226Z")
-    required_fields = ['video', 'user', 'text', 'created_at', 'timestamp', 'display']
+    required_fields = ['video', 'username', 'text', 'created_at', 'timestamp', 'display']
     use_dot_notation = True
 
 @connection.register
@@ -200,7 +201,7 @@ def comment_post():
     newComment['video'] = request.json['video']
     newComment['text'] = request.json['text']
     newComment['timestamp'] = request.json['timestamp']
-    newComment['user'] = request.json['user']
+    newComment['username'] = request.json['username']
     newComment['display'] = request.json['display']
     newComment['parent_id'] = request.json['parent_id']
     newComment['discussion_id'] = request.json['discussion_id']

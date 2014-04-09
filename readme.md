@@ -35,7 +35,7 @@ The player API provides the following hooks:
 	`onNewOnDeck(cb)`:
 		Call `cb` when new URIs are considered to be "on deck"
 
-	`timelineURItoX(uri)`:
+	`timelineURIToX(uri)`:
 		Ask the player for the X coordinate (in percent) where to place a given URI
 
 
