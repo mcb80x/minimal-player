@@ -79,8 +79,8 @@ img.lesson-teaser{float:right;}
 #inputTextArea{font-size: 14px; border: none; width: 430px; height: 100%;}
 .inputSubmitButton{float:right;}
 
-/* --- Comment Display --- */
-.comments{bottom: 50px; display:none; position: absolute; z-index:900; width: 100%;}
+/* ------------------------ Comments ----------------- */
+.comments{bottom: 75px; display:none; position: absolute; z-index:900; width: 100%;}
 .comment{background-color:#fff; border: 1px solid black; border-bottom: 0px; border-radius: 5px 5px 0px 0px; color: #000; height: 50px; opacity: 0.8; padding: 2px; position: relative;}
 .comment:hover{background-color: #fff; border: 2px solid black; border-bottom: 0px; color: #000; opacity: 1.0;}
 #first{float:left; margin: 0px 5px; width: 33.33%;}
@@ -98,7 +98,9 @@ img.lesson-teaser{float:right;}
 #prev{float: left; width: 20px;}
 #next{float: right; width: 20px;}
 .comment a{float: right; margin: 0px 5px;}
-.hideUntilMosueOver{bottom: 0px; position: absolute;}
+/* Comment Submission */
+#comment-submission{bottom: -25px; background-color: #666; position: absolute; width: 100%;}
+input{border: 0; border-radius: 5px; display: block; font-size: 14px; margin: 1% 2%; padding: 0; width: 96%;}
 
 /* --- Right-nav Links --- */
 a, i{text-decoration: none;}
