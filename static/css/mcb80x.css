@@ -86,11 +86,15 @@ img.lesson-teaser{float:right;}
 .first{float:left; margin: 0px 5px; width: 33.33%;}
 .second{margin: 0 5px; overflow: auto;}
 .third{float:right; margin: 0px 5px; width: 33.33%;}
-.username{font-size: 12px;}
+.userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; left: 0px;}
 .message{font-size: 14px; margin: 0px;}
-.timestamp{font-size: 12px;}
 .messageID{display:none;}
 #comment-bar{margin-left: 20px; margin-right: 20px;}
+.comment i{color:#ccc; padding-left: 3px; padding-right: 3px;}
+.icon-mail-reply{bottom: 0px; margin: 3px; position: absolute; right: 20px;}
+.icon-mail-reply:hover{color:#000;}
+.icon-warning-sign{bottom: 0px; margin: 3px; position: absolute; right:0px;}
+.icon-warning-sign:hover{color:#c33}
 .prev{float: left; width: 20px;}
 .next{float: right; width: 20px;}
 .comment a{float: right; margin: 0px 5px;}

@@ -159,14 +159,11 @@
     displayComment = function(comment) {
       if (comment['display'] === 'true') {
         $('.first .message').text($('.second .message').text());
-        $('.first .username').text($('.second .username').text());
-        $('.first .timestamp').text($('.second .timestamp').text());
+        $('.first .userAndTime').text($('.second .userAndTime').text());
         $('.second .message').text($('.third .message').text());
-        $('.second .username').text($('.third .username').text());
-        $('.second .timestamp').text($('.third .timestamp').text());
+        $('.second .userAndTime').text($('.third .userAndTime').text());
         $('.third .message').text(comment['text']);
-        $('.third .username').text(comment['username']);
-        return $('.third .timestamp').text('@ ' + new Date().toDateString());
+        return $('.third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString());
       }
     };
     addCallback = function(comments) {
