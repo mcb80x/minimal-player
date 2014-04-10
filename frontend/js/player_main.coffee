@@ -241,12 +241,17 @@ $ ->
         # x/300 = percent/100
         percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
         line = new createjs.Shape()
-        line.graphics.beginFill("ff0000").drawRect(percentAcrossCanvas,0,1,300)
+        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,1,300)
         stage.addChild(line)
         stage.enableMouseOver()
         do(comment)->
           line.on("mouseover", (evt)-> 
                   console.log(comment['text'])
+                  stage.canvas.title = comment['text'];
+          )
+          line.on("mouseout", (evt)-> 
+                  console.log(comment['text'])
+                  stage.canvas.title = '';
           )
         stage.update()
 

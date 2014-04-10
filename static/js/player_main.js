@@ -281,8 +281,13 @@
     draw = function(comments) {
       var comment, line, percentAcrossCanvas, _fn, _i, _len, _results;
       _fn = function(comment) {
-        return line.on("mouseover", function(evt) {
-          return console.log(comment['text']);
+        line.on("mouseover", function(evt) {
+          console.log(comment['text']);
+          return stage.canvas.title = comment['text'];
+        });
+        return line.on("mouseout", function(evt) {
+          console.log(comment['text']);
+          return stage.canvas.title = '';
         });
       };
       _results = [];
@@ -290,7 +295,7 @@
         comment = comments[_i];
         percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2);
         line = new createjs.Shape();
-        line.graphics.beginFill("ff0000").drawRect(percentAcrossCanvas, 0, 1, 300);
+        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas, 0, 1, 300);
         stage.addChild(line);
         stage.enableMouseOver();
         _fn(comment);
