@@ -61,7 +61,7 @@ window.submitInput = ()->
   $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
-              username: 'user',
+              user: user,
               timestamp: timestamp, 
               text: text,
               display: 'true'
@@ -230,16 +230,25 @@ $ ->
           hasCallback.push(JSON.stringify(comment))
 
     
+    stage = new createjs.Stage("comment-timeline-canvas")
+    stage.on("stagemousedown", (evt)-> 
+        console.log ("the canvas was clicked at "+evt.stageX)
+        timeline.seekToX((evt.stageX).toPrecision(2))
+    )
     draw = (comments)->
-      canvas = document.getElementById('comment-timeline-canvas')
-        ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#f00";
-        for comment in comments
-          # console.log canvas.width #300
-          # x/300 = percent/100
-          percentOfCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
-          ctx.fillRect(percentOfCanvas,0,1,300); #x, y, w, h
+      for comment in comments
+        # console.log canvas.width #300
+        # x/300 = percent/100
+        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
+        line = new createjs.Shape()
+        line.graphics.beginFill("ff0000").drawRect(percentAcrossCanvas,0,1,300)
+        stage.addChild(line)
+        stage.enableMouseOver()
+        do(comment)->
+          line.on("mouseover", (evt)-> 
+                  console.log(comment['text'])
+          )
+        stage.update()
 
     getComments = ->
       #pull comments from database

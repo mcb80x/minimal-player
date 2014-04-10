@@ -67,14 +67,18 @@
   discussionID = null;
 
   window.submitInput = function() {
-    var comment, text, timestamp, username;
-    username = 'testuser';
+    var comment, text, timestamp, user;
+    user = {
+      username: 'testuser',
+      userID: '12dfeg92345301xsdfj',
+      img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'
+    };
     timestamp = timeline.currentTimelineURI();
     text = $('#input-field').val();
     $('#input-field').val('');
     comment = {
       video: timestamp.split('/')[0],
-      username: 'testuser',
+      user: user,
       timestamp: timestamp,
       text: text,
       display: 'true',
@@ -154,8 +158,14 @@
     }
   };
 
+  window.timelineURItoX = function(uri) {
+    var time;
+    time = uri.split('/')[1];
+    return (time / timeline.totalDuration) * 100;
+  };
+
   $(function() {
-    var addCallback, displayComment, getComments, hasCallback, hideComment, reportOnDeck, timeline;
+    var addCallback, displayComment, draw, getComments, hasCallback, hideComment, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -242,7 +252,7 @@
         $('#second .message').text($('#third .message').text());
         $('#second .userAndTime').text($('#third .userAndTime').text());
         $('#third .message').text(comment['text']);
-        return $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString());
+        return $('#third .userAndTime').text(comment['user']['username'] + ' @ ' + new Date().toDateString());
       }
     };
     addCallback = function(comments) {
@@ -263,6 +273,31 @@
       }
       return _results;
     };
+    stage = new createjs.Stage("comment-timeline-canvas");
+    stage.on("stagemousedown", function(evt) {
+      console.log("the canvas was clicked at " + evt.stageX);
+      return timeline.seekToX(evt.stageX.toPrecision(2));
+    });
+    draw = function(comments) {
+      var comment, line, percentAcrossCanvas, _fn, _i, _len, _results;
+      _fn = function(comment) {
+        return line.on("mouseover", function(evt) {
+          return console.log(comment['text']);
+        });
+      };
+      _results = [];
+      for (_i = 0, _len = comments.length; _i < _len; _i++) {
+        comment = comments[_i];
+        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2);
+        line = new createjs.Shape();
+        line.graphics.beginFill("ff0000").drawRect(percentAcrossCanvas, 0, 1, 300);
+        stage.addChild(line);
+        stage.enableMouseOver();
+        _fn(comment);
+        _results.push(stage.update());
+      }
+      return _results;
+    };
     getComments = function() {
       return $.ajax({
         type: "GET",
@@ -270,6 +305,7 @@
         dataType: "json",
         success: function(comments) {
           console.log('successful comments get');
+          draw(comments);
           addCallback(comments);
         }
       });
