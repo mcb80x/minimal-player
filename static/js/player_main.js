@@ -165,7 +165,7 @@
   };
 
   $(function() {
-    var addCallback, currentComments, displayComment, draw, getComments, hasCallback, hideComment, reportOnDeck, stage, timeline;
+    var addCallback, ageMostRecentComment, currentComments, displayComment, draw, getComments, hasCallback, hideComment, pruneAndAgeComments, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -184,77 +184,91 @@
         return $(this).addClass('default');
       }
     });
-    $('.hideUntilMouseOver').hide();
-    $('#first, #second, #third').mouseenter(function() {
-      $(this).addClass('expanded');
-      return $(this).find('.hideUntilMouseOver').show();
-    });
-    $('#first, #second, #third').mouseleave(function() {
-      $(this).removeClass('expanded');
-      return $(this).find('.hideUntilMouseOver').hide();
-    });
-    $("#first .icon-mail-reply").on("click", function() {
-      alert("clicked first reply");
-      replyToID = $("#first").data("messageID");
-      return discussionID = $("#first").data("discussionID");
-    });
-    $("#second .icon-mail-reply").on("click", function() {
-      alert("clicked second reply");
-      replyToID = $("#second").data("messageID");
-      return discussionID = $("#second").data("discussionID");
-    });
-    $("#third .icon-mail-reply").on("click", function() {
-      alert("clicked third reply");
-      replyToID = $("#third").data("messageID");
-      return discussionID = $("#third").data("discussionID");
-    });
     $('#input-field').keypress(function(e) {
       if (e.which === 13) {
         return submitInput();
       }
+    });
+    $(".icon-mail-reply").on("click", function() {
+      alert();
+      $('$input-field').val('@Reply');
+      replyToID = $(this).data("messageID");
+      return discussionID = $("#first").data("discussionID");
     });
     hasCallback = [];
     hideComment = function() {
       console.log('deleting');
       return $('#comment-container div:first').remove();
     };
-    displayComment = function(comment) {
-      if (comment['display'] === 'true') {
-        if (comment['discussion_id'] === null) {
-          comment['discussion_id'] = comment['_id']['$oid'];
+    pruneAndAgeComments = function() {
+      var comment, commentDate, currentDate, _i, _len, _ref, _results;
+      commentDate = $('.newComment').data("time-created");
+      currentDate = new Date().getTime();
+      if (currentDate - commentDate > 5000) {
+        ageMostRecentComment();
+      }
+      _ref = $('.oldComment');
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        comment = _ref[_i];
+        $(comment).css('left', $(comment).position()['left'] + 20);
+        if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
+          _results.push($(comment).remove());
+        } else {
+          _results.push(void 0);
         }
-        $('#first').data({
-          messageID: null,
-          discussionID: null
+      }
+      return _results;
+    };
+    ageMostRecentComment = function() {
+      $('.newComment').children().hide();
+      return $('.newComment').addClass('oldComment').css('left', '5px').hover(function() {
+        return $(this).children().show();
+      }, function() {
+        return $(this).children().hide();
+      }).removeClass('newComment');
+    };
+    displayComment = function(comment) {
+      var $emptyComment, screenWidth;
+      if (comment['display'] === 'true') {
+        ageMostRecentComment();
+        pruneAndAgeComments();
+        $emptyComment = $('<div/>').addClass('newComment').append('<p class="message"></p> <span class="time"></span> <i class="icon-mail-reply" title="Reply to this Comment"></i> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+        $emptyComment.find('.message').text('@' + comment['username'] + ': ' + comment['text']);
+        $emptyComment.find('.username').text(comment['username']);
+        screenWidth = $('#player-wrapper').width();
+        $emptyComment.data("time-created", new Date().getTime());
+        discussionID = comment['discussion_id'] || comment['_id']['$oid'];
+        $emptyComment.find('.reply').data("comment-threading", {
+          'messageID': comment['_id']['$oid'],
+          'discussionID': discussionID
         });
-        $('#first').data({
-          messageID: $("#second").data("messageID"),
-          discussionID: $("#second").data("discussionID")
-        });
-        $('#second').data({
-          messageID: null,
-          discussionID: null
-        });
-        $('#second').data({
-          messageID: $("#third").data("messageID"),
-          discussionID: $("#third").data("discussionID")
-        });
-        $('#third').data({
-          messageID: null,
-          discussionID: null
-        });
-        $('#third').data({
-          messageID: comment['_id']['$oid'],
-          discussionID: comment['discussion_id']
-        });
-        $('#first .message').text($('#second .message').text());
-        $('#first .userAndTime').text($('#second .userAndTime').text());
-        $('#second .message').text($('#third .message').text());
-        $('#second .userAndTime').text($('#third .userAndTime').text());
-        $('#third .message').text(comment['text']);
-        return $('#third .userAndTime').text(comment['user']['username'] + ' @ ' + new Date().toDateString());
+        return $('#comment-container').prepend($emptyComment);
       }
     };
+
+    /*
+      if comment['display'] is 'true'
+    
+        if comment['discussion_id'] is null
+          comment['discussion_id'] = comment['_id']['$oid']
+    
+        $('#first').data( {messageID: null, discussionID: null})                
+        $('#first').data( {messageID: $("#second").data("messageID"), discussionID: $("#second").data("discussionID")})                
+        $('#second').data( {messageID: null, discussionID: null})        
+        $('#second').data( {messageID: $("#third").data("messageID"), discussionID: $("#third").data("discussionID")})          
+        $('#third').data( {messageID: null, discussionID: null})
+        $('#third').data( {messageID: comment['_id']['$oid'], discussionID: comment['discussion_id']})
+    
+        $('#first .message').text($('#second .message').text())
+        $('#first .userAndTime').text($('#second .userAndTime').text())
+    
+        $('#second .message').text($('#third .message').text())
+        $('#second .userAndTime').text($('#third .userAndTime').text())
+    
+        $('#third .message').text(comment['text'])
+
+     */
     addCallback = function(comments) {
       var comment, _i, _len, _results;
       _results = [];
@@ -334,8 +348,10 @@
         }
       });
     };
-    setTimeout(function() {
-      return setInterval(getComments, 1000);
+    getComments();
+    setInterval(function() {
+      pruneAndAgeComments();
+      return getComments();
     }, 1000);
     $("#slider-vertical").slider({
       orientation: "vertical",
