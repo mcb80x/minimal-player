@@ -61,7 +61,7 @@ window.submitInput = ()->
   $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
-              username: 'user',
+              user: user,
               timestamp: timestamp, 
               text: text,
               display: 'true'
@@ -169,7 +169,7 @@ $ ->
       $(this).find('.hideUntilMouseOver').hide()
     )
 
-    #appropriately thread reply-comments
+    # Appropriately thread reply-comments
     $("#first .icon-mail-reply").on("click", ->
       alert "clicked first reply"
       replyToID = $("#first").data("messageID")
@@ -195,7 +195,7 @@ $ ->
     # Gets all comments from db, installs their callbacks
     hasCallback = []
 
-    #removes first comment after 10000ms
+    # Removes first comment after 10000ms
     hideComment = ->
       console.log('deleting')
       $('#comment-container div:first').remove()
@@ -222,40 +222,69 @@ $ ->
         $('#third .message').text(comment['text'])
         $('#third .userAndTime').text(comment['user']['username'] + ' @ ' + new Date().toDateString())
 
-
     addCallback = (comments)-> 
       for comment in comments
         if hasCallback.indexOf(JSON.stringify(comment)) is -1
           timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
           hasCallback.push(JSON.stringify(comment))
 
-    
+    # Creates tooltip for viewing comments on the timeline
+    $('#comment-timeline-canvas').qtip({
+      style: { classes: 'qtip-dark' },
+      content: "Comment!"
+      position: {
+        target: 'mouse', 
+        adjust: { x: 0, y: 5 }
+      }
+    })
+
+    # Draws comments to timeline
+    stage = new createjs.Stage("comment-timeline-canvas")
+    stage.on("stagemousedown", (evt)-> 
+        console.log ("the canvas was clicked at "+evt.stageX)
+        timeline.seekToX((evt.stageX).toPrecision(2))
+    )
     draw = (comments)->
-      canvas = document.getElementById('comment-timeline-canvas')
-        ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#f00";
-        for comment in comments
-          # console.log canvas.width #300
-          # x/300 = percent/100
-          percentOfCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
-          ctx.fillRect(percentOfCanvas,0,1,300); #x, y, w, h
+      for comment in comments
+        # console.log canvas.width #300
+        # x/300 = percent/100
+        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
+        line = new createjs.Shape()
+        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,300)
+        stage.addChild(line)
+        stage.enableMouseOver()
+        do(comment)->
+          console.log "DOING IT"
+          line.on("mouseover", ->
+            newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>'
+            $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
 
+          )
+          line.on("mouseout", ->
+            $('#comment-timeline-canvas').qtip('option', 'content.text', "Comment!");
+          )
+      stage.update()
+
+    # Pulls comments from database
+    currentComments = ''
     getComments = ->
-      #pull comments from database
       $.ajax({
-          type: "GET",
-          url: "/comments",
-          dataType: "json",
-          success: (comments)->
-            console.log('successful comments get')
-            draw(comments)
+        type: "GET",
+        url: "/comments",
+        dataType: "json",
+        success: (comments)->
+          console.log('successful comments get')
+          stringifiedComments = JSON.stringify(comments)
+          if currentComments isnt stringifiedComments
+            console.log "new comment"
             addCallback(comments)
-            return
+            draw(comments)
+            currentComments = stringifiedComments
+          return
       });
-
-    getComments()
-    setInterval(getComments, 1000)
+    setTimeout(-> 
+      setInterval(getComments, 1000)
+    , 1000)
 
     #volume control
     $( "#slider-vertical" ).slider(
@@ -272,18 +301,14 @@ $ ->
 
     $(".icon-volume-down").on(
       mouseenter: ->
-          #stuff to do on mouse enter
           $(".ui-slider-vertical").show()
       mouseleave: ->
-          #stuff to do on mouse leave
           $(".ui-slider-vertical").hide()
     );
     $(".ui-slider-vertical").on(
       mouseenter: ->
-          #stuff to do on mouse enter
           $(".ui-slider-vertical").show()
       mouseleave: ->
-          #stuff to do on mouse leave
           $(".ui-slider-vertical").hide()
     );
 

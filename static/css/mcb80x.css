@@ -131,8 +131,9 @@ bottom: 82px;}
 #confusion-control{position: absolute; width: 30px; right: 5px; z-index: 1000;}
 
 /* --- Timeline Comment Visualizer --- */
-#comment-timeline-container {pointer-events: none;position: absolute; z-index: 1000000; position: absolute; /*border: 1px solid white;*/ top:0; bottom:0; left:40px; right:53px;}
-#comment-timeline-canvas-container {pointer-events: none;position: absolute; width:100%; height:35%; /*border: 1px solid red;*/ margin-top: 7px;}
-#comment-timeline-canvas{pointer-events: none;z-index: 100000; position: absolute; width:100%; height:100%; border: 1px solid red;}
-
+#comment-timeline-container {/*pointer-events: none;*/position: absolute; z-index: 1000000; position: absolute; /*border: 1px solid white;*/ top:0; bottom:0; left:40px; right:53px;}
+#comment-timeline-canvas-container {/*pointer-events: none;*/position: absolute; width:100%; height:35%; /*border: 1px solid red;*/ margin-top: 9px;}
+#comment-timeline-canvas{/*pointer-events: none;*/z-index: 100000; position: absolute; width:100%; height:100%; /*border: 1px solid red;*/}
+.qtip-dark .qtip-content{font-size: 12px;font-family:sans-serif;}
+#qtip-image{vertical-align: middle;}
 
