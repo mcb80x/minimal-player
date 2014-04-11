@@ -169,7 +169,7 @@ $ ->
       $(this).find('.hideUntilMouseOver').hide()
     )
 
-    #appropriately thread reply-comments
+    # Appropriately thread reply-comments
     $("#first .icon-mail-reply").on("click", ->
       alert "clicked first reply"
       replyToID = $("#first").data("messageID")
@@ -195,7 +195,7 @@ $ ->
     # Gets all comments from db, installs their callbacks
     hasCallback = []
 
-    #removes first comment after 10000ms
+    # Removes first comment after 10000ms
     hideComment = ->
       console.log('deleting')
       $('#comment-container div:first').remove()
@@ -222,27 +222,28 @@ $ ->
         $('#third .message').text(comment['text'])
         $('#third .userAndTime').text(comment['user']['username'] + ' @ ' + new Date().toDateString())
 
-
     addCallback = (comments)-> 
       for comment in comments
         if hasCallback.indexOf(JSON.stringify(comment)) is -1
           timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
           hasCallback.push(JSON.stringify(comment))
 
-    
+    # Creates tooltip for viewing comments on the timeline
+    $('#comment-timeline-canvas').qtip({
+      style: { classes: 'qtip-dark' },
+      content: "Comment!"
+      position: {
+        target: 'mouse', 
+        adjust: { x: 0, y: 5 }
+      }
+    })
+
+    # Draws comments to timeline
     stage = new createjs.Stage("comment-timeline-canvas")
     stage.on("stagemousedown", (evt)-> 
         console.log ("the canvas was clicked at "+evt.stageX)
         timeline.seekToX((evt.stageX).toPrecision(2))
     )
-    $('#comment-timeline-canvas').qtip({
-      content: 'Comment!',
-      position: {
-        target: 'mouse', 
-        adjust: { x: 5, y: 5 }
-      }
-    })
-    qapi = $('#comment-timeline-canvas').data('qtip')
     draw = (comments)->
       for comment in comments
         # console.log canvas.width #300
@@ -255,20 +256,18 @@ $ ->
         do(comment)->
           console.log "DOING IT"
           line.on("mouseover", ->
-            newtip = comment['text']
-            qapi.options.content.text = newtip;
-            qapi.elements.content.text(newtip);
+            newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>'
+            $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
+
           )
           line.on("mouseout", ->
-            newtip = "Comment!"
-            qapi.options.content.text = newtip;
-            qapi.elements.content.text(newtip);
+            $('#comment-timeline-canvas').qtip('option', 'content.text', "Comment!");
           )
       stage.update()
 
+    # Pulls comments from database
     currentComments = ''
     getComments = ->
-      #pull comments from database
       $.ajax({
         type: "GET",
         url: "/comments",

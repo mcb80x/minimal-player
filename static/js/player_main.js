@@ -165,7 +165,7 @@
   };
 
   $(function() {
-    var addCallback, currentComments, displayComment, draw, getComments, hasCallback, hideComment, qapi, reportOnDeck, stage, timeline;
+    var addCallback, currentComments, displayComment, draw, getComments, hasCallback, hideComment, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -273,37 +273,35 @@
       }
       return _results;
     };
+    $('#comment-timeline-canvas').qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      content: "Comment!",
+      position: {
+        target: 'mouse',
+        adjust: {
+          x: 0,
+          y: 5
+        }
+      }
+    });
     stage = new createjs.Stage("comment-timeline-canvas");
     stage.on("stagemousedown", function(evt) {
       console.log("the canvas was clicked at " + evt.stageX);
       return timeline.seekToX(evt.stageX.toPrecision(2));
     });
-    $('#comment-timeline-canvas').qtip({
-      content: 'Comment!',
-      position: {
-        target: 'mouse',
-        adjust: {
-          x: 5,
-          y: 5
-        }
-      }
-    });
-    qapi = $('#comment-timeline-canvas').data('qtip');
     draw = function(comments) {
       var comment, line, percentAcrossCanvas, _fn, _i, _len;
       _fn = function(comment) {
         console.log("DOING IT");
         line.on("mouseover", function() {
           var newtip;
-          newtip = comment['text'];
-          qapi.options.content.text = newtip;
-          return qapi.elements.content.text(newtip);
+          newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>';
+          return $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
         });
         return line.on("mouseout", function() {
-          var newtip;
-          newtip = "Comment!";
-          qapi.options.content.text = newtip;
-          return qapi.elements.content.text(newtip);
+          return $('#comment-timeline-canvas').qtip('option', 'content.text', "Comment!");
         });
       };
       for (_i = 0, _len = comments.length; _i < _len; _i++) {
