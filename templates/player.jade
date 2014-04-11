@@ -35,6 +35,7 @@ html
 
     script(src="/static/course_site/js/library/jquery.als.js")
     script(src="/static/course_site/js/library/jquery-ui-1.10.3.custom.min.js")
+    script(src="http://code.createjs.com/easeljs-0.7.1.min.js")
     link(rel="stylesheet", href="/static/course_site/css/library/jquery-ui-1.10.3.custom.min.css")
     link(rel='stylesheet', media='all', href='/static/course_site/css/library/font-awesome.min.css')
 
@@ -227,6 +228,9 @@ html
             // the timeline itself
             #timeline.timeline-container
 
+            div#comment-timeline-container
+              div#comment-timeline-canvas-container
+                canvas#comment-timeline-canvas
 
             #clock
               span#clock-text 00:00

@@ -67,14 +67,18 @@
   discussionID = null;
 
   window.submitInput = function() {
-    var comment, text, timestamp, username;
-    username = 'testuser';
+    var comment, text, timestamp, user;
+    user = {
+      username: 'testuser',
+      userID: '12dfeg92345301xsdfj',
+      img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'
+    };
     timestamp = timeline.currentTimelineURI();
     text = $('#input-field').val();
     $('#input-field').val('');
     comment = {
       video: timestamp.split('/')[0],
-      username: 'testuser',
+      user: user,
       timestamp: timestamp,
       text: text,
       display: 'true',
@@ -154,8 +158,14 @@
     }
   };
 
+  window.timelineURItoX = function(uri) {
+    var time;
+    time = uri.split('/')[1];
+    return (time / timeline.totalDuration) * 100;
+  };
+
   $(function() {
-    var addCallback, ageMostRecentComment, displayComment, getComments, hasCallback, hideComment, pruneAndAgeComments, reportOnDeck, timeline;
+    var addCallback, ageMostRecentComment, currentComments, displayComment, draw, getComments, hasCallback, hideComment, pruneAndAgeComments, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -257,6 +267,7 @@
         $('#second .userAndTime').text($('#third .userAndTime').text())
     
         $('#third .message').text(comment['text'])
+
      */
     addCallback = function(comments) {
       var comment, _i, _len, _results;
@@ -276,14 +287,64 @@
       }
       return _results;
     };
+    $('#comment-timeline-canvas').qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      content: "Comment!",
+      position: {
+        target: 'mouse',
+        adjust: {
+          x: 0,
+          y: 5
+        }
+      }
+    });
+    stage = new createjs.Stage("comment-timeline-canvas");
+    stage.on("stagemousedown", function(evt) {
+      console.log("the canvas was clicked at " + evt.stageX);
+      return timeline.seekToX(evt.stageX.toPrecision(2));
+    });
+    draw = function(comments) {
+      var comment, line, percentAcrossCanvas, _fn, _i, _len;
+      _fn = function(comment) {
+        console.log("DOING IT");
+        line.on("mouseover", function() {
+          var newtip;
+          newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>';
+          return $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
+        });
+        return line.on("mouseout", function() {
+          return $('#comment-timeline-canvas').qtip('option', 'content.text', "Comment!");
+        });
+      };
+      for (_i = 0, _len = comments.length; _i < _len; _i++) {
+        comment = comments[_i];
+        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2);
+        line = new createjs.Shape();
+        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas, 0, 2, 300);
+        stage.addChild(line);
+        stage.enableMouseOver();
+        _fn(comment);
+      }
+      return stage.update();
+    };
+    currentComments = '';
     getComments = function() {
       return $.ajax({
         type: "GET",
         url: "/comments",
         dataType: "json",
         success: function(comments) {
+          var stringifiedComments;
           console.log('successful comments get');
-          addCallback(comments);
+          stringifiedComments = JSON.stringify(comments);
+          if (currentComments !== stringifiedComments) {
+            console.log("new comment");
+            addCallback(comments);
+            draw(comments);
+            currentComments = stringifiedComments;
+          }
         }
       });
     };
