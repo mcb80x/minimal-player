@@ -235,41 +235,57 @@ $ ->
         console.log ("the canvas was clicked at "+evt.stageX)
         timeline.seekToX((evt.stageX).toPrecision(2))
     )
+    $('#comment-timeline-canvas').qtip({
+      content: 'Comment!',
+      position: {
+        target: 'mouse', 
+        adjust: { x: 5, y: 5 }
+      }
+    })
+    qapi = $('#comment-timeline-canvas').data('qtip')
     draw = (comments)->
       for comment in comments
         # console.log canvas.width #300
         # x/300 = percent/100
         percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
         line = new createjs.Shape()
-        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,1,300)
+        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,300)
         stage.addChild(line)
         stage.enableMouseOver()
         do(comment)->
-          line.on("mouseover", (evt)-> 
-                  console.log(comment['text'])
-                  stage.canvas.title = comment['text'];
+          console.log "DOING IT"
+          line.on("mouseover", ->
+            newtip = comment['text']
+            qapi.options.content.text = newtip;
+            qapi.elements.content.text(newtip);
           )
-          line.on("mouseout", (evt)-> 
-                  console.log(comment['text'])
-                  stage.canvas.title = '';
+          line.on("mouseout", ->
+            newtip = "Comment!"
+            qapi.options.content.text = newtip;
+            qapi.elements.content.text(newtip);
           )
-        stage.update()
+      stage.update()
 
+    currentComments = ''
     getComments = ->
       #pull comments from database
       $.ajax({
-          type: "GET",
-          url: "/comments",
-          dataType: "json",
-          success: (comments)->
-            console.log('successful comments get')
-            draw(comments)
+        type: "GET",
+        url: "/comments",
+        dataType: "json",
+        success: (comments)->
+          console.log('successful comments get')
+          stringifiedComments = JSON.stringify(comments)
+          if currentComments isnt stringifiedComments
+            console.log "new comment"
             addCallback(comments)
-            return
+            draw(comments)
+            currentComments = stringifiedComments
+          return
       });
-
-    getComments()
-    setInterval(getComments, 1000)
+    setTimeout(-> 
+      setInterval(getComments, 1000)
+    , 1000)
 
     #volume control
     $( "#slider-vertical" ).slider(
@@ -286,18 +302,14 @@ $ ->
 
     $(".icon-volume-down").on(
       mouseenter: ->
-          #stuff to do on mouse enter
           $(".ui-slider-vertical").show()
       mouseleave: ->
-          #stuff to do on mouse leave
           $(".ui-slider-vertical").hide()
     );
     $(".ui-slider-vertical").on(
       mouseenter: ->
-          #stuff to do on mouse enter
           $(".ui-slider-vertical").show()
       mouseleave: ->
-          #stuff to do on mouse leave
           $(".ui-slider-vertical").hide()
     );
 

@@ -165,7 +165,7 @@
   };
 
   $(function() {
-    var addCallback, displayComment, draw, getComments, hasCallback, hideComment, reportOnDeck, stage, timeline;
+    var addCallback, currentComments, displayComment, draw, getComments, hasCallback, hideComment, qapi, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -278,45 +278,67 @@
       console.log("the canvas was clicked at " + evt.stageX);
       return timeline.seekToX(evt.stageX.toPrecision(2));
     });
+    $('#comment-timeline-canvas').qtip({
+      content: 'Comment!',
+      position: {
+        target: 'mouse',
+        adjust: {
+          x: 5,
+          y: 5
+        }
+      }
+    });
+    qapi = $('#comment-timeline-canvas').data('qtip');
     draw = function(comments) {
-      var comment, line, percentAcrossCanvas, _fn, _i, _len, _results;
+      var comment, line, percentAcrossCanvas, _fn, _i, _len;
       _fn = function(comment) {
-        line.on("mouseover", function(evt) {
-          console.log(comment['text']);
-          return stage.canvas.title = comment['text'];
+        console.log("DOING IT");
+        line.on("mouseover", function() {
+          var newtip;
+          newtip = comment['text'];
+          qapi.options.content.text = newtip;
+          return qapi.elements.content.text(newtip);
         });
-        return line.on("mouseout", function(evt) {
-          console.log(comment['text']);
-          return stage.canvas.title = '';
+        return line.on("mouseout", function() {
+          var newtip;
+          newtip = "Comment!";
+          qapi.options.content.text = newtip;
+          return qapi.elements.content.text(newtip);
         });
       };
-      _results = [];
       for (_i = 0, _len = comments.length; _i < _len; _i++) {
         comment = comments[_i];
         percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2);
         line = new createjs.Shape();
-        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas, 0, 1, 300);
+        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas, 0, 2, 300);
         stage.addChild(line);
         stage.enableMouseOver();
         _fn(comment);
-        _results.push(stage.update());
       }
-      return _results;
+      return stage.update();
     };
+    currentComments = '';
     getComments = function() {
       return $.ajax({
         type: "GET",
         url: "/comments",
         dataType: "json",
         success: function(comments) {
+          var stringifiedComments;
           console.log('successful comments get');
-          draw(comments);
-          addCallback(comments);
+          stringifiedComments = JSON.stringify(comments);
+          if (currentComments !== stringifiedComments) {
+            console.log("new comment");
+            addCallback(comments);
+            draw(comments);
+            currentComments = stringifiedComments;
+          }
         }
       });
     };
-    getComments();
-    setInterval(getComments, 1000);
+    setTimeout(function() {
+      return setInterval(getComments, 1000);
+    }, 1000);
     $("#slider-vertical").slider({
       orientation: "vertical",
       range: "min",
