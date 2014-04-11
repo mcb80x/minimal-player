@@ -124,9 +124,6 @@ window.toggleVolume = ->
     video_playing.muted = false
     $( "#slider-vertical" ).slider({value: 100})
 
-#window.removeComment = ->
-#  window.editComment({"selector": {"text": $('.message').text()}, "field": "display", "newValue": "false"})
-
 
 $ ->
     util.maintainAspect()
@@ -142,7 +139,8 @@ $ ->
 
     #if window.showComments? and window.showSubtitles
     #  window.toggleComments()
-
+ 
+#Input Bar JQuery Functions
     $('#input-field').focus( ->
       if this.value is this.defaultValue
         this.value = '';
@@ -155,38 +153,16 @@ $ ->
         $(this).addClass('default');
     )
 
-    $('.hideUntilMouseOver').hide()
-
-    $('#first, #second, #third').mouseenter(->
-      $(this).addClass('expanded')
-      $(this).find('.hideUntilMouseOver').show()
-    )
-    $('#first, #second, #third').mouseleave(->
-      $(this).removeClass('expanded')
-      $(this).find('.hideUntilMouseOver').hide()
-    )
-
-    #appropriately thread reply-comments
-    $("#first .icon-mail-reply").on("click", ->
-      alert "clicked first reply"
-      replyToID = $("#first").data("messageID")
-      discussionID = $("#first").data("discussionID")
-    )
-    
-    $("#second .icon-mail-reply").on("click", ->
-      alert "clicked second reply"
-      replyToID = $("#second").data("messageID")
-      discussionID = $("#second").data("discussionID")
-    )
-
-    $("#third .icon-mail-reply").on("click", ->
-      alert "clicked third reply"
-      replyToID = $("#third").data("messageID")
-      discussionID = $("#third").data("discussionID")
-    )
-
     $('#input-field').keypress((e)->
       if e.which is 13 then submitInput()
+    )
+
+    #Comment Threading
+    $(".icon-mail-reply").on("click", ->
+      alert()
+      $('$input-field').val('@Reply')
+      replyToID = $(this).data("messageID")
+      discussionID = $("#first").data("discussionID")
     )
 
     # Gets all comments from db, installs their callbacks
@@ -197,7 +173,53 @@ $ ->
       console.log('deleting')
       $('#comment-container div:first').remove()
 
+    pruneAndAgeComments = ->
+      # hide current comment if it is older than 5 seconds
+      commentDate = $('.newComment').data("time-created")
+      currentDate = new Date().getTime()
+      if currentDate - commentDate > 5000 then ageMostRecentComment()
+      
+      for comment in $('.oldComment')
+        # move comments to the right
+        $(comment).css('left', $(comment).position()['left'] + 20)
+        # Removes old comments that have moved off the screen
+        if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
+      
+    ageMostRecentComment = ->
+      $('.newComment').children().hide()
+      $('.newComment').addClass('oldComment')
+         .css('left', '5px')
+         .hover(->
+          $(this).children().show()
+        , ->
+          $(this).children().hide()
+      ).removeClass('newComment')
+      
     displayComment = (comment)->
+      if comment['display'] is 'true'
+        ageMostRecentComment()
+        pruneAndAgeComments()
+        # create a new comment
+        $emptyComment = $('<div/>').addClass('newComment').append('
+              <p class="message"></p> 
+              <span class="time"></span>
+              <i class="icon-mail-reply" title="Reply to this Comment"></i>
+              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+              </a>')
+        $emptyComment.find('.message').text('@' + comment['username'] + ': ' + comment['text'])
+        $emptyComment.find('.username').text(comment['username'])
+        screenWidth = $('#player-wrapper').width()
+        $emptyComment.data("time-created", new Date().getTime())
+        # I'm storing the message ID on the reply button because I think this should make threaded convos easier
+        discussionID = comment['discussion_id'] || comment['_id']['$oid']
+        $emptyComment.find('.reply').data("comment-threading", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
+        $('#comment-container').prepend($emptyComment)
+
+        
+      
+
+    ###
       if comment['display'] is 'true'
 
         if comment['discussion_id'] is null
@@ -217,8 +239,9 @@ $ ->
         $('#second .userAndTime').text($('#third .userAndTime').text())
 
         $('#third .message').text(comment['text'])
-        $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
-
+      ###
+      ##  $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
+      
 
     addCallback = (comments)-> 
       for comment in comments
@@ -239,7 +262,10 @@ $ ->
       });
 
     getComments()
-    setInterval(getComments, 1000)
+    setInterval(->
+      pruneAndAgeComments()
+      getComments()
+    , 1000)
 
     #volume control
     $( "#slider-vertical" ).slider(

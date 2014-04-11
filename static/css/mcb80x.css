@@ -80,25 +80,22 @@ img.lesson-teaser{float:right;}
 
 /* ------------------------ Comments ----------------- */
 #comment-container{bottom: 48px; display:none; height: 70px; position: absolute; z-index:900; width: 100%;}
-.comment{background-color:#fff; border-radius: 5px; bottom: 30px; color: #000; height: 34px; overflow: hidden; opacity: 0.8; padding: 2px; position: absolute;}
-.comment:hover{background-color: #fff; border: 2px solid black; color: #000; opacity: 1.0;}
-#first{left: 3%; width: 30%;}
-#second{left: 35%; width: 30%;}
-#third{left: 67%; width: 30%;}
-.expanded{height: 134px;}
-.userAndTime{bottom: 0px; font-size: 12px; margin: 3px; position: absolute; right: 50px;}
-.message{font-size: 16px; margin: 0px;}
-.messageID{display:none;}
-.discussionID{display:none;}
-#comment-bar{margin-left: 20px; margin-right: 20px;}
+.newComment{background-color:#fff; bottom: 25px; color: #000; height: 30px; overflow: hidden; position: absolute; width: 100%; z-index: 100;}
+.newComment .time{display: none;} 
+.newComment .message{bottom: 5px; font-size: 16px; left: 50px; margin: 0px; position: absolute;}
+
+.oldComment{background-color: #fff; border-radius: 10px; bottom: 60px; height: 20px; opacity: .5; position: absolute; width: 20px;}
+.oldComment:hover{background-color:#fff; border-radius: 5px; bottom: 80px; color: #000; left: 0px; height: 150px; opacity: 0.8; position: absolute; width: 150px;}}
+.oldComment .time{bottom: 0px; font-size: 12px; display: block; margin: 3px; position: absolute; left: 50px;}
+.oldComment .message{top: 5px; left: 5px; position: absolute;}
+
+
 /* Comment Action Buttons */
-.icon-mail-reply{color: #999;}
+.icon-mail-reply{bottom: 5px; position: absolute; left: 5px; color: #999;}
 .icon-mail-reply:hover{color:#000;}
-.reply{right: 0px;}
-.flag{right: 20px;}
+.flag{bottom: 5px; position: absolute; left: 25px;}
 .icon-warning-sign{color: #999;}
 .icon-warning-sign:hover{color:#c33}
-.comment a{bottom: 0px; margin: 0px 5px; position: absolute;}
 /* Forward/Next Buttons */
 #prev, #next{top: 3px; font-size: 36px;  position: absolute; width: 20px;}
 #prev{left: 0px;}
