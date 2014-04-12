@@ -106,20 +106,20 @@ img.lesson-teaser{float:right;}
 #next{right: 0px;}
 #prev i:hover, #next i:hover{color: #999;}
 /* --- Comment Submission --- */
-input{background-color: #fff; bottom: 0px; border: 0; font-size: 16px; height: 19px; left: 25px; padding: 3px 3px 3px 5px; position: absolute; width: 100%}
+input{background-color: #fff; bottom: 0px; border: 0; font-size: 16px; height: 19px; left: 0px; padding: 3px 3px 3px 5px; position: absolute; width: 100%}
 .default{color: gray;}
 #cancel-button, #submit-button, #input-icon{background-color: #fff; bottom: 0px; color: #999; height: 19px; padding: 3px; position: absolute; text-align: center; width: 19px;}
-#cancel-button{left: 0px;}
+#cancel-button{display: none; left: 0px;}
 #cancel-button:hover{color: #c33;}
 #submit-button{right: 0px;}
 #submit-button:hover{color: #1b926c;}
 #input-icon{left: 0px;}
-#reply-label{background-color: #fff; bottom: 0px; color: #999; height: 19px; left: 25px; padding: 3px; position: absolute;}
+#reply-label{background-color: #fff; bottom: 0px; color: #999; display: none; font-style: italic; height: 19px; left: 25px; padding: 3px; position: absolute;}
 /* --- Upper-righthand corner navigation --- */
 a, i{text-decoration: none;}
 .right-nav i{color:#ccc; padding-left: 3px; padding-right: 3px;}
 .right-nav i:hover{color:#1b926c}
-.on{color: #1b926c; !important;}
+.on{color: #1b926c !important;}
 
 /* --- Volume Control --- */
 .icon-volume-down{width:30px; height:30px; color:#999;}

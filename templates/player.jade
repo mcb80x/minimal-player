@@ -202,7 +202,7 @@ html
             a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
               i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
           input#input-field(value="Say something...", placeholder="Say something...")
-          i#input-icon(class="icon-edit", title="Type a comment here")
+          i#cancel-button(class="icon-undo", title="Clear the input field", onclick="resetInputField();")
           span#reply-label
           i#submit-button(class="icon-double-angle-right", title="Submit this Comment", onclick="submitInput();")
           

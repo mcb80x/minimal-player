@@ -133,19 +133,18 @@ window.timelineURItoX = (uri) ->
   (time/timeline.totalDuration) * 100
 
 window.resetInputField = ->
-  $('#cancel-button').replaceWith('<i id="input-icon" class="icon-edit" title="Type a comment here"></i>')
   $('#input-field').val('Say something...').addClass('default')
   $('#input-field').data('conversation', null)
-  $('#reply-label').hide()
-  $('#input-field').css('left', 25)
+  $('#reply-label, #cancel-button').hide()
+  $('#input-field').css('left', 0)
 
 window.setupCommentReply = ->
   $whichComment = $('.oldCommentHover')
   str = $whichComment.text()
   name = str.slice(0,str.indexOf(':')+1)
   $('#reply-label').text('@' + name).show()
+  $('#cancel-button').show()
   $('#input-field').css('left', $('#reply-label').width() + 6 + 25)
-  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
   #replyToID = $whichComment.data('conversation')["messageID"]
   #discussionID = $whichComment.data('conversation')["discussionID"]
   #alert("discussionID", discussionID)

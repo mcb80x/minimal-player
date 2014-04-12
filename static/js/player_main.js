@@ -165,11 +165,10 @@
   };
 
   window.resetInputField = function() {
-    $('#cancel-button').replaceWith('<i id="input-icon" class="icon-edit" title="Type a comment here"></i>');
     $('#input-field').val('Say something...').addClass('default');
     $('#input-field').data('conversation', null);
-    $('#reply-label').hide();
-    return $('#input-field').css('left', 25);
+    $('#reply-label, #cancel-button').hide();
+    return $('#input-field').css('left', 0);
   };
 
   window.setupCommentReply = function() {
@@ -178,8 +177,8 @@
     str = $whichComment.text();
     name = str.slice(0, str.indexOf(':') + 1);
     $('#reply-label').text('@' + name).show();
+    $('#cancel-button').show();
     $('#input-field').css('left', $('#reply-label').width() + 6 + 25);
-    $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>');
     return $('#input-field').data('conversation', $whichComment.data('conversation'));
   };
 
