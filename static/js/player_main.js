@@ -164,8 +164,27 @@
     return (time / timeline.totalDuration) * 100;
   };
 
+  window.resetInputField = function() {
+    $('#cancel-button').replaceWith('<i id="input-icon" class="icon-edit" title="Type a comment here"></i>');
+    $('#input-field').val('Say something...').addClass('default');
+    $('#input-field').data('conversation', null);
+    $('#reply-label').hide();
+    return $('#input-field').css('left', 25);
+  };
+
+  window.setupCommentReply = function() {
+    var $whichComment, name, str;
+    $whichComment = $('.oldCommentHover');
+    str = $whichComment.text();
+    name = str.slice(0, str.indexOf(':') + 1);
+    $('#reply-label').text(name).show();
+    $('#input-field').css('left', $('#reply-label').width() + 6 + 25);
+    $('#input-icon').replaceWith('<i id="cancel-button" class="icon-ban-circle" title="Clear the input field" onclick="resetInputField();"></i>');
+    return $('#input-field').data('conversation', $whichComment.data('conversation'));
+  };
+
   $(function() {
-    var addCallback, ageMostRecentComment, currentComments, displayComment, draw, getComments, hasCallback, hideComment, pruneAndAgeComments, reportOnDeck, stage, timeline;
+    var addCallback, ageMostRecentComment, currentComments, displayComment, draw, getComments, hasCallback, hideComment, intervalHandler, pruneAndAgeComments, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -176,6 +195,8 @@
       if (this.value === this.defaultValue) {
         this.value = '';
         return $(this).removeClass('default');
+      } else {
+        return $('#input-icon').replaceWith('<i id="cancel-button" class="icon-ban-circle" title="Clear the input field" onclick="resetInputField();"></i>');
       }
     });
     $('#input-field').blur(function() {
@@ -189,57 +210,74 @@
         return submitInput();
       }
     });
-    $(".icon-mail-reply").on("click", function() {
-      alert();
-      $('$input-field').val('@Reply');
-      replyToID = $(this).data("messageID");
-      return discussionID = $("#first").data("discussionID");
-    });
+
+    /*
+    $(".icon-mail-reply").click( ->
+      $('$input-field').val()
+      replyToID = $(this).data("messageID")
+    
+      discussionID = $("#first").data("discussionID")
+    )
+     */
     hasCallback = [];
     hideComment = function() {
       console.log('deleting');
       return $('#comment-container div:first').remove();
     };
     pruneAndAgeComments = function() {
-      var comment, commentDate, currentDate, _i, _len, _ref, _results;
+      var comment, commentDate, currentDate, line, _i, _j, _len, _len1, _ref, _ref1, _results;
       commentDate = $('.newComment').data("time-created");
       currentDate = new Date().getTime();
       if (currentDate - commentDate > 5000) {
         ageMostRecentComment();
       }
       _ref = $('.oldComment');
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         comment = _ref[_i];
         $(comment).css('left', $(comment).position()['left'] + 20);
         if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
-          _results.push($(comment).remove());
-        } else {
-          _results.push(void 0);
+          $(comment).remove();
         }
+      }
+      _ref1 = $('.dottedLine');
+      _results = [];
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        line = _ref1[_j];
+        _results.push($(line).css('left', $(line).position()['left'] + 20));
       }
       return _results;
     };
     ageMostRecentComment = function() {
       $('.newComment').children().hide();
-      return $('.newComment').addClass('oldComment').css('left', '5px').hover(function() {
-        return $(this).children().show();
-      }, function() {
-        return $(this).children().hide();
+      return $('.newComment').addClass('oldComment').css('left', '5px').click(function() {
+        var $dottedLine, $hoverDetail;
+        if (($(this).data('clicked') == null) || $(this).data('clicked')) {
+          clearInterval(intervalHandler);
+          $hoverDetail = $(this).clone().addClass('oldCommentHover').css('left', $(this).position()['left'] + 10);
+          $hoverDetail.children().show();
+          $hoverDetail.data('conversation', $(this).data('conversation'));
+          $dottedLine = $('<div/>').addClass('dottedLine').css('left', $(this).position()['left'] + 10);
+          $('#comment-container').append($hoverDetail);
+          $('#comment-container').append($dottedLine);
+          return $(this).data('clicked', false);
+        } else {
+          $('.oldCommentHover').remove();
+          $('.dottedLine').remove();
+          return $(this).data('clicked', true);
+        }
       }).removeClass('newComment');
     };
     displayComment = function(comment) {
-      var $emptyComment, screenWidth;
+      var $emptyComment;
       if (comment['display'] === 'true') {
         ageMostRecentComment();
         pruneAndAgeComments();
-        $emptyComment = $('<div/>').addClass('newComment').append('<p class="message"></p> <span class="time"></span> <i class="icon-mail-reply" title="Reply to this Comment"></i> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+        $emptyComment = $('<div/>').addClass('newComment').append('<p class="message"></p> <span class="time"></span> <a href="javascript:void(0);" class="reply" onclick="setupCommentReply();"> <i class="icon-mail-reply" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
         $emptyComment.find('.message').text('@' + comment['username'] + ': ' + comment['text']);
         $emptyComment.find('.username').text(comment['username']);
-        screenWidth = $('#player-wrapper').width();
         $emptyComment.data("time-created", new Date().getTime());
         discussionID = comment['discussion_id'] || comment['_id']['$oid'];
-        $emptyComment.find('.reply').data("comment-threading", {
+        $emptyComment.data("conversation", {
           'messageID': comment['_id']['$oid'],
           'discussionID': discussionID
         });
@@ -267,7 +305,7 @@
         $('#second .userAndTime').text($('#third .userAndTime').text())
     
         $('#third .message').text(comment['text'])
-
+    <<<<<<< HEAD
      */
     addCallback = function(comments) {
       var comment, _i, _len, _results;
@@ -349,7 +387,7 @@
       });
     };
     getComments();
-    setInterval(function() {
+    intervalHandler = setInterval(function() {
       pruneAndAgeComments();
       return getComments();
     }, 1000);

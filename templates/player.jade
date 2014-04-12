@@ -202,8 +202,9 @@ html
             a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
               i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
           input#input-field(value="Say something...", placeholder="Say something...")
-          i#submit-button(class="icon-play", title="Submit this Comment", onclick="submitInput();")
           i#input-icon(class="icon-edit", title="Type a comment here")
+          span#reply-label
+          i#submit-button(class="icon-play", title="Submit this Comment", onclick="submitInput();")
           
         // Title / lower-third container
         #title-banner.lower-third
