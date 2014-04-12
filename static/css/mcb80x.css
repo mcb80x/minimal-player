@@ -94,12 +94,12 @@ img.lesson-teaser{float:right;}
 .dottedLine{border-left: 1px gray dotted; /*bottom: 70px;*/ bottom: -10px; height: 210px; position: absolute;}
 
 /* Comment Action Buttons */
-.icon-mail-reply{bottom: 5px; position: absolute; left: 5px; color: #999;}
-.icon-mail-reply:hover{color:#000;}
+.icon-mail-forward{bottom: 5px; position: absolute; left: 5px; color: #999;}
+.icon-mail-forward:hover{color: #1b926c;}
 .reply{bottom: 5px; position: absolute: left: 5px;}
-.flag{bottom: 5px; position: absolute; left: 25px;}
-.icon-warning-sign{color: #999;}
-.icon-warning-sign:hover{color:#c33}
+.reply:hover{color:#1b926c;}
+.flag{bottom: 5px; color: #999; position: absolute; left: 25px;}
+.flag:hover{color:#c33}
 /* Forward/Next Buttons */
 #prev, #next{top: 3px; font-size: 36px;  position: absolute; width: 20px;}
 #prev{left: 0px;}
@@ -110,15 +110,16 @@ input{background-color: #fff; bottom: 0px; border: 0; font-size: 16px; height: 1
 .default{color: gray;}
 #cancel-button, #submit-button, #input-icon{background-color: #fff; bottom: 0px; color: #999; height: 19px; padding: 3px; position: absolute; text-align: center; width: 19px;}
 #cancel-button{left: 0px;}
+#cancel-button:hover{color: #c33;}
 #submit-button{right: 0px;}
-#submit-button:hover{color: #000;}
+#submit-button:hover{color: #1b926c;}
 #input-icon{left: 0px;}
 #reply-label{background-color: #fff; bottom: 0px; color: #999; height: 19px; left: 25px; padding: 3px; position: absolute;}
 /* --- Upper-righthand corner navigation --- */
 a, i{text-decoration: none;}
 .right-nav i{color:#ccc; padding-left: 3px; padding-right: 3px;}
-.right-nav i:hover{color:#c33}
-.on{color: red !important;}
+.right-nav i:hover{color:#1b926c}
+.on{color: #1b926c; !important;}
 
 /* --- Volume Control --- */
 .icon-volume-down{width:30px; height:30px; color:#999;}

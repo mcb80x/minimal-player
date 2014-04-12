@@ -4,7 +4,7 @@
 
   window.toggleSubtitles = function() {
     $('#comment-container').css('display', 'none');
-    $('.icon-comment').removeClass('on');
+    $('#toggleComments').removeClass('on');
     if ($('.icon-quote-left').hasClass('on')) {
       $('.icon-quote-left').removeClass('on');
     } else {
@@ -21,10 +21,10 @@
   window.toggleComments = function() {
     $('#subtitle-container').css('display', 'none');
     $('.icon-quote-left').removeClass('on');
-    if ($('.icon-comment').hasClass('on')) {
-      $('.icon-comment').removeClass('on');
+    if ($('#toggleComments').hasClass('on')) {
+      $('#toggleComments').removeClass('on');
     } else {
-      $('.icon-comment').addClass('on');
+      $('#toggleComments').addClass('on');
     }
     return $('#comment-container').slideToggle({
       duration: 400,
@@ -177,9 +177,9 @@
     $whichComment = $('.oldCommentHover');
     str = $whichComment.text();
     name = str.slice(0, str.indexOf(':') + 1);
-    $('#reply-label').text(name).show();
+    $('#reply-label').text('@' + name).show();
     $('#input-field').css('left', $('#reply-label').width() + 6 + 25);
-    $('#input-icon').replaceWith('<i id="cancel-button" class="icon-ban-circle" title="Clear the input field" onclick="resetInputField();"></i>');
+    $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>');
     return $('#input-field').data('conversation', $whichComment.data('conversation'));
   };
 
@@ -196,7 +196,7 @@
         this.value = '';
         return $(this).removeClass('default');
       } else {
-        return $('#input-icon').replaceWith('<i id="cancel-button" class="icon-ban-circle" title="Clear the input field" onclick="resetInputField();"></i>');
+        return $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>');
       }
     });
     $('#input-field').blur(function() {
@@ -271,8 +271,8 @@
       if (comment['display'] === 'true') {
         ageMostRecentComment();
         pruneAndAgeComments();
-        $emptyComment = $('<div/>').addClass('newComment').append('<p class="message"></p> <span class="time"></span> <a href="javascript:void(0);" class="reply" onclick="setupCommentReply();"> <i class="icon-mail-reply" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
-        $emptyComment.find('.message').text('@' + comment['username'] + ': ' + comment['text']);
+        $emptyComment = $('<div/>').addClass('newComment').append('<p class="message"></p> <span class="time"></span> <a href="javascript:void(0);" class="reply" onclick="setupCommentReply();"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+        $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text']);
         $emptyComment.find('.username').text(comment['username']);
         $emptyComment.data("time-created", new Date().getTime());
         discussionID = comment['discussion_id'] || comment['_id']['$oid'];

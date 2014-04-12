@@ -3,7 +3,7 @@
 
 window.toggleSubtitles = ->
   $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
-  $('.icon-comment').removeClass('on')
+  $('#toggleComments').removeClass('on')
 
   if $('.icon-quote-left').hasClass('on')
     $('.icon-quote-left').removeClass('on')
@@ -18,9 +18,9 @@ window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   $('.icon-quote-left').removeClass('on')
 
-  if $('.icon-comment').hasClass('on')
-    $('.icon-comment').removeClass('on')
-  else $('.icon-comment').addClass('on')
+  if $('#toggleComments').hasClass('on')
+    $('#toggleComments').removeClass('on')
+  else $('#toggleComments').addClass('on')
   $('#comment-container').slideToggle
     duration: 400
     complete: ->
@@ -143,9 +143,9 @@ window.setupCommentReply = ->
   $whichComment = $('.oldCommentHover')
   str = $whichComment.text()
   name = str.slice(0,str.indexOf(':')+1)
-  $('#reply-label').text(name).show()
+  $('#reply-label').text('@' + name).show()
   $('#input-field').css('left', $('#reply-label').width() + 6 + 25)
-  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-ban-circle" title="Clear the input field" onclick="resetInputField();"></i>')
+  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
   #replyToID = $whichComment.data('conversation')["messageID"]
   #discussionID = $whichComment.data('conversation')["discussionID"]
   #alert("discussionID", discussionID)
@@ -172,7 +172,7 @@ $ ->
         this.value = '';
         $(this).removeClass('default');
       else
-        $('#input-icon').replaceWith('<i id="cancel-button" class="icon-ban-circle" title="Clear the input field" onclick="resetInputField();"></i>')
+        $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
     )
 
     $('#input-field').blur( ->
@@ -249,12 +249,12 @@ $ ->
               <p class="message"></p> 
               <span class="time"></span>
               <a href="javascript:void(0);" class="reply" onclick="setupCommentReply();">
-                <i class="icon-mail-reply" title="Reply to this Comment"></i>
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
               </a>
               <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
                 <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
               </a>')
-        $emptyComment.find('.message').text('@' + comment['username'] + ': ' + comment['text'])
+        $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text'])
         $emptyComment.find('.username').text(comment['username'])
 
         $emptyComment.data("time-created", new Date().getTime())

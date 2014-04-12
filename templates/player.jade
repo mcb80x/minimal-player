@@ -154,7 +154,7 @@ html
         // Site Navigation
         .right-nav
           a(href="javascript:void(0);", onclick="toggleComments();")
-            i(class="icon-comment", title="toggle comments")
+            i#toggleComments(class="icon-comments", title="toggle comments")
                     
           a(href="javascript:void(0);", onclick="toggleSubtitles();")
             i(class="icon-quote-left", title="toggle subtitles")
@@ -204,7 +204,7 @@ html
           input#input-field(value="Say something...", placeholder="Say something...")
           i#input-icon(class="icon-edit", title="Type a comment here")
           span#reply-label
-          i#submit-button(class="icon-play", title="Submit this Comment", onclick="submitInput();")
+          i#submit-button(class="icon-double-angle-right", title="Submit this Comment", onclick="submitInput();")
           
         // Title / lower-third container
         #title-banner.lower-third
