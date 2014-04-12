@@ -95,9 +95,9 @@ img.lesson-teaser{float:right;}
 
 /* Comment Action Buttons */
 .icon-mail-forward{bottom: 5px; position: absolute; left: 5px; color: #999;}
-.icon-mail-forward:hover{color: #1b926c;}
+.icon-mail-forward:hover{color: #0F0;}
 .reply{bottom: 5px; position: absolute: left: 5px;}
-.reply:hover{color:#1b926c;}
+.reply:hover{color:#0F0;}
 .flag{bottom: 5px; color: #999; position: absolute; left: 25px;}
 .flag:hover{color:#c33}
 /* Forward/Next Buttons */
@@ -112,14 +112,14 @@ input{background-color: #fff; bottom: 0px; border: 0; font-size: 16px; height: 1
 #cancel-button{display: none; left: 0px;}
 #cancel-button:hover{color: #c33;}
 #submit-button{right: 0px;}
-#submit-button:hover{color: #1b926c;}
+#submit-button:hover{color: #0F0;}
 #input-icon{left: 0px;}
 #reply-label{background-color: #fff; bottom: 0px; color: #999; display: none; font-style: italic; height: 19px; left: 25px; padding: 3px; position: absolute;}
 /* --- Upper-righthand corner navigation --- */
 a, i{text-decoration: none;}
 .right-nav i{color:#ccc; padding-left: 3px; padding-right: 3px;}
-.right-nav i:hover{color:#1b926c}
-.on{color: #1b926c !important;}
+.right-nav i:hover{color:#0F0}
+.on{color: #0F0 !important;}
 
 /* --- Volume Control --- */
 .icon-volume-down{width:30px; height:30px; color:#999;}

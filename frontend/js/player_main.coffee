@@ -51,13 +51,14 @@ window.toggleInput = ->
         $('#input-container').css('display', 'block') 
   ###
 
-replyToID = null
-discussionID = null
+
 window.submitInput = ()->
   #change the username to refer to an actual user
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#input-field').val()
+  replyToID = $('#input-field').data('replyToID') || ''
+  discussionID = $('#input-field').data('discussionID') || ''
   $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
@@ -79,8 +80,6 @@ window.submitInput = ()->
     dataType: "json",
     success: ->
       alert('successful post')
-      replyToID = null
-      discussionID = null
   });
 
 window.submitConfusion = ->
@@ -124,31 +123,30 @@ window.toggleVolume = ->
     video_playing.muted = false
     $( "#slider-vertical" ).slider({value: 100})
 
-
-#window.removeComment = ->
-#  window.editComment({"selector": {"text": $('.message').text()}, "field": "display", "newValue": "false"})
-
 window.timelineURItoX = (uri) ->
   time = uri.split('/')[1]
   (time/timeline.totalDuration) * 100
 
 window.resetInputField = ->
+  # Non-superficial
+  $('#input-field').data('username', null)
+  $('#input-field').data('replyToID', null)
+  $('#input-field').data('discussionID', null)
+  # Superficial
   $('#input-field').val('Say something...').addClass('default')
-  $('#input-field').data('conversation', null)
   $('#reply-label, #cancel-button').hide()
   $('#input-field').css('left', 0)
 
-window.setupCommentReply = ->
-  $whichComment = $('.oldCommentHover')
-  str = $whichComment.text()
-  name = str.slice(0,str.indexOf(':')+1)
-  $('#reply-label').text('@' + name).show()
+window.replyToComment = (myUsername, theirUsername, messageID, discussionID) ->
+  # Non-superficial
+  $('#input-field').data('username', myUsername)
+  $('#input-field').data('replyToID', messageID)
+  $('#input-field').data('discussionID', discussionID)
+  # Superficial
+  $('#reply-label').text('@' + theirUsername).show()
   $('#cancel-button').show()
   $('#input-field').css('left', $('#reply-label').width() + 6 + 25)
-  #replyToID = $whichComment.data('conversation')["messageID"]
-  #discussionID = $whichComment.data('conversation')["discussionID"]
-  #alert("discussionID", discussionID)
-  $('#input-field').data('conversation', $whichComment.data('conversation'))
+
 
 $ ->
     util.maintainAspect()
@@ -223,7 +221,7 @@ $ ->
       $('.newComment').addClass('oldComment').css('left', '5px').click( ->
         if !$(this).data('clicked')? || $(this).data('clicked')
           clearInterval(intervalHandler)
-          $hoverDetail = $(this).clone().addClass('oldCommentHover').css('left', 10)#$(this).position()['left']+10)
+          $hoverDetail = $(this).clone(true).addClass('oldCommentHover').css('left', 10)#$(this).position()['left']+10)
           $hoverDetail.children().show()
           $hoverDetail.data('conversation', $(this).data('conversation'))
           $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10)#$(this).position()['left']+10)
@@ -247,7 +245,7 @@ $ ->
         $emptyComment = $('<div/>').addClass('newComment').append('
               <p class="message"></p> 
               <span class="time"></span>
-              <a href="javascript:void(0);" class="reply" onclick="setupCommentReply();">
+              <a href="javascript:void(0);" class="reply">
                 <i class="icon-mail-forward" title="Reply to this Comment"></i>
               </a>
               <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
@@ -255,6 +253,11 @@ $ ->
               </a>')
         $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text'])
         $emptyComment.find('.username').text(comment['username'])
+        $emptyComment.find('.reply').click( (e) ->
+          e.stopPropagation()
+          discussionID = comment['discussion_id'] || comment['_id']['$oid']
+          replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
+        )
 
         $emptyComment.data("time-created", new Date().getTime())
         discussionID = comment['discussion_id'] || comment['_id']['$oid']
