@@ -91,7 +91,7 @@ img.lesson-teaser{float:right;}
 .oldCommentHover .time{bottom: 0px; font-size: 12px; display: block; margin: 3px; position: absolute; left: 50px;}
 .oldCommentHover .message{top: 5px; left: 5px; position: absolute;}
 
-.dottedLine{border-left: 1px gray dotted; bottom: 70px; height: 210px; position: absolute;}
+.dottedLine{border-left: 1px gray dotted; /*bottom: 70px;*/ bottom: -10px; height: 210px; position: absolute;}
 
 /* Comment Action Buttons */
 .icon-mail-reply{bottom: 5px; position: absolute; left: 5px; color: #999;}

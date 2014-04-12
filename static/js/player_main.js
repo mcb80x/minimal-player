@@ -225,25 +225,24 @@
       return $('#comment-container div:first').remove();
     };
     pruneAndAgeComments = function() {
-      var comment, commentDate, currentDate, line, _i, _j, _len, _len1, _ref, _ref1, _results;
+      var comment, commentDate, currentDate, _i, _len, _ref, _results;
       commentDate = $('.newComment').data("time-created");
       currentDate = new Date().getTime();
       if (currentDate - commentDate > 5000) {
         ageMostRecentComment();
       }
       _ref = $('.oldComment');
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         comment = _ref[_i];
-        $(comment).css('left', $(comment).position()['left'] + 20);
-        if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
-          $(comment).remove();
+        if (!$(comment).hasClass('oldCommentHover')) {
+          $(comment).css('left', $(comment).position()['left'] + 20);
         }
-      }
-      _ref1 = $('.dottedLine');
-      _results = [];
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        line = _ref1[_j];
-        _results.push($(line).css('left', $(line).position()['left'] + 20));
+        if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
+          _results.push($(comment).remove());
+        } else {
+          _results.push(void 0);
+        }
       }
       return _results;
     };
@@ -253,16 +252,16 @@
         var $dottedLine, $hoverDetail;
         if (($(this).data('clicked') == null) || $(this).data('clicked')) {
           clearInterval(intervalHandler);
-          $hoverDetail = $(this).clone().addClass('oldCommentHover').css('left', $(this).position()['left'] + 10);
+          $hoverDetail = $(this).clone().addClass('oldCommentHover').css('left', 10);
           $hoverDetail.children().show();
           $hoverDetail.data('conversation', $(this).data('conversation'));
-          $dottedLine = $('<div/>').addClass('dottedLine').css('left', $(this).position()['left'] + 10);
-          $('#comment-container').append($hoverDetail);
-          $('#comment-container').append($dottedLine);
+          $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10);
+          $(this).append($hoverDetail);
+          $(this).append($dottedLine);
           return $(this).data('clicked', false);
         } else {
-          $('.oldCommentHover').remove();
-          $('.dottedLine').remove();
+          $(this).find('.oldCommentHover').remove();
+          $(this).find('.dottedLine').remove();
           return $(this).data('clicked', true);
         }
       }).removeClass('newComment');

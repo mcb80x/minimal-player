@@ -213,27 +213,29 @@ $ ->
       if currentDate - commentDate > 5000 then ageMostRecentComment()      
       for comment in $('.oldComment')
         # move comments to the right
-        $(comment).css('left', $(comment).position()['left'] + 20)
+        if !$(comment).hasClass('oldCommentHover') then $(comment).css('left', $(comment).position()['left']+20)#$(comment).css('left', $(comment).position()['left'] + 20)
         # Removes old comments that have moved off the screen
         if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
-      for line in $('.dottedLine')
-        $(line).css('left', $(line).position()['left']+20)
+      #for line in $('.dottedLine')
+        #$(line).css('left', $(line).position()['left']+20)
       
     ageMostRecentComment = ->
       $('.newComment').children().hide()
       $('.newComment').addClass('oldComment').css('left', '5px').click( ->
         if !$(this).data('clicked')? || $(this).data('clicked')
           clearInterval(intervalHandler)
-          $hoverDetail = $(this).clone().addClass('oldCommentHover').css('left', $(this).position()['left']+10)
+          $hoverDetail = $(this).clone().addClass('oldCommentHover').css('left', 10)#$(this).position()['left']+10)
           $hoverDetail.children().show()
           $hoverDetail.data('conversation', $(this).data('conversation'))
-          $dottedLine = $('<div/>').addClass('dottedLine').css('left', $(this).position()['left']+10)
-          $('#comment-container').append($hoverDetail)
-          $('#comment-container').append($dottedLine)
+          $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10)#$(this).position()['left']+10)
+          #$('#comment-container').append($hoverDetail)
+          $(this).append($hoverDetail)
+          #$('#comment-container').append($dottedLine)
+          $(this).append($dottedLine)
           $(this).data('clicked', false)
         else
-          $('.oldCommentHover').remove()
-          $('.dottedLine').remove()
+          $(this).find('.oldCommentHover').remove()
+          $(this).find('.dottedLine').remove()
           $(this).data('clicked', true)
           # restart interval handler
       ).removeClass('newComment')
