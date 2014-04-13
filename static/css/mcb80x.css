@@ -81,17 +81,18 @@ img.lesson-teaser{float:right;}
 /* ------------------------ Comments ----------------- */
 #comment-container{bottom: 50px; display:none; height: 500px; overflow: hidden; position: absolute; z-index:900; width: 100%;}
 
-.newComment{background-color:#fff; bottom: 25px; color: #000; height: 30px; overflow: hidden; position: absolute; width: 100%; z-index: 100;}
+.oneComment{background: rgba(255,255,255,1); border: 1px gray dotted; border-radius: 0 5px 5px 0; bottom: 180px; color: #000; display: none; height: 20px; left: 10px; padding: 5px 0px; position: absolute; width: 350px;}
+.oneComment .time{bottom: 0px; font-size: 12px; display: block; margin: 3px; position: absolute; left: 50px;}
+.oneComment .message{top: 5px; left: 50px; margin: 0px; position: absolute;}
+
+.newComment .oneComment{display: none;}
+.newComment .oneComment:first-of-type{background-color:#fff; border: none; bottom: 25px; color: #000; display: block; height: 20px; left: 0px; overflow: hidden; position: absolute; width: 100%; z-index: 100;}
 .newComment .time{display: none;} 
 .newComment .message{bottom: 5px; font-size: 16px; left: 50px; margin: 0px; position: absolute;}
-
 .oldComment{background: rgba(255,255,255,.5); border-radius: 10px; bottom: 60px; height: 20px; position: absolute; width: 20px;}
-.oldComment:hover{background: rgba(0,255,255,.5);}
 
-.oldCommentHover{background: rgba(255,255,255,1); border: 1px gray dotted; border-radius: 0 5px 5px 0; bottom: 180px; color: #000; left: 0px; padding: 5px 0px; position: absolute; width: 450px;}}
-.oldCommentHover .time{bottom: 0px; font-size: 12px; display: block; margin: 3px; position: absolute; left: 50px;}
-.oldCommentHover .message{top: 5px; left: 50px; margin: 0px; position: absolute;}
-.replyComment{}
+
+
 .dottedLine{border-left: 1px gray dotted; /*bottom: 70px;*/ bottom: -40px; height: 240px; position: absolute;}
 
 /* Comment Action Buttons */

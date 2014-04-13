@@ -227,14 +227,14 @@
       var comment, commentDate, currentDate, _i, _len, _ref, _results;
       commentDate = $('.newComment').data("time-created");
       currentDate = new Date().getTime();
-      if (currentDate - commentDate > 5000) {
+      if (currentDate - commentDate > 150000) {
         ageMostRecentComment();
       }
       _ref = $('.oldComment');
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         comment = _ref[_i];
-        if (!$(comment).hasClass('oldCommentHover')) {
+        if ($(comment).hasClass('oldComment')) {
           $(comment).css('left', $(comment).position()['left'] + 20);
         }
         if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
@@ -248,32 +248,24 @@
     ageMostRecentComment = function() {
       $('.newComment').children().hide();
       return $('.newComment').addClass('oldComment').css('left', '5px').click(function() {
-        var $dottedLine, $hoverDetail;
         if (($(this).data('clicked') == null) || $(this).data('clicked')) {
-          clearInterval(intervalHandler);
-          $hoverDetail = $(this).clone(true).addClass('oldCommentHover').css('left', 10);
-          $hoverDetail.children().show();
-          $hoverDetail.data('conversation', $(this).data('conversation'));
-          $hoverDetail.css('width', ($hoverDetail.find('.message').html().length * 7) + 50);
-          $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10);
-          $(this).append($hoverDetail);
-          $(this).append($dottedLine);
+          $(this).children().show();
           return $(this).data('clicked', false);
         } else {
-          $(this).find('.oldCommentHover').remove();
-          $(this).find('.dottedLine').remove();
+          $(this).find('.dottedLine').hide();
+          $(this).find('.oneComment').hide();
           return $(this).data('clicked', true);
         }
       }).removeClass('newComment');
     };
     findCommentThread = function(discussionID) {};
     displayComment = function(comment, replies) {
-      var $emptyComment, discussionID;
+      var $dottedLine, $emptyComment, $reply, discussionID, i, reply, _i, _len;
       console.log('replies', replies);
       if (comment['display'] === 'true') {
         ageMostRecentComment();
         pruneAndAgeComments();
-        $emptyComment = $('<div/>').addClass('newComment').append('<p class="message"></p> <span class="time"></span> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+        $emptyComment = $('<div/>').addClass('newComment').append('<div class="oneComment"> <p class="message"></p> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a> </div>');
         $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text']);
         $emptyComment.find('.reply').click(function(e) {
           var discussionID;
@@ -287,21 +279,17 @@
           'messageID': comment['_id']['$oid'],
           'discussionID': discussionID
         });
-
-        /*
-        if replies.length > 0
-          for reply in replies
-            $reply = $('<div/>').addClass('replyComment').append('
-              <p class="message">' + reply['text'] + '</p> 
-              <span class="time">' + reply['timestamp'] + '</span>
-              <a href="javascript:void(0);" class="reply">
-                <i class="icon-mail-forward" title="Reply to this Comment"></i>
-              </a>
-              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
-                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
-              </a>')
-            $emptyComment.append($reply)
-         */
+        if (replies.length > 0) {
+          for (i = _i = 0, _len = replies.length; _i < _len; i = ++_i) {
+            reply = replies[i];
+            $reply = $('<div/>').addClass('oneComment').append('<p class="message">' + reply['text'] + '</p> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+            $reply.css('bottom', 148 - 32 * i);
+            $reply.css('width', ($reply.find('.message').html().length * 7) + 70);
+            $emptyComment.find('.oneComment:last').after($reply);
+          }
+        }
+        $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10).hide();
+        $emptyComment.find('.oneComment:last').after($dottedLine);
         return $('#comment-container').prepend($emptyComment);
       }
     };

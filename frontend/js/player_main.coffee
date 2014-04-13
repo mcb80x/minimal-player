@@ -3,7 +3,7 @@
 window.displayHelp = ->
   # this needs to be completed
   alert('You clicked the help button!')
-  
+
 window.toggleSubtitles = ->
   $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
   $('#toggleComments').removeClass('on')
@@ -210,10 +210,10 @@ $ ->
       # hide current comment if it is older than 5 seconds
       commentDate = $('.newComment').data("time-created")
       currentDate = new Date().getTime()
-      if currentDate - commentDate > 5000 then ageMostRecentComment()      
+      if currentDate - commentDate > 150000 then ageMostRecentComment()      
       for comment in $('.oldComment')
         # move comments to the right
-        if !$(comment).hasClass('oldCommentHover') then $(comment).css('left', $(comment).position()['left']+20)#$(comment).css('left', $(comment).position()['left'] + 20)
+        if $(comment).hasClass('oldComment') then $(comment).css('left', $(comment).position()['left']+20)#$(comment).css('left', $(comment).position()['left'] + 20)
         # Removes old comments that have moved off the screen
         if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
       #for line in $('.dottedLine')
@@ -223,20 +223,14 @@ $ ->
       $('.newComment').children().hide()
       $('.newComment').addClass('oldComment').css('left', '5px').click( ->
         if !$(this).data('clicked')? || $(this).data('clicked')
-          clearInterval(intervalHandler)
-          $hoverDetail = $(this).clone(true).addClass('oldCommentHover').css('left', 10)#$(this).position()['left']+10)
-          $hoverDetail.children().show()
-          $hoverDetail.data('conversation', $(this).data('conversation'))
-          $hoverDetail.css('width', ($hoverDetail.find('.message').html().length*7)+50) 
-          $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10)#$(this).position()['left']+10)
-          #$('#comment-container').append($hoverDetail)
-          $(this).append($hoverDetail)
-          #$('#comment-container').append($dottedLine)
-          $(this).append($dottedLine)
+          #clearInterval(intervalHandler)
+          $(this).children().show()
+          #$dottedLine = $('<div/>').addClass('dottedLine').css('left', 10)#$(this).position()['left']+10)
+          #$(this).append($dottedLine)
           $(this).data('clicked', false)
         else
-          $(this).find('.oldCommentHover').remove()
-          $(this).find('.dottedLine').remove()
+          $(this).find('.dottedLine').hide() #$(this).find('.dottedLine').remove()
+          $(this).find('.oneComment').hide()
           $(this).data('clicked', true)
           # restart interval handler
       ).removeClass('newComment')
@@ -251,14 +245,15 @@ $ ->
         pruneAndAgeComments()
         # create an empty comment
         $emptyComment = $('<div/>').addClass('newComment').append('
+              <div class="oneComment">
               <p class="message"></p> 
-              <span class="time"></span>
               <a href="javascript:void(0);" class="reply">
                 <i class="icon-mail-forward" title="Reply to this Comment"></i>
               </a>
               <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
                 <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
-              </a>')
+              </a>
+              </div>')
 
         # add data/handlers to comment
         $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text'])
@@ -272,20 +267,23 @@ $ ->
         $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
         
         # add replies
-        ###
         if replies.length > 0
-          for reply in replies
-            $reply = $('<div/>').addClass('replyComment').append('
+          for reply, i in replies
+            $reply = $('<div/>').addClass('oneComment').append('
               <p class="message">' + reply['text'] + '</p> 
-              <span class="time">' + reply['timestamp'] + '</span>
               <a href="javascript:void(0);" class="reply">
                 <i class="icon-mail-forward" title="Reply to this Comment"></i>
               </a>
               <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
                 <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
               </a>')
-            $emptyComment.append($reply) 
-        ###
+            $reply.css('bottom', 148-32*i)
+            $reply.css('width', ($reply.find('.message').html().length*7)+70)  
+            $emptyComment.find('.oneComment:last').after($reply)
+        
+        # add dotted line for mouseover
+        $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10).hide()
+        $emptyComment.find('.oneComment:last').after($dottedLine)
         # add comment to DOM   
         $('#comment-container').prepend($emptyComment)
 
