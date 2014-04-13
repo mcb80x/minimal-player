@@ -79,41 +79,55 @@ img.lesson-teaser{float:right;}
 .inputSubmitButton{float:right;}
 
 /* ------------------------ Comments ----------------- */
-#comment-container{bottom: 48px; display:none; height: 70px; position: absolute; z-index:900; width: 100%;}
+#comment-container{bottom: 48px; display:none; height: 500px; overflow: hidden; position: absolute; z-index:900; width: 100%;}
 
 .newComment{background-color:#fff; bottom: 25px; color: #000; height: 30px; overflow: hidden; position: absolute; width: 100%; z-index: 100;}
 .newComment .time{display: none;} 
 .newComment .message{bottom: 5px; font-size: 16px; left: 50px; margin: 0px; position: absolute;}
 
-.oldComment{background-color: #fff; border-radius: 10px; bottom: 60px; height: 20px; opacity: .5; position: absolute; width: 20px;}
-.oldComment:hover{background-color:#fff; border-radius: 5px; bottom: 80px; color: #000; left: 0px; height: 150px; opacity: 0.8; position: absolute; width: 150px;}}
-.oldComment .time{bottom: 0px; font-size: 12px; display: block; margin: 3px; position: absolute; left: 50px;}
-.oldComment .message{top: 5px; left: 5px; position: absolute;}
+.oldComment{background: rgba(255,255,255,.5); border-radius: 10px; bottom: 60px; height: 20px; position: absolute; width: 20px;}
 
+.oldCommentHover{background: rgba(255,255,255,1); border: 1px gray dotted; border-radius: 0 5px 5px 0; bottom: 180px; color: #000; left: 0px; padding: 5px 0px; position: absolute; width: 450px;}}
+.oldCommentHover .time{bottom: 0px; font-size: 12px; display: block; margin: 3px; position: absolute; left: 50px;}
+.oldCommentHover .message{top: 5px; left: 50px; margin: 0px; position: absolute;}
+.replyComment{}
+.dottedLine{border-left: 1px gray dotted; /*bottom: 70px;*/ bottom: -40px; height: 240px; position: absolute;}
 
 /* Comment Action Buttons */
-.icon-mail-reply{bottom: 5px; position: absolute; left: 5px; color: #999;}
+.newComment .icon-mail-forward{bottom: 5px;}
+.oldCommentHover .icon-mail-forward{top: 5px;}
+.icon-mail-forward{color: #999; left: 5px; position: absolute;}
+.icon-mail-forward:hover{color: #0F0;}
 
-.icon-mail-reply:hover{color:#000;}
-.flag{bottom: 5px; position: absolute; left: 25px;}
-.icon-warning-sign{color: #999;}
-.icon-warning-sign:hover{color:#c33}
+.newComment .reply{bottom: 5px;}
+.oldCommentHover .reply{top: 5px;}
+.reply{color: #999; left: 5px; position: absolute:}
+.reply:hover{color:#0F0;}
+
+.newComment .flag{bottom: 5px;}
+.oldCommentHover .flag{top: 5px;}
+.flag{color: #999;left: 25px; position: absolute;}
+.flag:hover{color:#c33}
 /* Forward/Next Buttons */
 #prev, #next{top: 3px; font-size: 36px;  position: absolute; width: 20px;}
 #prev{left: 0px;}
 #next{right: 0px;}
 #prev i:hover, #next i:hover{color: #999;}
 /* --- Comment Submission --- */
-input{border: 0; bottom: 0px; font-size: 16px; padding: 2px 0% 2px 3%; position: absolute; width: 97%}
+input{background-color: #fff; bottom: 0px; border: 0; font-size: 16px; height: 19px; left: 0px; padding: 3px 3px 3px 5px; position: absolute; width: 100%}
 .default{color: gray;}
-#submit-button{bottom: 5px; color: #999; position: absolute; right: 5px;}
-#submit-button:hover{color: #000;}
-#input-icon{bottom: 5px; left: 5px; color: #999; position: absolute;}
+#cancel-button, #submit-button, #input-icon{background-color: #fff; bottom: 0px; color: #999; height: 19px; padding: 3px; position: absolute; text-align: center; width: 19px;}
+#cancel-button{display: none; left: 0px;}
+#cancel-button:hover{color: #c33;}
+#submit-button{right: 0px;}
+#submit-button:hover{color: #0F0;}
+#input-icon{left: 0px;}
+#reply-label{background-color: #fff; bottom: 0px; color: #999; display: none; font-style: italic; height: 19px; left: 25px; padding: 3px; position: absolute;}
 /* --- Upper-righthand corner navigation --- */
 a, i{text-decoration: none;}
 .right-nav i{color:#ccc; padding-left: 3px; padding-right: 3px;}
-.right-nav i:hover{color:#c33}
-.on{color: red !important;}
+.right-nav i:hover{color:#0F0}
+.on{color: #0F0 !important;}
 
 /* --- Volume Control --- */
 .icon-volume-down{width:30px; height:30px; color:#999;}

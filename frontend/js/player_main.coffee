@@ -3,7 +3,7 @@
 
 window.toggleSubtitles = ->
   $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
-  $('.icon-comment').removeClass('on')
+  $('#toggleComments').removeClass('on')
 
   if $('.icon-quote-left').hasClass('on')
     $('.icon-quote-left').removeClass('on')
@@ -18,9 +18,9 @@ window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   $('.icon-quote-left').removeClass('on')
 
-  if $('.icon-comment').hasClass('on')
-    $('.icon-comment').removeClass('on')
-  else $('.icon-comment').addClass('on')
+  if $('#toggleComments').hasClass('on')
+    $('#toggleComments').removeClass('on')
+  else $('#toggleComments').addClass('on')
   $('#comment-container').slideToggle
     duration: 400
     complete: ->
@@ -51,13 +51,14 @@ window.toggleInput = ->
         $('#input-container').css('display', 'block') 
   ###
 
-replyToID = null
-discussionID = null
+
 window.submitInput = ()->
   #change the username to refer to an actual user
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#input-field').val()
+  replyToID = $('#input-field').data('replyToID') || ''
+  discussionID = $('#input-field').data('discussionID') || ''
   $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
@@ -79,8 +80,6 @@ window.submitInput = ()->
     dataType: "json",
     success: ->
       alert('successful post')
-      replyToID = null
-      discussionID = null
   });
 
 window.submitConfusion = ->
@@ -124,13 +123,29 @@ window.toggleVolume = ->
     video_playing.muted = false
     $( "#slider-vertical" ).slider({value: 100})
 
-
-#window.removeComment = ->
-#  window.editComment({"selector": {"text": $('.message').text()}, "field": "display", "newValue": "false"})
-
 window.timelineURItoX = (uri) ->
   time = uri.split('/')[1]
   (time/timeline.totalDuration) * 100
+
+window.resetInputField = ->
+  # Non-superficial
+  $('#input-field').data('username', null)
+  $('#input-field').data('replyToID', null)
+  $('#input-field').data('discussionID', null)
+  # Superficial
+  $('#input-field').val('Say something...').addClass('default')
+  $('#reply-label, #cancel-button').hide()
+  $('#input-field').css('left', 0)
+
+window.replyToComment = (myUsername, theirUsername, messageID, discussionID) ->
+  # Non-superficial
+  $('#input-field').data('username', myUsername)
+  $('#input-field').data('replyToID', messageID)
+  $('#input-field').data('discussionID', discussionID)
+  # Superficial
+  $('#reply-label').text('@' + theirUsername).show()
+  $('#cancel-button').show()
+  $('#input-field').css('left', $('#reply-label').width() + 6 + 25)
 
 
 $ ->
@@ -153,6 +168,8 @@ $ ->
       if this.value is this.defaultValue
         this.value = '';
         $(this).removeClass('default');
+      else
+        $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
     )
 
     $('#input-field').blur( ->
@@ -167,13 +184,14 @@ $ ->
 
 
     #Comment Threading
-    $(".icon-mail-reply").on("click", ->
-      alert()
-      $('$input-field').val('@Reply')
+    ###
+    $(".icon-mail-reply").click( ->
+      $('$input-field').val()
       replyToID = $(this).data("messageID")
 
       discussionID = $("#first").data("discussionID")
     )
+    ###
 
     # Gets all comments from db, installs their callbacks
     hasCallback = []
@@ -183,48 +201,93 @@ $ ->
       console.log('deleting')
       $('#comment-container div:first').remove()
 
+
+
     pruneAndAgeComments = ->
       # hide current comment if it is older than 5 seconds
       commentDate = $('.newComment').data("time-created")
       currentDate = new Date().getTime()
-      if currentDate - commentDate > 5000 then ageMostRecentComment()
-      
+      if currentDate - commentDate > 5000 then ageMostRecentComment()      
       for comment in $('.oldComment')
         # move comments to the right
-        $(comment).css('left', $(comment).position()['left'] + 20)
+        if !$(comment).hasClass('oldCommentHover') then $(comment).css('left', $(comment).position()['left']+20)#$(comment).css('left', $(comment).position()['left'] + 20)
         # Removes old comments that have moved off the screen
         if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
+      #for line in $('.dottedLine')
+        #$(line).css('left', $(line).position()['left']+20)
       
     ageMostRecentComment = ->
       $('.newComment').children().hide()
-      $('.newComment').addClass('oldComment')
-         .css('left', '5px')
-         .hover(->
-          $(this).children().show()
-        , ->
-          $(this).children().hide()
+      $('.newComment').addClass('oldComment').css('left', '5px').click( ->
+        if !$(this).data('clicked')? || $(this).data('clicked')
+          clearInterval(intervalHandler)
+          $hoverDetail = $(this).clone(true).addClass('oldCommentHover').css('left', 10)#$(this).position()['left']+10)
+          $hoverDetail.children().show()
+          $hoverDetail.data('conversation', $(this).data('conversation'))
+          $hoverDetail.css('width', ($hoverDetail.find('.message').html().length*7)+50) 
+          $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10)#$(this).position()['left']+10)
+          #$('#comment-container').append($hoverDetail)
+          $(this).append($hoverDetail)
+          #$('#comment-container').append($dottedLine)
+          $(this).append($dottedLine)
+          $(this).data('clicked', false)
+        else
+          $(this).find('.oldCommentHover').remove()
+          $(this).find('.dottedLine').remove()
+          $(this).data('clicked', true)
+          # restart interval handler
       ).removeClass('newComment')
-      
-    displayComment = (comment)->
+    
+    findCommentThread = (discussionID) ->
+
+
+    displayComment = (comment, replies)->
+      console.log('replies', replies)
       if comment['display'] is 'true'
         ageMostRecentComment()
         pruneAndAgeComments()
-        # create a new comment
+        # create an empty comment
         $emptyComment = $('<div/>').addClass('newComment').append('
               <p class="message"></p> 
               <span class="time"></span>
-              <i class="icon-mail-reply" title="Reply to this Comment"></i>
+              <a href="javascript:void(0);" class="reply">
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
+              </a>
               <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
                 <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
               </a>')
-        $emptyComment.find('.message').text('@' + comment['username'] + ': ' + comment['text'])
-        $emptyComment.find('.username').text(comment['username'])
-        screenWidth = $('#player-wrapper').width()
+
+        # add data/handlers to comment
+        $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text'])
+        $emptyComment.find('.reply').click( (e) ->
+          e.stopPropagation()
+          discussionID = comment['discussion_id'] || comment['_id']['$oid']
+          replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
+        )
         $emptyComment.data("time-created", new Date().getTime())
-        # I'm storing the message ID on the reply button because I think this should make threaded convos easier
         discussionID = comment['discussion_id'] || comment['_id']['$oid']
-        $emptyComment.find('.reply').data("comment-threading", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
+        $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
+        
+        # add replies
+        ###
+        if replies.length > 0
+          for reply in replies
+            $reply = $('<div/>').addClass('replyComment').append('
+              <p class="message">' + reply['text'] + '</p> 
+              <span class="time">' + reply['timestamp'] + '</span>
+              <a href="javascript:void(0);" class="reply">
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
+              </a>
+              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+              </a>')
+            $emptyComment.append($reply) 
+        ###
+        # add comment to DOM   
         $('#comment-container').prepend($emptyComment)
+
+
+
 
         
       
@@ -257,9 +320,13 @@ $ ->
 
     addCallback = (comments)-> 
       for comment in comments
-        if hasCallback.indexOf(JSON.stringify(comment)) is -1
-          timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
-          hasCallback.push(JSON.stringify(comment))
+        if comment['discussion_id'] is '' #we only care about 'parent' comments
+          if hasCallback.indexOf(JSON.stringify(comment)) is -1
+            # finds replies for particular comment
+            replies = []
+            replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
+            timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->displayComment(comment, replies))
+            hasCallback.push(JSON.stringify(comment))
 
     # Creates tooltip for viewing comments on the timeline
     $('#comment-timeline-canvas').qtip({
@@ -318,10 +385,12 @@ $ ->
 
 
     getComments()
-    setInterval(->
+    
+    intervalHandler = setInterval(->
       pruneAndAgeComments()
       getComments()
     , 1000)
+    
 
     #volume control
     $( "#slider-vertical" ).slider(

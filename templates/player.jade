@@ -154,7 +154,7 @@ html
         // Site Navigation
         .right-nav
           a(href="javascript:void(0);", onclick="toggleComments();")
-            i(class="icon-comment", title="toggle comments")
+            i#toggleComments(class="icon-comments", title="toggle comments")
                     
           a(href="javascript:void(0);", onclick="toggleSubtitles();")
             i(class="icon-quote-left", title="toggle subtitles")
@@ -202,8 +202,9 @@ html
             a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
               i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
           input#input-field(value="Say something...", placeholder="Say something...")
-          i#submit-button(class="icon-play", title="Submit this Comment", onclick="submitInput();")
-          i#input-icon(class="icon-edit", title="Type a comment here")
+          i#cancel-button(class="icon-undo", title="Clear the input field", onclick="resetInputField();")
+          span#reply-label
+          i#submit-button(class="icon-double-angle-right", title="Submit this Comment", onclick="submitInput();")
           
         // Title / lower-third container
         #title-banner.lower-third
