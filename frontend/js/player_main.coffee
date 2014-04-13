@@ -14,13 +14,21 @@ window.toggleSubtitles = ->
       #$('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
+drawCommentLines = false
 window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   $('.icon-quote-left').removeClass('on')
 
   if $('#toggleComments').hasClass('on')
+    #turn comments off
     $('#toggleComments').removeClass('on')
-  else $('#toggleComments').addClass('on')
+    drawCommentLines = false
+    $('#comment-timeline-canvas').hide()
+  else
+    #turn comments on
+    $('#toggleComments').addClass('on')
+    drawCommentLines = true
+    $('#comment-timeline-canvas').show()
   $('#comment-container').slideToggle
     duration: 400
     complete: ->
@@ -267,56 +275,6 @@ $ ->
         $emptyComment.data("time-created", new Date().getTime())
         discussionID = comment['discussion_id'] || comment['_id']['$oid']
         $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
-        
-        # add replies
-        ###
-        if replies.length > 0
-          for reply in replies
-            $reply = $('<div/>').addClass('replyComment').append('
-              <p class="message">' + reply['text'] + '</p> 
-              <span class="time">' + reply['timestamp'] + '</span>
-              <a href="javascript:void(0);" class="reply">
-                <i class="icon-mail-forward" title="Reply to this Comment"></i>
-              </a>
-              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
-                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
-              </a>')
-            $emptyComment.append($reply) 
-        ###
-        # add comment to DOM   
-        $('#comment-container').prepend($emptyComment)
-
-
-
-
-        
-      
-
-    ###
-      if comment['display'] is 'true'
-
-        if comment['discussion_id'] is null
-          comment['discussion_id'] = comment['_id']['$oid']
-
-        $('#first').data( {messageID: null, discussionID: null})                
-        $('#first').data( {messageID: $("#second").data("messageID"), discussionID: $("#second").data("discussionID")})                
-        $('#second').data( {messageID: null, discussionID: null})        
-        $('#second').data( {messageID: $("#third").data("messageID"), discussionID: $("#third").data("discussionID")})          
-        $('#third').data( {messageID: null, discussionID: null})
-        $('#third').data( {messageID: comment['_id']['$oid'], discussionID: comment['discussion_id']})
-
-        $('#first .message').text($('#second .message').text())
-        $('#first .userAndTime').text($('#second .userAndTime').text())
-
-        $('#second .message').text($('#third .message').text())
-        $('#second .userAndTime').text($('#third .userAndTime').text())
-
-        $('#third .message').text(comment['text'])
-<<<<<<< HEAD
-      ###
-      ##  $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
-      
-
 
     addCallback = (comments)-> 
       for comment in comments
@@ -354,7 +312,7 @@ $ ->
         stage.addChild(line)
         stage.enableMouseOver()
         do(comment)->
-          console.log "DOING IT"
+          console.log "adding qtip for comment: ", comment
           line.on("mouseover", ->
             newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>'
             $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
@@ -375,7 +333,7 @@ $ ->
         success: (comments)->
           console.log('successful comments get')
           stringifiedComments = JSON.stringify(comments)
-          if currentComments isnt stringifiedComments
+          if currentComments isnt stringifiedComments and drawCommentLines
             console.log "new comment"
             addCallback(comments)
             draw(comments)
@@ -384,13 +342,12 @@ $ ->
       });
 
 
-    getComments()
+    # getComments()
     
     intervalHandler = setInterval(->
       pruneAndAgeComments()
       getComments()
     , 1000)
-    
 
     #volume control
     $( "#slider-vertical" ).slider(
