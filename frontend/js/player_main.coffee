@@ -1,6 +1,9 @@
 # Run this command from minimal-player/ to continuously monitor & compile files:
 # coffee --compile --watch --output static/js/ frontend/js/
-
+window.displayHelp = ->
+  # this needs to be completed
+  alert('You clicked the help button!')
+  
 window.toggleSubtitles = ->
   $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
   $('#toggleComments').removeClass('on')

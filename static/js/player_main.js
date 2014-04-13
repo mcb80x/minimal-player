@@ -2,6 +2,10 @@
 (function() {
   var wasPausedByInput;
 
+  window.displayHelp = function() {
+    return alert('You clicked the help button!');
+  };
+
   window.toggleSubtitles = function() {
     $('#comment-container').css('display', 'none');
     $('#toggleComments').removeClass('on');
