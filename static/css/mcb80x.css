@@ -89,8 +89,8 @@ img.lesson-teaser{float:right;}
 .newComment .oneComment:first-of-type{background-color:#fff; border: none; bottom: 25px; color: #000; display: block; height: 20px; left: 0px; overflow: hidden; position: absolute; width: 100%; z-index: 100;}
 .newComment .time{display: none;} 
 .newComment .message{bottom: 5px; font-size: 16px; left: 50px; margin: 0px; position: absolute;}
-.oldComment{background: rgba(255,255,255,.5); border-radius: 10px; bottom: 60px; height: 20px; position: absolute; width: 20px;}
-
+.oldComment{background: rgba(255,255,255,1); border-radius: 10px; bottom: 60px; height: 20px; position: absolute; width: 20px;}
+.threadCount{display: block; font-size: 16px; text-align: center;}
 
 
 .dottedLine{border-left: 1px gray dotted; /*bottom: 70px;*/ bottom: -40px; height: 240px; position: absolute;}

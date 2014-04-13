@@ -186,16 +186,6 @@ $ ->
     )
 
 
-    #Comment Threading
-    ###
-    $(".icon-mail-reply").click( ->
-      $('$input-field').val()
-      replyToID = $(this).data("messageID")
-
-      discussionID = $("#first").data("discussionID")
-    )
-    ###
-
     # Gets all comments from db, installs their callbacks
     hasCallback = []
 
@@ -210,29 +200,26 @@ $ ->
       # hide current comment if it is older than 5 seconds
       commentDate = $('.newComment').data("time-created")
       currentDate = new Date().getTime()
-      if currentDate - commentDate > 150000 then ageMostRecentComment()      
+      if currentDate - commentDate > 5000 then ageMostRecentComment()      
       for comment in $('.oldComment')
         # move comments to the right
-        if $(comment).hasClass('oldComment') then $(comment).css('left', $(comment).position()['left']+20)#$(comment).css('left', $(comment).position()['left'] + 20)
+        if $(comment).hasClass('oldComment') then $(comment).css('left', $(comment).position()['left']+20)
         # Removes old comments that have moved off the screen
         if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
-      #for line in $('.dottedLine')
-        #$(line).css('left', $(line).position()['left']+20)
+
       
     ageMostRecentComment = ->
-      $('.newComment').children().hide()
+      $('.newComment').find('.oneComment, .dottedLine').hide()
       $('.newComment').addClass('oldComment').css('left', '5px').click( ->
         if !$(this).data('clicked')? || $(this).data('clicked')
           #clearInterval(intervalHandler)
           $(this).children().show()
-          #$dottedLine = $('<div/>').addClass('dottedLine').css('left', 10)#$(this).position()['left']+10)
-          #$(this).append($dottedLine)
           $(this).data('clicked', false)
         else
-          $(this).find('.dottedLine').hide() #$(this).find('.dottedLine').remove()
+          # restart interval handler
+          $(this).find('.dottedLine').hide()
           $(this).find('.oneComment').hide()
           $(this).data('clicked', true)
-          # restart interval handler
       ).removeClass('newComment')
     
     createBasicCommentDiv = (comment) ->
@@ -261,89 +248,26 @@ $ ->
       if comment['display'] is 'true'
         ageMostRecentComment()
         pruneAndAgeComments()
-        # create an empty comment
-        
+
+        # create a comment thread, add initial message  
         $commentThread = $('<div/>').addClass('newComment')
         $commentThread.append(createBasicCommentDiv(comment))
-        console.log('$commentThread', $commentThread)
-        ###
-        $emptyComment = $('<div/>').addClass('newComment').append('
-              <div class="oneComment">
-              <p class="message"></p> 
-              <a href="javascript:void(0);" class="reply">
-                <i class="icon-mail-forward" title="Reply to this Comment"></i>
-              </a>
-              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
-                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
-              </a>
-              </div>')
-
-        # add data/handlers to comment
-        $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text'])
-        $emptyComment.find('.reply').click( (e) ->
-          e.stopPropagation()
-          discussionID = comment['discussion_id'] || comment['_id']['$oid']
-          replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
-        )
-        discussionID = comment['discussion_id'] || comment['_id']['$oid']
-        $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
-        ###
 
         # add replies
         if replies.length > 0
+          $threadCount = $('<span/>').addClass('threadCount').text(1 + replies.length)
+          $commentThread.append($threadCount)
           for reply, i in replies
             $newReply = createBasicCommentDiv(reply)
             $newReply.css('bottom', 148-32*i)
             $newReply.css('width', ($newReply.find('.message').html().length*7)+70)  
             $commentThread.find('.oneComment:last').after($newReply)
-            
-            ###
-            $reply = $('<div/>').addClass('oneComment').append('
-              <p class="message">' + reply['text'] + '</p> 
-              <a href="javascript:void(0);" class="reply">
-                <i class="icon-mail-forward" title="Reply to this Comment"></i>
-              </a>
-              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
-                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
-              </a>')
-              ###
         
         # add dotted line for mouseover
         $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10).hide()
         $commentThread.find('.oneComment:last').after($dottedLine)
         # add comment to DOM   
         $('#comment-container').prepend($commentThread)
-
-
-
-
-        
-      
-
-    ###
-      if comment['display'] is 'true'
-
-        if comment['discussion_id'] is null
-          comment['discussion_id'] = comment['_id']['$oid']
-
-        $('#first').data( {messageID: null, discussionID: null})                
-        $('#first').data( {messageID: $("#second").data("messageID"), discussionID: $("#second").data("discussionID")})                
-        $('#second').data( {messageID: null, discussionID: null})        
-        $('#second').data( {messageID: $("#third").data("messageID"), discussionID: $("#third").data("discussionID")})          
-        $('#third').data( {messageID: null, discussionID: null})
-        $('#third').data( {messageID: comment['_id']['$oid'], discussionID: comment['discussion_id']})
-
-        $('#first .message').text($('#second .message').text())
-        $('#first .userAndTime').text($('#second .userAndTime').text())
-
-        $('#second .message').text($('#third .message').text())
-        $('#second .userAndTime').text($('#third .userAndTime').text())
-
-        $('#third .message').text(comment['text'])
-<<<<<<< HEAD
-      ###
-      ##  $('#third .userAndTime').text(comment['username'] + ' @ ' + new Date().toDateString())
-      
 
 
     addCallback = (comments)-> 

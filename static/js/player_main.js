@@ -209,15 +209,6 @@
         return submitInput();
       }
     });
-
-    /*
-    $(".icon-mail-reply").click( ->
-      $('$input-field').val()
-      replyToID = $(this).data("messageID")
-    
-      discussionID = $("#first").data("discussionID")
-    )
-     */
     hasCallback = [];
     hideComment = function() {
       console.log('deleting');
@@ -227,7 +218,7 @@
       var comment, commentDate, currentDate, _i, _len, _ref, _results;
       commentDate = $('.newComment').data("time-created");
       currentDate = new Date().getTime();
-      if (currentDate - commentDate > 150000) {
+      if (currentDate - commentDate > 5000) {
         ageMostRecentComment();
       }
       _ref = $('.oldComment');
@@ -246,7 +237,7 @@
       return _results;
     };
     ageMostRecentComment = function() {
-      $('.newComment').children().hide();
+      $('.newComment').find('.oneComment, .dottedLine').hide();
       return $('.newComment').addClass('oldComment').css('left', '5px').click(function() {
         if (($(this).data('clicked') == null) || $(this).data('clicked')) {
           $(this).children().show();
@@ -277,55 +268,22 @@
       return $newComment;
     };
     displayComment = function(comment, replies) {
-      var $commentThread, $dottedLine, $newReply, i, reply, _i, _len;
+      var $commentThread, $dottedLine, $newReply, $threadCount, i, reply, _i, _len;
       console.log('replies', replies);
       if (comment['display'] === 'true') {
         ageMostRecentComment();
         pruneAndAgeComments();
         $commentThread = $('<div/>').addClass('newComment');
         $commentThread.append(createBasicCommentDiv(comment));
-        console.log('$commentThread', $commentThread);
-
-        /*
-        $emptyComment = $('<div/>').addClass('newComment').append('
-              <div class="oneComment">
-              <p class="message"></p> 
-              <a href="javascript:void(0);" class="reply">
-                <i class="icon-mail-forward" title="Reply to this Comment"></i>
-              </a>
-              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
-                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
-              </a>
-              </div>')
-        
-         * add data/handlers to comment
-        $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text'])
-        $emptyComment.find('.reply').click( (e) ->
-          e.stopPropagation()
-          discussionID = comment['discussion_id'] || comment['_id']['$oid']
-          replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
-        )
-        discussionID = comment['discussion_id'] || comment['_id']['$oid']
-        $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
-         */
         if (replies.length > 0) {
+          $threadCount = $('<span/>').addClass('threadCount').text(1 + replies.length);
+          $commentThread.append($threadCount);
           for (i = _i = 0, _len = replies.length; _i < _len; i = ++_i) {
             reply = replies[i];
             $newReply = createBasicCommentDiv(reply);
             $newReply.css('bottom', 148 - 32 * i);
             $newReply.css('width', ($newReply.find('.message').html().length * 7) + 70);
             $commentThread.find('.oneComment:last').after($newReply);
-
-            /*
-            $reply = $('<div/>').addClass('oneComment').append('
-              <p class="message">' + reply['text'] + '</p> 
-              <a href="javascript:void(0);" class="reply">
-                <i class="icon-mail-forward" title="Reply to this Comment"></i>
-              </a>
-              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
-                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
-              </a>')
-             */
           }
         }
         $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10).hide();
@@ -333,29 +291,6 @@
         return $('#comment-container').prepend($commentThread);
       }
     };
-
-    /*
-      if comment['display'] is 'true'
-    
-        if comment['discussion_id'] is null
-          comment['discussion_id'] = comment['_id']['$oid']
-    
-        $('#first').data( {messageID: null, discussionID: null})                
-        $('#first').data( {messageID: $("#second").data("messageID"), discussionID: $("#second").data("discussionID")})                
-        $('#second').data( {messageID: null, discussionID: null})        
-        $('#second').data( {messageID: $("#third").data("messageID"), discussionID: $("#third").data("discussionID")})          
-        $('#third').data( {messageID: null, discussionID: null})
-        $('#third').data( {messageID: comment['_id']['$oid'], discussionID: comment['discussion_id']})
-    
-        $('#first .message').text($('#second .message').text())
-        $('#first .userAndTime').text($('#second .userAndTime').text())
-    
-        $('#second .message').text($('#third .message').text())
-        $('#second .userAndTime').text($('#third .userAndTime').text())
-    
-        $('#third .message').text(comment['text'])
-    <<<<<<< HEAD
-     */
     addCallback = function(comments) {
       var c, comment, replies, _i, _j, _len, _len1, _results;
       _results = [];
