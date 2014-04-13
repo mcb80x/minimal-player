@@ -183,7 +183,7 @@
   };
 
   $(function() {
-    var addCallback, ageMostRecentComment, currentComments, displayComment, draw, findCommentThread, getComments, hasCallback, hideComment, intervalHandler, pruneAndAgeComments, reportOnDeck, stage, timeline;
+    var addCallback, ageMostRecentComment, createBasicCommentDiv, currentComments, displayComment, draw, getComments, hasCallback, hideComment, intervalHandler, pruneAndAgeComments, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -258,39 +258,79 @@
         }
       }).removeClass('newComment');
     };
-    findCommentThread = function(discussionID) {};
+    createBasicCommentDiv = function(comment) {
+      var $newComment, discussionID;
+      $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+      $newComment.find('.message').text(comment['username'] + ': ' + comment['text']);
+      $newComment.find('.reply').click(function(e) {
+        var discussionID;
+        e.stopPropagation();
+        discussionID = comment['discussion_id'] || comment['_id']['$oid'];
+        return replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID);
+      });
+      discussionID = comment['discussion_id'] || comment['_id']['$oid'];
+      $newComment.data("conversation", {
+        'messageID': comment['_id']['$oid'],
+        'discussionID': discussionID
+      });
+      console.log('$newComment', $newComment);
+      return $newComment;
+    };
     displayComment = function(comment, replies) {
-      var $dottedLine, $emptyComment, $reply, discussionID, i, reply, _i, _len;
+      var $commentThread, $dottedLine, $newReply, i, reply, _i, _len;
       console.log('replies', replies);
       if (comment['display'] === 'true') {
         ageMostRecentComment();
         pruneAndAgeComments();
-        $emptyComment = $('<div/>').addClass('newComment').append('<div class="oneComment"> <p class="message"></p> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a> </div>');
-        $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text']);
-        $emptyComment.find('.reply').click(function(e) {
-          var discussionID;
-          e.stopPropagation();
-          discussionID = comment['discussion_id'] || comment['_id']['$oid'];
-          return replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID);
-        });
-        $emptyComment.data("time-created", new Date().getTime());
-        discussionID = comment['discussion_id'] || comment['_id']['$oid'];
-        $emptyComment.data("conversation", {
-          'messageID': comment['_id']['$oid'],
-          'discussionID': discussionID
-        });
+        $commentThread = $('<div/>').addClass('newComment');
+        $commentThread.append(createBasicCommentDiv(comment));
+        console.log('$commentThread', $commentThread);
+
+        /*
+        $emptyComment = $('<div/>').addClass('newComment').append('
+              <div class="oneComment">
+              <p class="message"></p> 
+              <a href="javascript:void(0);" class="reply">
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
+              </a>
+              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+              </a>
+              </div>')
+        
+         * add data/handlers to comment
+        $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text'])
+        $emptyComment.find('.reply').click( (e) ->
+          e.stopPropagation()
+          discussionID = comment['discussion_id'] || comment['_id']['$oid']
+          replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
+        )
+        discussionID = comment['discussion_id'] || comment['_id']['$oid']
+        $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
+         */
         if (replies.length > 0) {
           for (i = _i = 0, _len = replies.length; _i < _len; i = ++_i) {
             reply = replies[i];
-            $reply = $('<div/>').addClass('oneComment').append('<p class="message">' + reply['text'] + '</p> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
-            $reply.css('bottom', 148 - 32 * i);
-            $reply.css('width', ($reply.find('.message').html().length * 7) + 70);
-            $emptyComment.find('.oneComment:last').after($reply);
+            $newReply = createBasicCommentDiv(reply);
+            $newReply.css('bottom', 148 - 32 * i);
+            $newReply.css('width', ($newReply.find('.message').html().length * 7) + 70);
+            $commentThread.find('.oneComment:last').after($newReply);
+
+            /*
+            $reply = $('<div/>').addClass('oneComment').append('
+              <p class="message">' + reply['text'] + '</p> 
+              <a href="javascript:void(0);" class="reply">
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
+              </a>
+              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+              </a>')
+             */
           }
         }
         $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10).hide();
-        $emptyComment.find('.oneComment:last').after($dottedLine);
-        return $('#comment-container').prepend($emptyComment);
+        $commentThread.find('.oneComment:last').after($dottedLine);
+        return $('#comment-container').prepend($commentThread);
       }
     };
 

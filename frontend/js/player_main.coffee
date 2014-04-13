@@ -235,8 +235,26 @@ $ ->
           # restart interval handler
       ).removeClass('newComment')
     
-    findCommentThread = (discussionID) ->
-
+    createBasicCommentDiv = (comment) ->
+      $newComment = $('<div/>').addClass('oneComment').append('
+              <p class="message"></p> 
+              <a href="javascript:void(0);" class="reply">
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
+              </a>
+              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+              </a>')
+      # add data/handlers to comment
+      $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
+      $newComment.find('.reply').click( (e) ->
+        e.stopPropagation()
+        discussionID = comment['discussion_id'] || comment['_id']['$oid']
+        replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
+      )
+      discussionID = comment['discussion_id'] || comment['_id']['$oid']
+      $newComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
+      console.log('$newComment', $newComment)
+      $newComment
 
     displayComment = (comment, replies)->
       console.log('replies', replies)
@@ -244,6 +262,11 @@ $ ->
         ageMostRecentComment()
         pruneAndAgeComments()
         # create an empty comment
+        
+        $commentThread = $('<div/>').addClass('newComment')
+        $commentThread.append(createBasicCommentDiv(comment))
+        console.log('$commentThread', $commentThread)
+        ###
         $emptyComment = $('<div/>').addClass('newComment').append('
               <div class="oneComment">
               <p class="message"></p> 
@@ -262,13 +285,19 @@ $ ->
           discussionID = comment['discussion_id'] || comment['_id']['$oid']
           replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
         )
-        $emptyComment.data("time-created", new Date().getTime())
         discussionID = comment['discussion_id'] || comment['_id']['$oid']
         $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
-        
+        ###
+
         # add replies
         if replies.length > 0
           for reply, i in replies
+            $newReply = createBasicCommentDiv(reply)
+            $newReply.css('bottom', 148-32*i)
+            $newReply.css('width', ($newReply.find('.message').html().length*7)+70)  
+            $commentThread.find('.oneComment:last').after($newReply)
+            
+            ###
             $reply = $('<div/>').addClass('oneComment').append('
               <p class="message">' + reply['text'] + '</p> 
               <a href="javascript:void(0);" class="reply">
@@ -277,15 +306,13 @@ $ ->
               <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
                 <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
               </a>')
-            $reply.css('bottom', 148-32*i)
-            $reply.css('width', ($reply.find('.message').html().length*7)+70)  
-            $emptyComment.find('.oneComment:last').after($reply)
+              ###
         
         # add dotted line for mouseover
         $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10).hide()
-        $emptyComment.find('.oneComment:last').after($dottedLine)
+        $commentThread.find('.oneComment:last').after($dottedLine)
         # add comment to DOM   
-        $('#comment-container').prepend($emptyComment)
+        $('#comment-container').prepend($commentThread)
 
 
 
