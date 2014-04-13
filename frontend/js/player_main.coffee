@@ -224,6 +224,7 @@ $ ->
           $hoverDetail = $(this).clone(true).addClass('oldCommentHover').css('left', 10)#$(this).position()['left']+10)
           $hoverDetail.children().show()
           $hoverDetail.data('conversation', $(this).data('conversation'))
+          $hoverDetail.css('width', ($hoverDetail.find('.message').html().length*7)+50) 
           $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10)#$(this).position()['left']+10)
           #$('#comment-container').append($hoverDetail)
           $(this).append($hoverDetail)
@@ -236,12 +237,16 @@ $ ->
           $(this).data('clicked', true)
           # restart interval handler
       ).removeClass('newComment')
-      
-    displayComment = (comment)->
+    
+    findCommentThread = (discussionID) ->
+
+
+    displayComment = (comment, replies)->
+      console.log('replies', replies)
       if comment['display'] is 'true'
         ageMostRecentComment()
         pruneAndAgeComments()
-        # create a new comment
+        # create an empty comment
         $emptyComment = $('<div/>').addClass('newComment').append('
               <p class="message"></p> 
               <span class="time"></span>
@@ -251,18 +256,38 @@ $ ->
               <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
                 <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
               </a>')
+
+        # add data/handlers to comment
         $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text'])
-        $emptyComment.find('.username').text(comment['username'])
         $emptyComment.find('.reply').click( (e) ->
           e.stopPropagation()
           discussionID = comment['discussion_id'] || comment['_id']['$oid']
           replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
         )
-
         $emptyComment.data("time-created", new Date().getTime())
         discussionID = comment['discussion_id'] || comment['_id']['$oid']
         $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
+        
+        # add replies
+        ###
+        if replies.length > 0
+          for reply in replies
+            $reply = $('<div/>').addClass('replyComment').append('
+              <p class="message">' + reply['text'] + '</p> 
+              <span class="time">' + reply['timestamp'] + '</span>
+              <a href="javascript:void(0);" class="reply">
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
+              </a>
+              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+              </a>')
+            $emptyComment.append($reply) 
+        ###
+        # add comment to DOM   
         $('#comment-container').prepend($emptyComment)
+
+
+
 
         
       
@@ -295,9 +320,13 @@ $ ->
 
     addCallback = (comments)-> 
       for comment in comments
-        if hasCallback.indexOf(JSON.stringify(comment)) is -1
-          timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
-          hasCallback.push(JSON.stringify(comment))
+        if comment['discussion_id'] is '' #we only care about 'parent' comments
+          if hasCallback.indexOf(JSON.stringify(comment)) is -1
+            # finds replies for particular comment
+            replies = []
+            replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
+            timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->displayComment(comment, replies))
+            hasCallback.push(JSON.stringify(comment))
 
     # Creates tooltip for viewing comments on the timeline
     $('#comment-timeline-canvas').qtip({

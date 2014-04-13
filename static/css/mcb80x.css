@@ -85,20 +85,28 @@ img.lesson-teaser{float:right;}
 .newComment .time{display: none;} 
 .newComment .message{bottom: 5px; font-size: 16px; left: 50px; margin: 0px; position: absolute;}
 
-.oldComment{background-color: #fff; border-radius: 10px; bottom: 60px; height: 20px; opacity: .5; position: absolute; width: 20px;}
+.oldComment{background: rgba(255,255,255,.5); border-radius: 10px; bottom: 60px; height: 20px; position: absolute; width: 20px;}
 
-.oldCommentHover{background-color:#fff; border-radius: 0 5px 5px 0; bottom: 180px; color: #000; left: 0px; height: 100px; opacity: 0.8; position: absolute; width: 150px;}}
+.oldCommentHover{background: rgba(255,255,255,1); border: 1px gray dotted; border-radius: 0 5px 5px 0; bottom: 180px; color: #000; left: 0px; padding: 5px 0px; position: absolute; width: 450px;}}
 .oldCommentHover .time{bottom: 0px; font-size: 12px; display: block; margin: 3px; position: absolute; left: 50px;}
-.oldCommentHover .message{top: 5px; left: 5px; position: absolute;}
-
-.dottedLine{border-left: 1px gray dotted; /*bottom: 70px;*/ bottom: -10px; height: 210px; position: absolute;}
+.oldCommentHover .message{top: 5px; left: 50px; margin: 0px; position: absolute;}
+.replyComment{}
+.dottedLine{border-left: 1px gray dotted; /*bottom: 70px;*/ bottom: -40px; height: 240px; position: absolute;}
 
 /* Comment Action Buttons */
-.icon-mail-forward{bottom: 5px; position: absolute; left: 5px; color: #999;}
+.newComment .icon-mail-forward{bottom: 5px;}
+.oldCommentHover .icon-mail-forward{top: 5px;}
+.icon-mail-forward{color: #999; left: 5px; position: absolute;}
 .icon-mail-forward:hover{color: #0F0;}
-.reply{bottom: 5px; position: absolute: left: 5px;}
+
+.newComment .reply{bottom: 5px;}
+.oldCommentHover .reply{top: 5px;}
+.reply{color: #999; left: 5px; position: absolute:}
 .reply:hover{color:#0F0;}
-.flag{bottom: 5px; color: #999; position: absolute; left: 25px;}
+
+.newComment .flag{bottom: 5px;}
+.oldCommentHover .flag{top: 5px;}
+.flag{color: #999;left: 25px; position: absolute;}
 .flag:hover{color:#c33}
 /* Forward/Next Buttons */
 #prev, #next{top: 3px; font-size: 36px;  position: absolute; width: 20px;}

@@ -179,7 +179,7 @@
   };
 
   $(function() {
-    var addCallback, ageMostRecentComment, currentComments, displayComment, draw, getComments, hasCallback, hideComment, intervalHandler, pruneAndAgeComments, reportOnDeck, stage, timeline;
+    var addCallback, ageMostRecentComment, currentComments, displayComment, draw, findCommentThread, getComments, hasCallback, hideComment, intervalHandler, pruneAndAgeComments, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -250,6 +250,7 @@
           $hoverDetail = $(this).clone(true).addClass('oldCommentHover').css('left', 10);
           $hoverDetail.children().show();
           $hoverDetail.data('conversation', $(this).data('conversation'));
+          $hoverDetail.css('width', ($hoverDetail.find('.message').html().length * 7) + 50);
           $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10);
           $(this).append($hoverDetail);
           $(this).append($dottedLine);
@@ -261,14 +262,15 @@
         }
       }).removeClass('newComment');
     };
-    displayComment = function(comment) {
+    findCommentThread = function(discussionID) {};
+    displayComment = function(comment, replies) {
       var $emptyComment, discussionID;
+      console.log('replies', replies);
       if (comment['display'] === 'true') {
         ageMostRecentComment();
         pruneAndAgeComments();
         $emptyComment = $('<div/>').addClass('newComment').append('<p class="message"></p> <span class="time"></span> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
         $emptyComment.find('.message').text(comment['username'] + ': ' + comment['text']);
-        $emptyComment.find('.username').text(comment['username']);
         $emptyComment.find('.reply').click(function(e) {
           var discussionID;
           e.stopPropagation();
@@ -281,6 +283,21 @@
           'messageID': comment['_id']['$oid'],
           'discussionID': discussionID
         });
+
+        /*
+        if replies.length > 0
+          for reply in replies
+            $reply = $('<div/>').addClass('replyComment').append('
+              <p class="message">' + reply['text'] + '</p> 
+              <span class="time">' + reply['timestamp'] + '</span>
+              <a href="javascript:void(0);" class="reply">
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
+              </a>
+              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+              </a>')
+            $emptyComment.append($reply)
+         */
         return $('#comment-container').prepend($emptyComment);
       }
     };
@@ -308,17 +325,28 @@
     <<<<<<< HEAD
      */
     addCallback = function(comments) {
-      var comment, _i, _len, _results;
+      var c, comment, replies, _i, _j, _len, _len1, _results;
       _results = [];
       for (_i = 0, _len = comments.length; _i < _len; _i++) {
         comment = comments[_i];
-        if (hasCallback.indexOf(JSON.stringify(comment)) === -1) {
-          timeline.atTimelineURI(comment['timestamp'], (function(comment) {
-            return function() {
-              return displayComment(comment);
-            };
-          })(comment));
-          _results.push(hasCallback.push(JSON.stringify(comment)));
+        if (comment['discussion_id'] === '') {
+          if (hasCallback.indexOf(JSON.stringify(comment)) === -1) {
+            replies = [];
+            for (_j = 0, _len1 = comments.length; _j < _len1; _j++) {
+              c = comments[_j];
+              if (c['discussion_id'] === comment['_id']['$oid']) {
+                replies.push(c);
+              }
+            }
+            timeline.atTimelineURI(comment['timestamp'], (function(comment, replies) {
+              return function() {
+                return displayComment(comment, replies);
+              };
+            })(comment, replies));
+            _results.push(hasCallback.push(JSON.stringify(comment)));
+          } else {
+            _results.push(void 0);
+          }
         } else {
           _results.push(void 0);
         }
