@@ -14,13 +14,21 @@ window.toggleSubtitles = ->
       #$('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
+drawCommentLines = false
 window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   $('.icon-quote-left').removeClass('on')
 
   if $('#toggleComments').hasClass('on')
+    #turn comments off
     $('#toggleComments').removeClass('on')
-  else $('#toggleComments').addClass('on')
+    drawCommentLines = false
+    $('#comment-timeline-canvas').hide()
+  else 
+    #turn comments on
+    $('#toggleComments').addClass('on')
+    drawCommentLines = true
+    $('#comment-timeline-canvas').show()
   $('#comment-container').slideToggle
     duration: 400
     complete: ->
@@ -342,19 +350,20 @@ $ ->
     stage = new createjs.Stage("comment-timeline-canvas")
     stage.on("stagemousedown", (evt)-> 
         console.log ("the canvas was clicked at "+evt.stageX)
-        timeline.seekToX((evt.stageX).toPrecision(2))
+        temp = (evt.stageX/500) * timeline.totalDuration
+        timeline.seekToX(temp)
     )
     draw = (comments)->
       for comment in comments
         # console.log canvas.width #300
         # x/300 = percent/100
-        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
+        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 5).toPrecision(2)
         line = new createjs.Shape()
         line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,300)
         stage.addChild(line)
         stage.enableMouseOver()
         do(comment)->
-          console.log "DOING IT"
+          console.log "adding qtip for comment: ", comment
           line.on("mouseover", ->
             newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>'
             $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
@@ -374,10 +383,10 @@ $ ->
         dataType: "json",
         success: (comments)->
           console.log('successful comments get')
+          addCallback(comments)
           stringifiedComments = JSON.stringify(comments)
-          if currentComments isnt stringifiedComments
+          if currentComments isnt stringifiedComments and drawCommentLines
             console.log "new comment"
-            addCallback(comments)
             draw(comments)
             currentComments = stringifiedComments
           return
