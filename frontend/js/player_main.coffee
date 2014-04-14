@@ -275,6 +275,23 @@ $ ->
         $emptyComment.data("time-created", new Date().getTime())
         discussionID = comment['discussion_id'] || comment['_id']['$oid']
         $emptyComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
+        # add replies
+        ###
+        if replies.length > 0
+          for reply in replies
+            $reply = $('<div/>').addClass('replyComment').append('
+              <p class="message">' + reply['text'] + '</p> 
+              <span class="time">' + reply['timestamp'] + '</span>
+              <a href="javascript:void(0);" class="reply">
+                <i class="icon-mail-forward" title="Reply to this Comment"></i>
+              </a>
+              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+              </a>')
+             $emptyComment.append($reply) 
+        ###
+        # add comment to DOM   
+        $('#comment-container').prepend($emptyComment)
 
     addCallback = (comments)-> 
       for comment in comments
@@ -343,7 +360,7 @@ $ ->
       });
 
 
-    # getComments()
+    getComments()
     
     intervalHandler = setInterval(->
       pruneAndAgeComments()
