@@ -241,7 +241,7 @@ window.addCallback = (comments)->
 
 # Pulls comments from database
 window.currentComments = ''
-window.getComments = ->
+window.getComments = (stage)->
   $.ajax({
     type: "GET",
     url: "/comments",
@@ -252,12 +252,12 @@ window.getComments = ->
       if currentComments isnt stringifiedComments
         console.log "new comment"
         addCallback(comments)
-        draw(comments)
+        draw(comments, stage)
         currentComments = stringifiedComments
       return
   });
 
-window.draw = (comments)->
+window.draw = (comments, stage)->
   for comment in comments
     # console.log canvas.width #300
     # x/300 = percent/100
@@ -266,12 +266,6 @@ window.draw = (comments)->
     line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,300)
 
     # Draws comments to timeline
-    stage = new createjs.Stage("comment-timeline-canvas")
-    stage.on("stagemousedown", (evt)-> 
-        console.log ("the canvas was clicked at "+evt.stageX)
-        timeline.seekToX((evt.stageX).toPrecision(2))
-    )
-    
     stage.addChild(line)
     stage.enableMouseOver()
     do(comment)->
@@ -347,12 +341,17 @@ $ ->
 
     ###
 
+    stage = new createjs.Stage("comment-timeline-canvas")
+    stage.on("stagemousedown", (evt)-> 
+        console.log ("the canvas was clicked at "+evt.stageX)
+        timeline.seekToX((evt.stageX).toPrecision(2))
+    )
 
-    getComments()
+    getComments(stage)
     
     intervalHandler = setInterval(->
       pruneAndAgeComments()
-      getComments()
+      getComments(stage)
     , 1000)
 
     #volume control
