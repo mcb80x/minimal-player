@@ -1,5 +1,6 @@
 # Run this command from minimal-player/ to continuously monitor & compile files:
 # coffee --compile --watch --output static/js/ frontend/js/
+
 window.displayHelp = ->
   # this needs to be completed
   alert('You clicked the help button!')
@@ -30,31 +31,6 @@ window.toggleComments = ->
       $('comment-container').css('display', 'none')
       util.maintainAspect()
 
-wasPausedByInput = false
-window.toggleInput = ->
-  ###
-  if not timeline.paused()
-    timeline.pause()
-    wasPausedByInput = true
-  else if wasPausedByInput
-    timeline.play()
-    wasPausedByInput = false
-  else
-    wasPausedByInput = false
-
-  $('#inputTextArea').val('')
-  console.log('toggle comment input')
-  $('#input-container').animate
-    width: "toggle"
-    duration: 400
-    complete: ->
-      if $('#input-container').css('display') is 'block'
-        $('#input-container').css('display', 'none') 
-      else
-        $('#input-container').css('display', 'block') 
-  ###
-
-
 window.submitInput = ()->
   #change the username to refer to an actual user
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
@@ -72,7 +48,18 @@ window.submitInput = ()->
               parent_id: replyToID
               discussion_id: discussionID
 
-  $('#input-container').hide()
+  #$('#input-container').hide()
+
+  # display comment on screen
+  if replyToID is '' #if it is a new comment thread
+    console.log('New Thread')
+    displayComment(comment)
+  else
+    if $('.newComment').data('messageID') is replyToID then $('.newComment').prepend(createBasicCommentDiv(comment))
+    for comment in $('.oldComments')
+      if $(comment).data('messageID') is replyToID
+        $(comment).prepend(createBasicCommentDiv(comment))
+        break
 
   timeline.play()
   $.ajax({
@@ -84,6 +71,7 @@ window.submitInput = ()->
     success: ->
       alert('successful post')
   });
+
 
 window.submitConfusion = ->
   #submit confusion somehow
@@ -150,6 +138,145 @@ window.replyToComment = (myUsername, theirUsername, messageID, discussionID) ->
   $('#cancel-button').show()
   $('#input-field').css('left', $('#reply-label').width() + 6 + 25)
 
+window.createBasicCommentDiv = (comment) ->
+  $newComment = $('<div/>').addClass('oneComment').append('
+          <p class="message"></p> 
+          <a href="javascript:void(0);" class="reply">
+            <i class="icon-mail-forward" title="Reply to this Comment"></i>
+          </a>
+          <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
+            <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
+          </a>')
+  # add data/handlers to comment
+  $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
+  $newComment.find('.reply').click( (e) ->
+    e.stopPropagation()
+    discussionID = comment['discussion_id'] || comment['_id']['$oid']
+    replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
+  )
+  # assigns messageID & discussionID for comments from the database
+  if comment['discussion_id'] || comment['_id']#['$oid']
+    messageID = comment['_id']['$oid']
+    discussionID = comment['discussion_id'] || comment['_id']['$oid']
+  # assigns message ID & discssionID for comments directly from the user (don't have IDs yet)
+  else
+    discussionID = 'none'
+    messageID = 'none'
+  $newComment.data('messageID', messageID)#comment['_id']['$oid'])
+  $newComment.data('discussionID', discussionID)
+  console.log('$newComment', $newComment)
+  $newComment
+
+window.displayComment = (comment, replies)->
+  console.log('replies', replies)
+  if comment['display'] is 'true'
+    ageMostRecentComment()
+    pruneAndAgeComments()
+
+    # create a comment thread, add initial message  
+    $commentThread = $('<div/>').addClass('newComment')
+    $commentThread.append(createBasicCommentDiv(comment))
+
+    # add replies
+    if replies?
+      $threadCount = $('<span/>').addClass('threadCount').text(1 + replies.length)
+      $commentThread.append($threadCount)
+      for reply, i in replies
+        $newReply = createBasicCommentDiv(reply)
+        $newReply.css('bottom', 148-32*i)
+        $newReply.css('width', ($newReply.find('.message').html().length*7)+70)  
+        $commentThread.find('.oneComment:last').after($newReply)
+    
+    # add dotted line for mouseover
+    $dottedLine = $('<div/>').addClass('dottedLine').css('left', 15).hide()
+    $commentThread.find('.oneComment:last').after($dottedLine)
+    # add comment to DOM   
+    $('#comment-container').prepend($commentThread)
+
+window.pruneAndAgeComments = ->
+  # hide current comment if it is older than 5 seconds
+  commentDate = $('.newComment').data("time-created")
+  currentDate = new Date().getTime()
+  if currentDate - commentDate > 5000 then ageMostRecentComment()      
+  for comment in $('.oldComment')
+    # move comments to the right
+    if $(comment).hasClass('oldComment') then $(comment).css('left', $(comment).position()['left']+20)
+    # Removes old comments that have moved off the screen
+    if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
+
+    
+window.ageMostRecentComment = ->
+  $('.newComment').find('.oneComment, .dottedLine').hide()
+  $('.newComment').addClass('oldComment').css('left', '5px').click( ->
+    if !$(this).data('clicked')? || $(this).data('clicked')
+      #clearInterval(intervalHandler)
+      $(this).children().show()
+      $(this).data('clicked', false)
+    else
+      # restart interval handler
+      $(this).find('.dottedLine').hide()
+      $(this).find('.oneComment').hide()
+      $(this).data('clicked', true)
+  ).removeClass('newComment')
+
+# Gets all comments from db, installs their callbacks
+window.hasCallback = []
+window.addCallback = (comments)-> 
+    for comment in comments
+      if comment['discussion_id'] is '' #we only care about 'parent' comments
+        if hasCallback.indexOf(JSON.stringify(comment)) is -1
+          # finds replies for particular comment
+          replies = []
+          replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
+          timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->displayComment(comment, replies))
+          hasCallback.push(JSON.stringify(comment))
+
+# Pulls comments from database
+window.currentComments = ''
+window.getComments = ->
+  $.ajax({
+    type: "GET",
+    url: "/comments",
+    dataType: "json",
+    success: (comments)->
+      console.log('successful comments get')
+      stringifiedComments = JSON.stringify(comments)
+      if currentComments isnt stringifiedComments
+        console.log "new comment"
+        addCallback(comments)
+        draw(comments)
+        currentComments = stringifiedComments
+      return
+  });
+
+window.draw = (comments)->
+  for comment in comments
+    # console.log canvas.width #300
+    # x/300 = percent/100
+    percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
+    line = new createjs.Shape()
+    line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,300)
+
+    # Draws comments to timeline
+    stage = new createjs.Stage("comment-timeline-canvas")
+    stage.on("stagemousedown", (evt)-> 
+        console.log ("the canvas was clicked at "+evt.stageX)
+        timeline.seekToX((evt.stageX).toPrecision(2))
+    )
+    
+    stage.addChild(line)
+    stage.enableMouseOver()
+    do(comment)->
+      console.log "DOING IT"
+      line.on("mouseover", ->
+        newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>'
+        $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
+
+      )
+      line.on("mouseout", ->
+        $('#comment-timeline-canvas').qtip('option', 'content.text', "Comment!");
+      )
+  stage.update()
 
 $ ->
     util.maintainAspect()
@@ -186,99 +313,10 @@ $ ->
     )
 
 
-    # Gets all comments from db, installs their callbacks
-    hasCallback = []
-
     # Removes first comment after 10000ms
     hideComment = ->
       console.log('deleting')
       $('#comment-container div:first').remove()
-
-
-
-    pruneAndAgeComments = ->
-      # hide current comment if it is older than 5 seconds
-      commentDate = $('.newComment').data("time-created")
-      currentDate = new Date().getTime()
-      if currentDate - commentDate > 5000 then ageMostRecentComment()      
-      for comment in $('.oldComment')
-        # move comments to the right
-        if $(comment).hasClass('oldComment') then $(comment).css('left', $(comment).position()['left']+20)
-        # Removes old comments that have moved off the screen
-        if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
-
-      
-    ageMostRecentComment = ->
-      $('.newComment').find('.oneComment, .dottedLine').hide()
-      $('.newComment').addClass('oldComment').css('left', '5px').click( ->
-        if !$(this).data('clicked')? || $(this).data('clicked')
-          #clearInterval(intervalHandler)
-          $(this).children().show()
-          $(this).data('clicked', false)
-        else
-          # restart interval handler
-          $(this).find('.dottedLine').hide()
-          $(this).find('.oneComment').hide()
-          $(this).data('clicked', true)
-      ).removeClass('newComment')
-    
-    createBasicCommentDiv = (comment) ->
-      $newComment = $('<div/>').addClass('oneComment').append('
-              <p class="message"></p> 
-              <a href="javascript:void(0);" class="reply">
-                <i class="icon-mail-forward" title="Reply to this Comment"></i>
-              </a>
-              <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
-                <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
-              </a>')
-      # add data/handlers to comment
-      $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
-      $newComment.find('.reply').click( (e) ->
-        e.stopPropagation()
-        discussionID = comment['discussion_id'] || comment['_id']['$oid']
-        replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
-      )
-      discussionID = comment['discussion_id'] || comment['_id']['$oid']
-      $newComment.data("conversation", {'messageID': comment['_id']['$oid'], 'discussionID': discussionID})
-      console.log('$newComment', $newComment)
-      $newComment
-
-    displayComment = (comment, replies)->
-      console.log('replies', replies)
-      if comment['display'] is 'true'
-        ageMostRecentComment()
-        pruneAndAgeComments()
-
-        # create a comment thread, add initial message  
-        $commentThread = $('<div/>').addClass('newComment')
-        $commentThread.append(createBasicCommentDiv(comment))
-
-        # add replies
-        if replies.length > 0
-          $threadCount = $('<span/>').addClass('threadCount').text(1 + replies.length)
-          $commentThread.append($threadCount)
-          for reply, i in replies
-            $newReply = createBasicCommentDiv(reply)
-            $newReply.css('bottom', 148-32*i)
-            $newReply.css('width', ($newReply.find('.message').html().length*7)+70)  
-            $commentThread.find('.oneComment:last').after($newReply)
-        
-        # add dotted line for mouseover
-        $dottedLine = $('<div/>').addClass('dottedLine').css('left', 15).hide()
-        $commentThread.find('.oneComment:last').after($dottedLine)
-        # add comment to DOM   
-        $('#comment-container').prepend($commentThread)
-
-
-    addCallback = (comments)-> 
-      for comment in comments
-        if comment['discussion_id'] is '' #we only care about 'parent' comments
-          if hasCallback.indexOf(JSON.stringify(comment)) is -1
-            # finds replies for particular comment
-            replies = []
-            replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
-            timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->displayComment(comment, replies))
-            hasCallback.push(JSON.stringify(comment))
 
     # Creates tooltip for viewing comments on the timeline
     $('#comment-timeline-canvas').qtip({
@@ -291,50 +329,13 @@ $ ->
     })
 
     # Draws comments to timeline
+    ###
     stage = new createjs.Stage("comment-timeline-canvas")
     stage.on("stagemousedown", (evt)-> 
         console.log ("the canvas was clicked at "+evt.stageX)
         timeline.seekToX((evt.stageX).toPrecision(2))
     )
-    draw = (comments)->
-      for comment in comments
-        # console.log canvas.width #300
-        # x/300 = percent/100
-        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
-        line = new createjs.Shape()
-        line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,300)
-        stage.addChild(line)
-        stage.enableMouseOver()
-        do(comment)->
-          console.log "DOING IT"
-          line.on("mouseover", ->
-            newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>'
-            $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
-
-          )
-          line.on("mouseout", ->
-            $('#comment-timeline-canvas').qtip('option', 'content.text', "Comment!");
-          )
-      stage.update()
-
-    # Pulls comments from database
-    currentComments = ''
-    getComments = ->
-      $.ajax({
-        type: "GET",
-        url: "/comments",
-        dataType: "json",
-        success: (comments)->
-          console.log('successful comments get')
-          stringifiedComments = JSON.stringify(comments)
-          if currentComments isnt stringifiedComments
-            console.log "new comment"
-            addCallback(comments)
-            draw(comments)
-            currentComments = stringifiedComments
-          return
-      });
-
+    ###
 
     getComments()
     
@@ -369,7 +370,6 @@ $ ->
       mouseleave: ->
           $(".ui-slider-vertical").hide()
     );
-
 
     # Test reportOnDeck
     console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
