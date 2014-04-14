@@ -356,7 +356,7 @@
       };
       for (_i = 0, _len = comments.length; _i < _len; _i++) {
         comment = comments[_i];
-        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2);
+        percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 5).toPrecision(2);
         line = new createjs.Shape();
         line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas, 0, 2, 300);
         stage.addChild(line);
