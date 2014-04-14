@@ -295,7 +295,7 @@
 
   window.currentComments = '';
 
-  window.getComments = function() {
+  window.getComments = function(stage) {
     return $.ajax({
       type: "GET",
       url: "/comments",
@@ -307,15 +307,15 @@
         if (currentComments !== stringifiedComments) {
           console.log("new comment");
           addCallback(comments);
-          draw(comments);
+          draw(comments, stage);
           currentComments = stringifiedComments;
         }
       }
     });
   };
 
-  window.draw = function(comments) {
-    var comment, line, percentAcrossCanvas, stage, _fn, _i, _len;
+  window.draw = function(comments, stage) {
+    var comment, line, percentAcrossCanvas, _fn, _i, _len;
     _fn = function(comment) {
       console.log("DOING IT");
       line.on("mouseover", function() {
@@ -332,11 +332,6 @@
       percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2);
       line = new createjs.Shape();
       line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas, 0, 2, 300);
-      stage = new createjs.Stage("comment-timeline-canvas");
-      stage.on("stagemousedown", function(evt) {
-        console.log("the canvas was clicked at " + evt.stageX);
-        return timeline.seekToX(evt.stageX.toPrecision(2));
-      });
       stage.addChild(line);
       stage.enableMouseOver();
       _fn(comment);
@@ -345,7 +340,7 @@
   };
 
   $(function() {
-    var hideComment, intervalHandler, reportOnDeck, timeline;
+    var hideComment, intervalHandler, reportOnDeck, stage, timeline;
     util.maintainAspect();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController);
@@ -397,10 +392,15 @@
         timeline.seekToX(temp)
     )
      */
-    getComments();
+    stage = new createjs.Stage("comment-timeline-canvas");
+    stage.on("stagemousedown", function(evt) {
+      console.log("the canvas was clicked at " + evt.stageX);
+      return timeline.seekToX(evt.stageX.toPrecision(2));
+    });
+    getComments(stage);
     intervalHandler = setInterval(function() {
       pruneAndAgeComments();
-      return getComments();
+      return getComments(stage);
     }, 1000);
     $("#slider-vertical").slider({
       orientation: "vertical",
