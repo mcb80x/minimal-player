@@ -153,54 +153,21 @@ html
 
         // Site Navigation
         .right-nav
-          a(href="javascript:void(0);", onclick="toggleComments();")
-            i#toggleComments(class="icon-comments", title="toggle comments")
-                    
-          a(href="javascript:void(0);", onclick="toggleSubtitles();")
-            i(class="icon-quote-left", title="toggle subtitles")
-            //-span.livicon(title='toggle subtitles', data-name='quote-left', data-color='#ccc', data-hovercolor='#c33', data-size='20')
-
           a(href='/course#!/map')
             i(class="icon-map-marker", title="Course Map")
-            //-span.livicon(title='Course Map', data-name='map', data-color='#ccc', data-hovercolor='#c33', data-size='20')
 
           a(id='video-download-link', href='download-link', style="display:none;")
             i(class="icon-download", title="Download Video")
-            //- span.livicon(title='Download Video', data-name='download', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+
+          a(onclick="displayHelp();")
+            i#toggleHelp(class="icon-question", title="Help!")
+
 
       #controls
         #subtitle-container.subtitles
           #interactive-subtitles
           
         #comment-container
-          //-.comment#first
-            //-span#prev
-              i(class="icon-caret-left", title="Previous Message")
-            p.message 
-            span.userAndTime.hideUntilMouseOver
-            span.messageID
-            a.reply.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
-              i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
-            a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
-              i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-          //-.comment#third
-            //-span#next
-              i(class="icon-caret-right", title="Next Message")
-            p.message
-            span.userAndTime.hideUntilMouseOver
-            span.messageID
-            a.reply.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
-              i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
-            a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
-              i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
-          //-.comment#second
-            p.message
-            span.userAndTime.hideUntilMouseOver
-            span.messageID
-            a.reply.hideUntilMouseOver(href="javascript:void(0);", onclick="toggleInput();")
-              i.hideUntilMouseOver(class="icon-mail-reply", title="Reply to this Comment")
-            a.flag.hideUntilMouseOver(href="javascript:void(0);", onclick="deleteComment();")
-              i.hideUntilMouseOver(class="icon-warning-sign", title="Flag Comment for Removal")
           input#input-field(value="Say something...", placeholder="Say something...")
           i#cancel-button(class="icon-undo", title="Clear the input field", onclick="resetInputField();")
           span#reply-label
@@ -212,14 +179,15 @@ html
 
         // A marker indicating which segment we are currently in
         // and allowing navigation between segments
+        a#toggleComments(href="javascript:void(0);", onclick="toggleComments();")
+          i(class="icon-comments", title="toggle comments")  
+        a#toggleSubtitles(href="javascript:void(0);", onclick="toggleSubtitles();")
+          i(class="icon-quote-left", title="toggle subtitles")
         #scene-indicator-container
                 #scene-indicator
                 span.scene-indicator-label segment:
 
         #bottom-controls
-          //-#additional-controls
-            a(href="javascript:void(0);", onclick="toggleInput();")
-            //-  span.livicon(title='toggle comments', data-name='edit', data-color='#999', data-hovercolor='#000000', data-size='30')
 
           // Timeline
           #timeline-controls
