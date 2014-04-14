@@ -18,13 +18,21 @@ window.toggleSubtitles = ->
       #$('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
+drawCommentLines = false
 window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   $('.icon-quote-left').removeClass('on')
 
   if $('#toggleComments').hasClass('on')
+    #turn comments off
     $('#toggleComments').removeClass('on')
-  else $('#toggleComments').addClass('on')
+    drawCommentLines = false
+    $('#comment-timeline-canvas').hide()
+  else
+    #turn comments on
+    $('#toggleComments').addClass('on')
+    drawCommentLines = true
+    $('#comment-timeline-canvas').show()
   $('#comment-container').slideToggle
     duration: 400
     complete: ->
@@ -179,7 +187,7 @@ window.displayComment = (comment, replies)->
 
     # add replies
     if replies?
-      $threadCount = $('<span/>').addClass('threadCount').text(1 + replies.length)
+      $threadCount = $('<span/>').addClass('threadCount').text(replies.length)
       $commentThread.append($threadCount)
       for reply, i in replies
         $newReply = createBasicCommentDiv(reply)
@@ -333,9 +341,12 @@ $ ->
     stage = new createjs.Stage("comment-timeline-canvas")
     stage.on("stagemousedown", (evt)-> 
         console.log ("the canvas was clicked at "+evt.stageX)
-        timeline.seekToX((evt.stageX).toPrecision(2))
+        temp = (evt.stageX/500) * timeline.totalDuration
+        timeline.seekToX(temp)
     )
+
     ###
+
 
     getComments()
     
@@ -343,7 +354,6 @@ $ ->
       pruneAndAgeComments()
       getComments()
     , 1000)
-    
 
     #volume control
     $( "#slider-vertical" ).slider(
