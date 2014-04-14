@@ -300,7 +300,10 @@ $ ->
     stage = new createjs.Stage("comment-timeline-canvas")
     stage.on("stagemousedown", (evt)-> 
         console.log ("the canvas was clicked at "+evt.stageX)
-        timeline.seekToX((evt.stageX).toPrecision(2))
+        #stageX/500 = seekTo/timeline.totalDuration
+        temp = (evt.stageX/500) * timeline.totalDuration
+        console.log "temp: ", temp
+        timeline.seekToX(temp)
     )
     draw = (comments)->
       for comment in comments

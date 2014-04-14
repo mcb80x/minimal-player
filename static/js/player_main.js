@@ -335,8 +335,11 @@
     });
     stage = new createjs.Stage("comment-timeline-canvas");
     stage.on("stagemousedown", function(evt) {
+      var temp;
       console.log("the canvas was clicked at " + evt.stageX);
-      return timeline.seekToX(evt.stageX.toPrecision(2));
+      temp = (evt.stageX / 500) * timeline.totalDuration;
+      console.log("temp: ", temp);
+      return timeline.seekToX(temp);
     });
     draw = function(comments) {
       var comment, line, percentAcrossCanvas, _fn, _i, _len;
