@@ -286,7 +286,7 @@
             $commentThread.find('.oneComment:last').after($newReply);
           }
         }
-        $dottedLine = $('<div/>').addClass('dottedLine').css('left', 10).hide();
+        $dottedLine = $('<div/>').addClass('dottedLine').css('left', 15).hide();
         $commentThread.find('.oneComment:last').after($dottedLine);
         return $('#comment-container').prepend($commentThread);
       }
