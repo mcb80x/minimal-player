@@ -338,7 +338,6 @@
       var temp;
       console.log("the canvas was clicked at " + evt.stageX);
       temp = (evt.stageX / 500) * timeline.totalDuration;
-      console.log("temp: ", temp);
       return timeline.seekToX(temp);
     });
     draw = function(comments) {
@@ -374,10 +373,10 @@
         success: function(comments) {
           var stringifiedComments;
           console.log('successful comments get');
+          addCallback(comments);
           stringifiedComments = JSON.stringify(comments);
           if (currentComments !== stringifiedComments && drawCommentLines) {
             console.log("new comment");
-            addCallback(comments);
             draw(comments);
             currentComments = stringifiedComments;
           }

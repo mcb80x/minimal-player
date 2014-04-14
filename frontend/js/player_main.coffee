@@ -300,9 +300,7 @@ $ ->
     stage = new createjs.Stage("comment-timeline-canvas")
     stage.on("stagemousedown", (evt)-> 
         console.log ("the canvas was clicked at "+evt.stageX)
-        #stageX/500 = seekTo/timeline.totalDuration
         temp = (evt.stageX/500) * timeline.totalDuration
-        console.log "temp: ", temp
         timeline.seekToX(temp)
     )
     draw = (comments)->
@@ -335,10 +333,10 @@ $ ->
         dataType: "json",
         success: (comments)->
           console.log('successful comments get')
+          addCallback(comments)
           stringifiedComments = JSON.stringify(comments)
           if currentComments isnt stringifiedComments and drawCommentLines
             console.log "new comment"
-            addCallback(comments)
             draw(comments)
             currentComments = stringifiedComments
           return
