@@ -196,7 +196,11 @@ window.displayComment = (comment, replies)->
         $newReply.css('bottom', 148-32*i)
         $newReply.css('width', ($newReply.find('.message').html().length*7)+70)  
         $commentThread.find('.oneComment:last').after($newReply)
-    
+    # add handlers
+    $commentThread.find('.oneComment').click( ->
+      commentThreadHeight = (replies.length)*32
+      $(comment).css('top', $(comment).position()['top']-commentThreadHeight) for comment in $commentThread.find('.oneComment') 
+    )
     # add dotted line for mouseover
     $dottedLine = $('<div/>').addClass('dottedLine').css('left', 15).hide()
     $commentThread.find('.oneComment:last').after($dottedLine)

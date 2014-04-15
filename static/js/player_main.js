@@ -219,6 +219,17 @@
           $commentThread.find('.oneComment:last').after($newReply);
         }
       }
+      $commentThread.find('.oneComment').click(function() {
+        var commentThreadHeight, _j, _len1, _ref, _results;
+        commentThreadHeight = replies.length * 32;
+        _ref = $commentThread.find('.oneComment');
+        _results = [];
+        for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+          comment = _ref[_j];
+          _results.push($(comment).css('top', $(comment).position()['top'] - commentThreadHeight));
+        }
+        return _results;
+      });
       $dottedLine = $('<div/>').addClass('dottedLine').css('left', 15).hide();
       $commentThread.find('.oneComment:last').after($dottedLine);
       return $('#comment-container').prepend($commentThread);
