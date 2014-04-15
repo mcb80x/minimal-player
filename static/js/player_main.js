@@ -84,17 +84,13 @@
       discussion_id: discussionID
     };
     if (replyToID === '') {
-      console.log('New Thread');
-      displayComment("initial", comment);
+      displayComment(comment);
     } else {
-      if ($('.newComment').data('messageID') === replyToID) {
-        $('.newComment').prepend(createBasicCommentDiv("reply", comment));
-      }
       _ref = $('.oldComments');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         comment = _ref[_i];
         if ($(comment).data('messageID') === replyToID) {
-          $(comment).prepend(createBasicCommentDiv("reply", comment));
+          $(comment).parent().append(createBasicCommentDiv("reply", comment));
           break;
         }
       }
@@ -194,10 +190,13 @@
   };
 
   window.createBasicCommentDiv = function(type, comment) {
+    $newComment;
     var $newComment, discussionID, messageID;
     if (type === "initial") {
+      console.log('creating initial comment');
       $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <span class="threadCount"></span> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
     } else {
+      console.log('create a reply');
       $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
     }
     $newComment.hover(function() {
@@ -236,8 +235,12 @@
       $commentThread = $('<div/>').addClass('newComment');
       $firstComment = createBasicCommentDiv("initial", comment);
       $commentThread.append($firstComment);
-      if (replies != null) {
+      if (replies.length > 0) {
         $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length);
+      } else {
+        $commentThread.find('.oneComment:first').find('.threadCount').remove();
+      }
+      if (replies != null) {
         for (i = _i = 0, _len = replies.length; _i < _len; i = ++_i) {
           reply = replies[i];
           $newReply = createBasicCommentDiv("reply", reply);
@@ -267,41 +270,43 @@
     }
   };
 
+  window.playAnimation = true;
+
   window.pruneAndAgeComments = function() {
     var comment, commentDate, currentDate, _i, _len, _ref, _results;
-    commentDate = $('.newComment').data("time-created");
-    currentDate = new Date().getTime();
-    if (currentDate - commentDate > 5000) {
-      ageMostRecentComment();
-    }
-    _ref = $('.oldComment');
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      comment = _ref[_i];
-      if ($(comment).hasClass('oldComment')) {
-        $(comment).css('left', $(comment).position()['left'] + 20);
+    if (playAnimation) {
+      commentDate = $('.newComment').data("time-created");
+      currentDate = new Date().getTime();
+      if (currentDate - commentDate > 5000) {
+        ageMostRecentComment();
       }
-      if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
-        _results.push($(comment).remove());
-      } else {
-        _results.push(void 0);
+      _ref = $('.oldComment');
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        comment = _ref[_i];
+        if ($(comment).hasClass('oldComment')) {
+          $(comment).css('left', $(comment).position()['left'] + 20);
+        }
+        if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
+          _results.push($(comment).remove());
+        } else {
+          _results.push(void 0);
+        }
       }
+      return _results;
     }
-    return _results;
   };
 
   window.ageMostRecentComment = function() {
     $('.newComment').find('.oneComment, .dottedLine, .threadCount').hide();
-    return $('.newComment').addClass('oldComment').css('left', '5px').click(function() {
-      if (($(this).data('clicked') == null) || $(this).data('clicked')) {
-        $(this).children().show();
-        return $(this).data('clicked', false);
-      } else {
-        $(this).find('.dottedLine').hide();
-        $(this).find('.oneComment').hide();
-        $(this).find('.threadCount').hide();
-        return $(this).data('clicked', true);
-      }
+    return $('.newComment').addClass('oldComment').css('left', 300).css('top', 440).hover(function() {
+      $(this).find('.dottedLine').show();
+      $(this).find('.oneComment').show();
+      return $(this).find('.threadCount').show();
+    }, function() {
+      $(this).find('.dottedLine').hide();
+      $(this).find('.oneComment').hide();
+      return $(this).find('.threadCount').hide();
     }).removeClass('newComment');
   };
 
