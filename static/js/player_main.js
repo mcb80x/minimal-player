@@ -68,16 +68,16 @@
     };
     if (replyToID === '') {
       console.log('New Thread');
-      displayComment(comment);
+      displayComment("initial", comment);
     } else {
       if ($('.newComment').data('messageID') === replyToID) {
-        $('.newComment').prepend(createBasicCommentDiv(comment));
+        $('.newComment').prepend(createBasicCommentDiv("reply", comment));
       }
       _ref = $('.oldComments');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         comment = _ref[_i];
         if ($(comment).data('messageID') === replyToID) {
-          $(comment).prepend(createBasicCommentDiv(comment));
+          $(comment).prepend(createBasicCommentDiv("reply", comment));
           break;
         }
       }
@@ -164,7 +164,7 @@
     $('#input-field').data('discussionID', null);
     $('#input-field').val('Say something...').addClass('default');
     $('#reply-label, #cancel-button').hide();
-    return $('#input-field').css('left', 0);
+    return $('#input-field').css('padding-left', 5);
   };
 
   window.replyToComment = function(myUsername, theirUsername, messageID, discussionID) {
@@ -173,12 +173,23 @@
     $('#input-field').data('discussionID', discussionID);
     $('#reply-label').text('@' + theirUsername).show();
     $('#cancel-button').show();
-    return $('#input-field').css('left', $('#reply-label').width() + 6 + 25);
+    return $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25);
   };
 
-  window.createBasicCommentDiv = function(comment) {
+  window.createBasicCommentDiv = function(type, comment) {
     var $newComment, discussionID, messageID;
-    $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+    if (type === "initial") {
+      $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <span class="threadCount"></span> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+    } else {
+      $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+    }
+    $newComment.hover(function() {
+      $newComment.css('background-color', 'rgba(240,240,240,1)');
+      return $newComment.find('.flag').show();
+    }, function() {
+      $newComment.css('background-color', 'white');
+      return $newComment.find('.flag').hide();
+    });
     $newComment.find('.message').text(comment['username'] + ': ' + comment['text']);
     $newComment.find('.reply').click(function(e) {
       var discussionID;
@@ -200,26 +211,41 @@
   };
 
   window.displayComment = function(comment, replies) {
-    var $commentThread, $dottedLine, $newReply, $threadCount, i, reply, _i, _len;
+    var $commentThread, $dottedLine, $firstComment, $newReply, i, reply, _i, _len;
     console.log('replies', replies);
     if (comment['display'] === 'true') {
       ageMostRecentComment();
       pruneAndAgeComments();
       $commentThread = $('<div/>').addClass('newComment');
-      $commentThread.append(createBasicCommentDiv(comment));
+      $firstComment = createBasicCommentDiv("initial", comment);
+      $commentThread.append($firstComment);
       if (replies != null) {
-        $threadCount = $('<span/>').addClass('threadCount').text(replies.length);
-        $commentThread.append($threadCount);
+        $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length);
         for (i = _i = 0, _len = replies.length; _i < _len; i = ++_i) {
           reply = replies[i];
-          $newReply = createBasicCommentDiv(reply);
-          $newReply.css('bottom', 148 - 32 * i);
-          $newReply.css('width', ($newReply.find('.message').html().length * 7) + 70);
+          $newReply = createBasicCommentDiv("reply", reply);
+          $newReply.css('top', 31 + 30 * i);
           $commentThread.find('.oneComment:last').after($newReply);
         }
       }
+      $commentThread.click(function() {
+        var newPosition;
+        if (($(this).data('clicked') == null) || $(this).data('clicked')) {
+          newPosition = parseInt($('.newComment').css('top').slice(0, -2)) - (32 * replies.length);
+          $('.newComment').css('top', newPosition);
+          $('.newComment').children().show();
+          return $(this).data('clicked', false);
+        } else {
+          newPosition = parseInt($('.newComment').css('top').slice(0, -2)) + (32 * replies.length);
+          $('.newComment').css('top', newPosition);
+          $('.newComment').children().hide();
+          $('.newComment .oneComment:first').show();
+          return $(this).data('clicked', true);
+        }
+      });
       $dottedLine = $('<div/>').addClass('dottedLine').css('left', 15).hide();
       $commentThread.find('.oneComment:last').after($dottedLine);
+      $commentThread.css('top', $('#stage').height() - 77);
       return $('#comment-container').prepend($commentThread);
     }
   };
@@ -248,7 +274,7 @@
   };
 
   window.ageMostRecentComment = function() {
-    $('.newComment').find('.oneComment, .dottedLine').hide();
+    $('.newComment').find('.oneComment, .dottedLine, .threadCount').hide();
     return $('.newComment').addClass('oldComment').css('left', '5px').click(function() {
       if (($(this).data('clicked') == null) || $(this).data('clicked')) {
         $(this).children().show();
@@ -256,6 +282,7 @@
       } else {
         $(this).find('.dottedLine').hide();
         $(this).find('.oneComment').hide();
+        $(this).find('.threadCount').hide();
         return $(this).data('clicked', true);
       }
     }).removeClass('newComment');
