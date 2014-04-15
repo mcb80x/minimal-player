@@ -81,17 +81,18 @@ img.lesson-teaser{float:right;}
 /* ------------------------ Comments ----------------- */
 #comment-container{bottom: 50px; display:none; height: 500px; overflow: hidden; position: absolute; z-index:900; width: 100%;}
 
-.oneComment{background: rgba(255,255,255,1); border: 1px gray dotted; border-radius: 0 5px 5px 0; bottom: 180px; color: #000; display: none; height: 20px; left: 15px; padding: 5px 0px; position: absolute; width: 350px;}
+.oneComment{background: rgba(255,255,255,1); bottom: 180px; color: #000; display: none; height: 20px; left: 0px; padding: 5px 0px; position: absolute; width: 350px;}
 .oneComment .time{bottom: 0px; font-size: 12px; display: block; margin: 3px; position: absolute; left: 50px;}
 .oneComment .message{top: 5px; left: 50px; margin: 0px; position: absolute;}
 
-.newComment .oneComment{display: none;}
-.newComment .oneComment:first-of-type{background-color:#fff; border-color: black; border-width: 1px 1px 0px 1px; border-style: solid; border-radius: 15px 15px 0px 0px; bottom: 25px; color: #000; display: block; height: 20px; left: 50px; overflow: hidden; position: absolute; z-index: 100;}
+.newComment{left: 50px; height: 500px; position: absolute;}
+.newComment .oneComment{display: none; width: 250px;}
+.newComment .oneComment:first-of-type{background-color:#fff; border-radius: 15px 15px 0px 0px; top: 0px; color: #000; display: block; height: 21px; left: 0px; overflow: hidden; position: absolute; z-index: 100;}
 .newComment .time{display: none;} 
 .newComment .message{bottom: 5px; font-size: 16px; left: 50px; margin: 0px; position: absolute;}
 .oldComment{background: rgba(255,255,255,.5); border-radius: 15px; bottom: 60px; height: 30px; margin: 0px 5px; position: absolute; width: 30px;}
 .oldComment:hover{background: rgba(255,255,255,1); border: 2px black solid;}
-.threadCount{display: block; font-size: 16px; left: 10px; position: absolute; top: 6px;}
+.threadCount{background-color: white; border: 1px dotted gray; border-radius: 5px; bottom: 5px; display: block; font-size: 16px; left: 25px; position: absolute; text-align: center; width: 20px; z-index: 1000;}
 
 
 .dottedLine{border-left: 1px gray dotted; /*bottom: 70px;*/ bottom: -40px; height: 240px; position: absolute;}
@@ -109,7 +110,7 @@ img.lesson-teaser{float:right;}
 
 .newComment .flag{bottom: 5px;}
 .oldCommentHover .flag{top: 5px;}
-.flag{color: #999;left: 25px; position: absolute;}
+.flag{color: #999; display: none; position: absolute; right: 10px;}
 .flag:hover{color:#c33}
 /* Forward/Next Buttons */
 #prev, #next{top: 3px; font-size: 36px;  position: absolute; width: 20px;}
@@ -117,15 +118,15 @@ img.lesson-teaser{float:right;}
 #next{right: 0px;}
 #prev i:hover, #next i:hover{color: #999;}
 /* --- Comment Submission --- */
-input{background-color: #fff; bottom: 0px; font-size: 16px; height: 19px; left: 0px; padding: 2px 3px 2px 5px; position: absolute; width: 100%}
+input{background-color: #fff; bottom: 0px; font-size: 16px; height: 19px; left: 0px; padding: 2px 5px; position: absolute; width: 100%}
 .default{color: gray;}
-#cancel-button, #submit-button, #input-icon{background-color: #fff; bottom: 0px; color: #999; height: 19px; padding: 2px; position: absolute; text-align: center; width: 19px;}
-#cancel-button{display: none; left: 0px;}
+#cancel-button, #submit-button, #input-icon{background-color: #fff; bottom: 0px; color: #999; height: 19px; padding: 3px; position: absolute; text-align: center; width: 19px;}
+#cancel-button{display: none; left: 3px; bottom: 3px; padding: 0px;}
 #cancel-button:hover{color: #c33;}
 #submit-button{right: 0px;}
 #submit-button:hover{color: #0F0;}
 #input-icon{left: 0px;}
-#reply-label{background-color: #fff; bottom: 0px; color: #999; display: none; font-style: italic; height: 19px; left: 25px; padding: 3px; position: absolute;}
+#reply-label{background-color: #fff; bottom: 3px; color: #999; display: none; font-style: italic; height: 19px; left: 25px; position: absolute;}
 /* --- Upper-righthand corner navigation --- */
 a, i{text-decoration: none;}
 .right-nav i, #toggleSubtitles, #toggleComments{color:#ccc; padding-left: 3px; padding-right: 3px;}
