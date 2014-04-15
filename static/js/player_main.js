@@ -348,6 +348,207 @@
     if ((window.showSubtitles != null) && window.showSubtitles) {
       window.toggleSubtitles();
     }
+    $('#toggleHelp').qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      content: "Hover here to see what video controls do",
+      position: {
+        my: 'top right',
+        at: 'bottom center',
+        target: true
+      }
+    });
+    $("#courseMapButton").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Go back to the course map",
+      position: {
+        my: 'right center',
+        at: 'left center',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#downloadVideoButton").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Download this video",
+      position: {
+        my: 'top right',
+        at: 'bottom center',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#toggleComments").qtip({
+      style: {
+        classes: 'qtip-dark',
+        tip: {
+          height: 27,
+          width: 5,
+          offset: 10
+        }
+      },
+      show: false,
+      content: "Toggle comment view",
+      position: {
+        my: 'bottom left',
+        at: 'top center',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#toggleSubtitles").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Toggle subtitles",
+      position: {
+        my: 'bottom left',
+        at: 'top center',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#scene-indicator-container").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Click a segment to choose a video",
+      position: {
+        my: 'bottom center',
+        at: 'top center',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#timeline-controls").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Play or pause",
+      position: {
+        my: 'top left',
+        at: 'bottom left',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#comment-timeline-canvas-container").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Hover here to see comments people have made on this video",
+      position: {
+        my: 'top center',
+        at: 'bottom center',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#clock-text").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Time remaining on this video",
+      position: {
+        my: 'top right',
+        at: 'bottom left',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#confusion-control").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Click here while watching the video to let the instructor know you find that part confusing!",
+      position: {
+        my: 'bottom right',
+        at: 'top center',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $("#volume-control").qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Volume Control",
+      position: {
+        my: 'top center',
+        at: 'bottom center',
+        target: true
+      },
+      hide: {
+        target: $('#toggleHelp'),
+        event: false,
+        inactive: 3000
+      }
+    });
+    $('#toggleHelp').hover(function() {
+      console.log("hello!");
+      $('#toggleComments').qtip('toggle', true);
+      $('#toggleSubtitles').qtip('toggle', true);
+      $('#scene-indicator-container').qtip('toggle', true);
+      $('#timeline-controls').qtip('toggle', true);
+      $('#comment-timeline-canvas-container').qtip('toggle', true);
+      $('#clock-text').qtip('toggle', true);
+      $('#confusion-control').qtip('toggle', true);
+      $('#volume-control').qtip('toggle', true);
+      $('#courseMapButton').qtip('toggle', true);
+      return $('#downloadVideoButton').qtip('toggle', true);
+    }, function() {
+      return console.log("goodbye!");
+    });
     $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';
