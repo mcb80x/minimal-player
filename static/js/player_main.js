@@ -613,19 +613,12 @@
         }
       }
     });
-
-    /*
-    stage = new createjs.Stage("comment-timeline-canvas")
-    stage.on("stagemousedown", (evt)-> 
-        console.log ("the canvas was clicked at "+evt.stageX)
-        temp = (evt.stageX/500) * timeline.totalDuration
-        timeline.seekToX(temp)
-    )
-     */
     stage = new createjs.Stage("comment-timeline-canvas");
     stage.on("stagemousedown", function(evt) {
+      var canvasWidth;
+      canvasWidth = document.getElementById('comment-timeline-canvas').width;
       console.log("the canvas was clicked at " + evt.stageX);
-      return timeline.seekToX(evt.stageX.toPrecision(2));
+      return timeline.seekDirect(evt.stageX.toPrecision(2), canvasWidth);
     });
     getComments(stage);
     intervalHandler = setInterval(function() {

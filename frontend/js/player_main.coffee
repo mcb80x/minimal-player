@@ -545,21 +545,11 @@ $ ->
       }
     })
 
-    # Draws comments to timeline
-    ###
     stage = new createjs.Stage("comment-timeline-canvas")
     stage.on("stagemousedown", (evt)-> 
+        canvasWidth = document.getElementById('comment-timeline-canvas').width
         console.log ("the canvas was clicked at "+evt.stageX)
-        temp = (evt.stageX/500) * timeline.totalDuration
-        timeline.seekToX(temp)
-    )
-
-    ###
-
-    stage = new createjs.Stage("comment-timeline-canvas")
-    stage.on("stagemousedown", (evt)-> 
-        console.log ("the canvas was clicked at "+evt.stageX)
-        timeline.seekToX((evt.stageX).toPrecision(2))
+        timeline.seekDirect((evt.stageX).toPrecision(2), canvasWidth)
     )
 
     getComments(stage)
