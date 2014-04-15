@@ -33,6 +33,7 @@ html
     script(src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.min.js')
     script(src='http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js')
 
+    script(src='http://qtip2.com/v/nightly/jquery.qtip.js')
     script(src="/static/course_site/js/library/jquery.als.js")
     script(src="/static/course_site/js/library/jquery-ui-1.10.3.custom.min.js")
     script(src="http://code.createjs.com/easeljs-0.7.1.min.js")
@@ -154,10 +155,10 @@ html
         // Site Navigation
         .right-nav
           a(href='/course#!/map')
-            i(class="icon-map-marker", title="Course Map")
+            i#courseMapButton(class="icon-map-marker", title="Course Map")
 
           a(id='video-download-link', href='download-link', style="display:none;")
-            i(class="icon-download", title="Download Video")
+            i#downloadVideoButton(class="icon-download", title="Download Video")
 
           a(onclick="displayHelp();")
             i#toggleHelp(class="icon-question", title="Help!")
@@ -191,8 +192,8 @@ html
 
           // Timeline
           #timeline-controls
-            span.livicon(data-name='video-play', data-animate='false', data-bind='visible: paused, event: {click: play, touchstart: play}', data-size='100%')
-            span.livicon(data-name='video-pause', data-animate='false', data-bind='visible: playing, event:{click: pause, touchstart: play}', data-size='100%')
+            span#play-video.livicon(data-name='video-play', data-animate='false', data-bind='visible: paused, event: {click: play, touchstart: play}', data-size='100%')
+            span#pause-video.livicon(data-name='video-pause', data-animate='false', data-bind='visible: playing, event:{click: pause, touchstart: play}', data-size='100%')
 
             // the timeline itself
             #timeline.timeline-container
