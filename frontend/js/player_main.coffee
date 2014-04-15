@@ -9,6 +9,7 @@ window.displayHelp = ->
     )
   else
     $('#toggleHelp i').addClass('on')
+
     $('#toggleComments').qtip('toggle', true);
     $('#toggleSubtitles').qtip('toggle', true);
     $('#scene-indicator-container').qtip('toggle', true);
@@ -71,17 +72,14 @@ window.submitInput = ()->
               parent_id: replyToID
               discussion_id: discussionID
 
-  #$('#input-container').hide()
 
   # display comment on screen
   if replyToID is '' #if it is a new comment thread
-    console.log('New Thread')
-    displayComment("initial", comment)
+    displayComment(comment)
   else
-    if $('.newComment').data('messageID') is replyToID then $('.newComment').prepend(createBasicCommentDiv("reply", comment))
     for comment in $('.oldComments')
       if $(comment).data('messageID') is replyToID
-        $(comment).prepend(createBasicCommentDiv("reply", comment))
+        $(comment).parent().append(createBasicCommentDiv("reply", comment))
         break
 
   timeline.play()
@@ -162,7 +160,9 @@ window.replyToComment = (myUsername, theirUsername, messageID, discussionID) ->
   $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
 
 window.createBasicCommentDiv = (type, comment) ->
+  $newComment
   if type is "initial"
+    console.log('creating initial comment')
     $newComment = $('<div/>').addClass('oneComment').append('
             <p class="message"></p> 
             <span class="threadCount"></span>
@@ -173,6 +173,7 @@ window.createBasicCommentDiv = (type, comment) ->
               <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
             </a>')
   else #comment replies
+    console.log('create a reply')
     $newComment = $('<div/>').addClass('oneComment').append('
         <p class="message"></p> 
         <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
@@ -218,9 +219,9 @@ window.displayComment = (comment, replies)->
     $firstComment = createBasicCommentDiv("initial", comment)
     $commentThread.append($firstComment)
 
+    if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length) else $commentThread.find('.oneComment:first').find('.threadCount').remove()
     # add replies
     if replies?
-      $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length)
       for reply, i in replies
         $newReply = createBasicCommentDiv("reply", reply)
         $newReply.css('top', 31+30*i)
@@ -247,31 +248,32 @@ window.displayComment = (comment, replies)->
     # add comment to DOM   
     $('#comment-container').prepend($commentThread)
 
+window.playAnimation = true;
+
 window.pruneAndAgeComments = ->
   # hide current comment if it is older than 5 seconds
-  commentDate = $('.newComment').data("time-created")
-  currentDate = new Date().getTime()
-  if currentDate - commentDate > 5000 then ageMostRecentComment()      
-  for comment in $('.oldComment')
-    # move comments to the right
-    if $(comment).hasClass('oldComment') then $(comment).css('left', $(comment).position()['left']+20)
-    # Removes old comments that have moved off the screen
-    if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
+  if playAnimation
+    commentDate = $('.newComment').data("time-created")
+    currentDate = new Date().getTime()
+    if currentDate - commentDate > 5000 then ageMostRecentComment()      
+    for comment in $('.oldComment')
+      # move comments to the right
+      if $(comment).hasClass('oldComment') then $(comment).css('left', $(comment).position()['left']+20)
+      # Removes old comments that have moved off the screen
+      if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
 
     
 window.ageMostRecentComment = ->
   $('.newComment').find('.oneComment, .dottedLine, .threadCount').hide()
-  $('.newComment').addClass('oldComment').css('left', '5px').click( ->
-    if !$(this).data('clicked')? || $(this).data('clicked')
-      #clearInterval(intervalHandler)
-      $(this).children().show()
-      $(this).data('clicked', false)
-    else
-      # restart interval handler
-      $(this).find('.dottedLine').hide()
-      $(this).find('.oneComment').hide()
-      $(this).find('.threadCount').hide()
-      $(this).data('clicked', true)
+  $('.newComment').addClass('oldComment').css('left', 300).css('top', 440).hover( ->
+
+    $(this).find('.dottedLine').show()
+    $(this).find('.oneComment').show()
+    $(this).find('.threadCount').show()
+  , ->
+    $(this).find('.dottedLine').hide()
+    $(this).find('.oneComment').hide()
+    $(this).find('.threadCount').hide()
   ).removeClass('newComment')
 
 # Gets all comments from db, installs their callbacks
