@@ -322,7 +322,8 @@ $ ->
 
     # Creates tooltip for viewing comments on the timeline
     $('#comment-timeline-canvas').qtip({
-      style: { classes: 'qtip-dark' },
+      style: { classes: 'qtip-dark' }
+      show: false
       content: "Hover over the lines to see comments people have made"
       position: {
         target: 'mouse', 
