@@ -86,7 +86,7 @@ img.lesson-teaser{float:right;}
 .oneComment .message{top: 5px; left: 50px; margin: 0px; position: absolute;}
 
 .newComment .oneComment{display: none;}
-.newComment .oneComment:first-of-type{background-color:#fff; border: none; border-radius: 0px; bottom: 25px; color: #000; display: block; height: 20px; left: 0px; overflow: hidden; position: absolute; width: 100%; z-index: 100;}
+.newComment .oneComment:first-of-type{background-color:#fff; border-color: black; border-width: 1px 1px 0px 1px; border-style: solid; border-radius: 15px 15px 0px 0px; bottom: 25px; color: #000; display: block; height: 20px; left: 50px; overflow: hidden; position: absolute; z-index: 100;}
 .newComment .time{display: none;} 
 .newComment .message{bottom: 5px; font-size: 16px; left: 50px; margin: 0px; position: absolute;}
 .oldComment{background: rgba(255,255,255,.5); border-radius: 15px; bottom: 60px; height: 30px; margin: 0px 5px; position: absolute; width: 30px;}
@@ -117,9 +117,9 @@ img.lesson-teaser{float:right;}
 #next{right: 0px;}
 #prev i:hover, #next i:hover{color: #999;}
 /* --- Comment Submission --- */
-input{background-color: #fff; bottom: 0px; border: 0; font-size: 16px; height: 19px; left: 0px; padding: 3px 3px 3px 5px; position: absolute; width: 100%}
+input{background-color: #fff; bottom: 0px; font-size: 16px; height: 19px; left: 0px; padding: 2px 3px 2px 5px; position: absolute; width: 100%}
 .default{color: gray;}
-#cancel-button, #submit-button, #input-icon{background-color: #fff; bottom: 0px; color: #999; height: 19px; padding: 3px; position: absolute; text-align: center; width: 19px;}
+#cancel-button, #submit-button, #input-icon{background-color: #fff; bottom: 0px; color: #999; height: 19px; padding: 2px; position: absolute; text-align: center; width: 19px;}
 #cancel-button{display: none; left: 0px;}
 #cancel-button:hover{color: #c33;}
 #submit-button{right: 0px;}

@@ -179,6 +179,7 @@
   window.createBasicCommentDiv = function(comment) {
     var $newComment, discussionID, messageID;
     $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+    $newComment.css('width', 70 + 7 * (comment['username'] + ': ' + comment['text']).length);
     $newComment.find('.message').text(comment['username'] + ': ' + comment['text']);
     $newComment.find('.reply').click(function(e) {
       var discussionID;

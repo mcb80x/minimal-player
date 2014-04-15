@@ -155,6 +155,8 @@ window.createBasicCommentDiv = (comment) ->
           <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
             <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
           </a>')
+  # add styling
+  $newComment.css('width', 70 + 7*(comment['username'] + ': ' + comment['text']).length)
   # add data/handlers to comment
   $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
   $newComment.find('.reply').click( (e) ->
