@@ -218,9 +218,9 @@ def comment_edit():
 # URL Routing for GET/POST Confusion
 # -------------------------------------------------------
 
-@app.route('/confusion', methods=['GET'])
-def confusion_get():
-    data = dumps(confusion.find())
+@app.route('/confusion/<videoName>', methods=['GET'])
+def confusion_get(videoName):
+    data = dumps(confusion.find({'video': str(videoName)}))
     return render_template('confusion.jade', data=data)
 
 @app.route('/confusion', methods=['POST'])
