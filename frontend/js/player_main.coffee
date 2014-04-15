@@ -57,6 +57,7 @@ window.toggleComments = ->
 
 window.submitInput = ()->
   #change the username to refer to an actual user
+  console.log("start of submit Input method")
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#input-field').val()
@@ -72,7 +73,7 @@ window.submitInput = ()->
               parent_id: replyToID
               discussion_id: discussionID
 
-
+  console.log('comment', comment)
   # display comment on screen
   if replyToID is '' #if it is a new comment thread
     displayComment(comment)
@@ -219,13 +220,15 @@ window.displayComment = (comment, replies)->
     $firstComment = createBasicCommentDiv("initial", comment)
     $commentThread.append($firstComment)
 
-    if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length) else $commentThread.find('.oneComment:first').find('.threadCount').remove()
     # add replies
     if replies?
+      if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length)
       for reply, i in replies
         $newReply = createBasicCommentDiv("reply", reply)
         $newReply.css('top', 31+30*i)
         $commentThread.find('.oneComment:last').after($newReply)
+    else
+      $commentThread.find('.oneComment:first').find('.threadCount').remove()
     # add popup feature
     $commentThread.click(->
       if !$(this).data('clicked')? || $(this).data('clicked')
