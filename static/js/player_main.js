@@ -317,14 +317,15 @@
   window.draw = function(comments, stage) {
     var comment, line, percentAcrossCanvas, _fn, _i, _len;
     _fn = function(comment) {
-      console.log("DOING IT");
       line.on("mouseover", function() {
         var newtip;
+        $('#comment-timeline-canvas').qtip('toggle', true);
         newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>';
         return $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
       });
       return line.on("mouseout", function() {
-        return $('#comment-timeline-canvas').qtip('option', 'content.text', "Comment!");
+        $('#comment-timeline-canvas').qtip('toggle', false);
+        return $('#comment-timeline-canvas').qtip('option', 'content.text', "");
       });
     };
     for (_i = 0, _len = comments.length; _i < _len; _i++) {
@@ -374,7 +375,7 @@
       style: {
         classes: 'qtip-dark'
       },
-      content: "Comment!",
+      content: "Hover over the lines to see comments people have made",
       position: {
         target: 'mouse',
         adjust: {

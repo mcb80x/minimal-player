@@ -269,14 +269,14 @@ window.draw = (comments, stage)->
     stage.addChild(line)
     stage.enableMouseOver()
     do(comment)->
-      console.log "DOING IT"
       line.on("mouseover", ->
+        $('#comment-timeline-canvas').qtip('toggle', true);
         newtip = '<img id="qtip-image" src="' + comment['user']['img'] + '" height="15px" width="15px"/> ' + '<span id="qtip-text">' + comment['text'] + '</span>'
         $('#comment-timeline-canvas').qtip('option', 'content.text', newtip);
-
       )
       line.on("mouseout", ->
-        $('#comment-timeline-canvas').qtip('option', 'content.text', "Comment!");
+        $('#comment-timeline-canvas').qtip('toggle', false);
+        $('#comment-timeline-canvas').qtip('option', 'content.text', "");
       )
   stage.update()
 
@@ -323,7 +323,7 @@ $ ->
     # Creates tooltip for viewing comments on the timeline
     $('#comment-timeline-canvas').qtip({
       style: { classes: 'qtip-dark' },
-      content: "Comment!"
+      content: "Hover over the lines to see comments people have made"
       position: {
         target: 'mouse', 
         adjust: { x: 0, y: 5 }
