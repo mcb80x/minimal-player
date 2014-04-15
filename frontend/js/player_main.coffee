@@ -2,8 +2,23 @@
 # coffee --compile --watch --output static/js/ frontend/js/
 
 window.displayHelp = ->
-  # this needs to be completed
-  alert('You clicked the help button!')
+  if $('#toggleHelp i').hasClass('on')
+    $('#toggleHelp i').removeClass('on')
+    $('.qtip').each( ->
+      $(this).qtip('hide')
+    )
+  else
+    $('#toggleHelp i').addClass('on')
+    $('#toggleComments').qtip('toggle', true);
+    $('#toggleSubtitles').qtip('toggle', true);
+    $('#scene-indicator-container').qtip('toggle', true);
+    $('#timeline-controls').qtip('toggle', true);
+    $('#comment-timeline-canvas-container').qtip('toggle', true);
+    $('#clock-text').qtip('toggle', true);
+    $('#confusion-control').qtip('toggle', true);
+    $('#volume-control').qtip('toggle', true);
+    $('#courseMapButton').qtip('toggle', true);
+    $('#downloadVideoButton').qtip('toggle', true);
 
 window.toggleSubtitles = ->
   $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
@@ -345,11 +360,6 @@ $ ->
               my: 'right center',
               at: 'left center',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#downloadVideoButton").qtip({
       style:
@@ -360,11 +370,6 @@ $ ->
               my: 'top right',
               at: 'bottom center',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#toggleComments").qtip({
       style:
@@ -379,11 +384,6 @@ $ ->
               my: 'bottom left',
               at: 'top center',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#toggleSubtitles").qtip({
       style:
@@ -394,11 +394,6 @@ $ ->
               my: 'bottom left',
               at: 'top center',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#scene-indicator-container").qtip({
       style:
@@ -409,11 +404,6 @@ $ ->
               my: 'bottom center',
               at: 'top center',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#timeline-controls").qtip({
       style:
@@ -424,11 +414,6 @@ $ ->
               my: 'top left',
               at: 'bottom left',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#comment-timeline-canvas-container").qtip({
       style:
@@ -439,11 +424,6 @@ $ ->
               my: 'top center',
               at: 'bottom center',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#clock-text").qtip({
       style:
@@ -454,11 +434,6 @@ $ ->
               my: 'top right',
               at: 'bottom left',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#confusion-control").qtip({
       style:
@@ -469,11 +444,6 @@ $ ->
               my: 'bottom right',
               at: 'top center',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
     $("#volume-control").qtip({
       style:
@@ -484,30 +454,7 @@ $ ->
               my: 'top center',
               at: 'bottom center',
               target: true
-      hide: {
-        target: $('#toggleHelp')
-        event: false
-        inactive: 3000
-      }
     })
-    #Help Button
-    $('#toggleHelp').hover( ->
-      console.log("hello!");
-      $('#toggleComments').qtip('toggle', true);
-      $('#toggleSubtitles').qtip('toggle', true);
-      $('#scene-indicator-container').qtip('toggle', true);
-      $('#timeline-controls').qtip('toggle', true);
-      $('#comment-timeline-canvas-container').qtip('toggle', true);
-      $('#clock-text').qtip('toggle', true);
-      $('#confusion-control').qtip('toggle', true);
-      $('#volume-control').qtip('toggle', true);
-      $('#courseMapButton').qtip('toggle', true);
-      $('#downloadVideoButton').qtip('toggle', true);
-    , ->
-      console.log("goodbye!");
-      # $('#courseMapButton').qtip('toggle', false);
-      # $('#downloadVideoButton').qtip('toggle', false);
-    )
  
     #Input Bar JQuery Functions
     $('#input-field').focus( ->
