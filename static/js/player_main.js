@@ -3,7 +3,24 @@
   var drawCommentLines;
 
   window.displayHelp = function() {
-    return alert('You clicked the help button!');
+    if ($('#toggleHelp i').hasClass('on')) {
+      $('#toggleHelp i').removeClass('on');
+      return $('.qtip').each(function() {
+        return $(this).qtip('hide');
+      });
+    } else {
+      $('#toggleHelp i').addClass('on');
+      $('#toggleComments').qtip('toggle', true);
+      $('#toggleSubtitles').qtip('toggle', true);
+      $('#scene-indicator-container').qtip('toggle', true);
+      $('#timeline-controls').qtip('toggle', true);
+      $('#comment-timeline-canvas-container').qtip('toggle', true);
+      $('#clock-text').qtip('toggle', true);
+      $('#confusion-control').qtip('toggle', true);
+      $('#volume-control').qtip('toggle', true);
+      $('#courseMapButton').qtip('toggle', true);
+      return $('#downloadVideoButton').qtip('toggle', true);
+    }
   };
 
   window.toggleSubtitles = function() {
@@ -396,11 +413,6 @@
         my: 'right center',
         at: 'left center',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#downloadVideoButton").qtip({
@@ -413,11 +425,6 @@
         my: 'top right',
         at: 'bottom center',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#toggleComments").qtip({
@@ -435,11 +442,6 @@
         my: 'bottom left',
         at: 'top center',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#toggleSubtitles").qtip({
@@ -452,11 +454,6 @@
         my: 'bottom left',
         at: 'top center',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#scene-indicator-container").qtip({
@@ -469,11 +466,6 @@
         my: 'bottom center',
         at: 'top center',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#timeline-controls").qtip({
@@ -486,11 +478,6 @@
         my: 'top left',
         at: 'bottom left',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#comment-timeline-canvas-container").qtip({
@@ -503,11 +490,6 @@
         my: 'top center',
         at: 'bottom center',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#clock-text").qtip({
@@ -520,11 +502,6 @@
         my: 'top right',
         at: 'bottom left',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#confusion-control").qtip({
@@ -537,11 +514,6 @@
         my: 'bottom right',
         at: 'top center',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
     });
     $("#volume-control").qtip({
@@ -554,27 +526,7 @@
         my: 'top center',
         at: 'bottom center',
         target: true
-      },
-      hide: {
-        target: $('#toggleHelp'),
-        event: false,
-        inactive: 3000
       }
-    });
-    $('#toggleHelp').hover(function() {
-      console.log("hello!");
-      $('#toggleComments').qtip('toggle', true);
-      $('#toggleSubtitles').qtip('toggle', true);
-      $('#scene-indicator-container').qtip('toggle', true);
-      $('#timeline-controls').qtip('toggle', true);
-      $('#comment-timeline-canvas-container').qtip('toggle', true);
-      $('#clock-text').qtip('toggle', true);
-      $('#confusion-control').qtip('toggle', true);
-      $('#volume-control').qtip('toggle', true);
-      $('#courseMapButton').qtip('toggle', true);
-      return $('#downloadVideoButton').qtip('toggle', true);
-    }, function() {
-      return console.log("goodbye!");
     });
     $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
