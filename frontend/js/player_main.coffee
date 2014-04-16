@@ -2,7 +2,7 @@
 # coffee --compile --watch --output static/js/ frontend/js/
 
 window.displayHelp = ->
-  alert("Display Help!")
+  $( "#helpDialog" ).dialog();
 
 window.toggleSubtitles = ->
   $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
