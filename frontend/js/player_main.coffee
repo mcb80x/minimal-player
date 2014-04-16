@@ -34,7 +34,6 @@ window.toggleSubtitles = ->
       #$('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
-drawCommentLines = false
 window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   $('.icon-quote-left').removeClass('on')
@@ -42,12 +41,10 @@ window.toggleComments = ->
   if $('#toggleComments').hasClass('on')
     #turn comments off
     $('#toggleComments').removeClass('on')
-    drawCommentLines = false
     $('#comment-timeline-canvas').hide()
   else
     #turn comments on
     $('#toggleComments').addClass('on')
-    drawCommentLines = true
     $('#comment-timeline-canvas').show()
   $('#comment-container').slideToggle
     duration: 400
@@ -300,22 +297,17 @@ window.getComments = (stage)->
     dataType: "json",
     success: (comments)->
       console.log('successful comments get')
-      stringifiedComments = JSON.stringify(comments)
-      if currentComments isnt stringifiedComments
-        console.log "new comment"
-        addCallback(comments)
-        draw(comments, stage)
-        currentComments = stringifiedComments
+      addCallback(comments)
+      draw(comments, stage)
       return
   });
 
 window.draw = (comments, stage)->
   for comment in comments
-    # console.log canvas.width #300
-    # x/300 = percent/100
-    percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
+    canvasWidth = document.getElementById('comment-timeline-canvas').width
+    percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * canvasWidth/100).toPrecision(2)
     line = new createjs.Shape()
-    line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,300)
+    line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,canvasWidth)
 
     # Draws comments to timeline
     stage.addChild(line)
