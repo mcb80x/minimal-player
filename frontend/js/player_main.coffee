@@ -129,19 +129,17 @@ window.deleteComment = ->
 #-----------------------------------------
 
 # Gets all comments from db, installs their callbacks
-window.hasCallback = []
-window.addCallback = (comments)-> 
-    for comment in comments
-      if comment['discussion_id'] is '' #we only care about 'parent' comments
-        if hasCallback.indexOf(JSON.stringify(comment)) is -1
-          # finds replies for particular comment
-          replies = []
-          replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
-          timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->createCommentThread(comment, replies))
-          hasCallback.push(JSON.stringify(comment))
+window.addCallback = (comments)->
+  for comment in comments
+    if comment['discussion_id'] is '' #we only care about 'parent' comments
+      if timeline.getCommentCallbackList().indexOf(JSON.stringify(comment)) is -1
+        # finds replies for particular comment
+        replies = []
+        replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
+        timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->createCommentThread(comment, replies))
+        timeline.addCommentCallback(JSON.stringify(comment))
 
 # Pulls comments from database
-window.currentComments = ''
 window.getComments = (stage)->
   $.ajax({
     type: "GET",
@@ -311,9 +309,7 @@ window.ageMostRecentComment = ->
   $('.newComment').children().hide()
   $('.newComment').find('.dot').show().click( ->
     messageID = $(this).parent().data('messageID')
-    console.log('messageID', messageID)
     discussionID = $(this).parent().data('discussionID')
-    console.log('discussionID', discussionID)
     message = $(this).parent().find('.oneComment:last .message').text()
     theirUsername = message.slice(0,message.indexOf(':'))
     replyToComment("testuser123", theirUsername, messageID, discussionID)
