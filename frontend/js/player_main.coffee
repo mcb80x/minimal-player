@@ -182,11 +182,11 @@ window.createBasicCommentDiv = (type, comment) ->
   , ->
     $newComment.find('.flag').hide()
   )
-  $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
+  $newComment.find('.message').text(comment['user']['username'] + ': ' + comment['text'])
   $newComment.find('.commentReply').click( (e) ->
     e.stopPropagation()
     discussionID = comment['discussion_id'] || comment['_id']['$oid']
-    replyToComment('testuser123', comment['username'], comment['_id']['$oid'], discussionID)
+    replyToComment('testuser123', comment['user']['username'], comment['_id']['$oid'], discussionID)
   )
   # assigns messageID & discussionID for comments from the database
   if comment['discussion_id'] || comment['_id']#['$oid']
