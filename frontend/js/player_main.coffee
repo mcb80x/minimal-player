@@ -1,6 +1,10 @@
 # Run this command from minimal-player/ to continuously monitor & compile files:
 # coffee --compile --watch --output static/js/ frontend/js/
 
+# -----------------------------------------
+# Feature Toggling
+#-----------------------------------------
+
 window.displayHelp = ->
   $( "#helpDialog" ).dialog();
 
@@ -35,14 +39,29 @@ window.toggleComments = ->
       $('comment-container').css('display', 'none')
       util.maintainAspect()
 
+window.toggleVolume = ->
+  console.log("toggling volume")
+  if not video_playing.muted
+    video_playing.mute()
+    video_playing.muted = true
+    $( "#slider-vertical" ).slider({value: 0})
+  else
+    video_playing.fullvolume()
+    video_playing.muted = false
+    $( "#slider-vertical" ).slider({value: 100})
+
+# -----------------------------------------
+# POST to Database
+#-----------------------------------------
+
 window.submitInput = ()->
   #change the username to refer to an actual user
   console.log("start of submit Input method")
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#input-field').val()
-  replyToID = $('#input-field').data('replyToID') || ''
-  discussionID = $('#input-field').data('discussionID') || ''
+  replyToID = $('#input-field').data('replyToID')
+  discussionID = $('#input-field').data('discussionID')
   $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
@@ -55,12 +74,12 @@ window.submitInput = ()->
 
   console.log('comment', comment)
   # display comment on screen
-  if replyToID is '' #if it is a new comment thread
-    displayComment(comment)
+  if !replyToID? is
+    createCommentThread(comment, [])
   else
     for comment in $('.oldComments')
       if $(comment).data('messageID') is replyToID
-        $(comment).parent().append(createBasicCommentDiv("reply", comment))
+        $(comment).parent().append(createComment("reply", comment))
         break
 
   timeline.play()
@@ -105,30 +124,39 @@ window.deleteComment = ->
       alert('successful post')
   });
 
-window.toggleVolume = ->
-  console.log("toggling volume")
-  if not video_playing.muted
-    video_playing.mute()
-    video_playing.muted = true
-    $( "#slider-vertical" ).slider({value: 0})
-  else
-    video_playing.fullvolume()
-    video_playing.muted = false
-    $( "#slider-vertical" ).slider({value: 100})
+# -----------------------------------------
+# GET comments from Database
+#-----------------------------------------
 
-window.timelineURItoX = (uri) ->
-  time = uri.split('/')[1]
-  (time/timeline.totalDuration) * 100
+# Gets all comments from db, installs their callbacks
+window.hasCallback = []
+window.addCallback = (comments)-> 
+    for comment in comments
+      if comment['discussion_id'] is '' #we only care about 'parent' comments
+        if hasCallback.indexOf(JSON.stringify(comment)) is -1
+          # finds replies for particular comment
+          replies = []
+          replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
+          timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->createCommentThread(comment, replies))
+          hasCallback.push(JSON.stringify(comment))
 
-window.resetInputField = ->
-  # Non-superficial
-  $('#input-field').data('username', null)
-  $('#input-field').data('replyToID', null)
-  $('#input-field').data('discussionID', null)
-  # Superficial
-  $('#input-field').val('Say something...').addClass('default')
-  $('#reply-label, #cancel-button').hide()
-  $('#input-field').css('padding-left', 5)
+# Pulls comments from database
+window.currentComments = ''
+window.getComments = (stage)->
+  $.ajax({
+    type: "GET",
+    url: "/comments",
+    dataType: "json",
+    success: (comments)->
+      console.log('successful comments get')
+      addCallback(comments)
+      draw(comments, stage)
+      return
+  });
+
+# -----------------------------------------
+# Comment Submission
+#-----------------------------------------
 
 window.replyToComment = (myUsername, theirUsername, messageID, discussionID) ->
   # Non-superficial
@@ -140,7 +168,20 @@ window.replyToComment = (myUsername, theirUsername, messageID, discussionID) ->
   $('#cancel-button').show()
   $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
 
-window.createBasicCommentDiv = (type, comment) ->
+window.resetInputField = ->
+  # Non-superficial
+  $('#input-field').data('username', null)
+  $('#input-field').data('replyToID', null)
+  $('#input-field').data('discussionID', null)
+  # Superficial
+  $('#input-field').val('Say something...').addClass('default')
+  $('#reply-label, #cancel-button').hide()
+  $('#input-field').css('padding-left', 5)
+
+# -----------------------------------------
+# Initial Comment Display
+#-----------------------------------------
+window.createComment = (type, comment) ->
   $newComment
   if type is "initial"
     console.log('creating initial comment')
@@ -181,10 +222,9 @@ window.createBasicCommentDiv = (type, comment) ->
     messageID = 'none'
   $newComment.data('messageID', messageID)#comment['_id']['$oid'])
   $newComment.data('discussionID', discussionID)
-  console.log('$newComment', $newComment)
   $newComment
 
-window.displayComment = (comment, replies)->
+window.createCommentThread = (comment, replies)->
   console.log('replies', replies)
   if comment['display'] is 'true'
     ageMostRecentComment()
@@ -192,32 +232,41 @@ window.displayComment = (comment, replies)->
 
     # create a comment thread, add initial message  
     $commentThread = $('<div/>').addClass('newComment')
-    $firstComment = createBasicCommentDiv("initial", comment).css('top', 0)
+    $firstComment = createComment("initial", comment).css('top', 0)
     $commentThread.append($firstComment)
 
     # add replies
     if replies?
-      if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length) else $commentThread.find('.threadCount').remove()
+
+      lineHeight = 90 + replies.length*30
+      dotPosition = 60 + replies.length*30
+      count = if replies.length > 0 then '' else replies.length
+      
+      if replies.length > 0
+        $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length)
+      else
+        $commentThread.find('.threadCount').remove()
+
       for reply, i in replies
-        $newReply = createBasicCommentDiv("reply", reply)
+        $newReply = createComment("reply", reply)
         $newReply.css('top', 30+30*i)
         $commentThread.find('.oneComment:last').after($newReply)
     else
       $commentThread.find('.threadCount').remove()
+      lineHeight = 90
+      dotPosition = 60
+      count = ''
     
     # add the dotted line that will be displayed on mouseover
-    lineHeight = 90 + (replies.length*30 || 0)
     $dottedLine = $('<div/>').addClass('dottedLine').hide().css('height', lineHeight)
     $commentThread.append($dottedLine)
-    
+  
     #add the dot    
-    dotPosition = 60 + (replies.length*30 || 0)
     $dot = $('<div/>').addClass('dot').css('left', -15).css('top', dotPosition).hide()
 
     $dotReply = $('<div class="dotReply"><i class="icon-mail-forward dotReply" title="Reply to this Comment"></i></div>').hide()
     $dot.append($dotReply)
     
-    count = if replies.length > 0 then replies.length else '' 
     $dotCount = $('<div class="dotCount">'+ count + '</div>')
     $dot.append($dotCount)
     
@@ -226,7 +275,6 @@ window.displayComment = (comment, replies)->
     # add popup feature
     $commentThread.click(->
       if !$(this).data('clicked')? || $(this).data('clicked')
-        #newPosition = parseInt($('.newComment').css('top').slice(0,-2))-(32*replies.length)
         $(this).css('bottom',25-61) #edited
         $(this).data('clicked', false)
       else
@@ -241,11 +289,14 @@ window.displayComment = (comment, replies)->
     # add comment to DOM   
     $('#comment-container').prepend($commentThread)
 
-window.playAnimation = true;
+# -----------------------------------------
+# Manipulating Comment Display
+#-----------------------------------------
 
+#window.playAnimation = true;
 window.pruneAndAgeComments = ->
   # hide current comment if it is older than 5 seconds
-  if playAnimation
+  #if playAnimation
     commentDate = $('.newComment').data("time-created")
     currentDate = new Date().getTime()
     if currentDate - commentDate > 5000 then ageMostRecentComment()      
@@ -254,8 +305,7 @@ window.pruneAndAgeComments = ->
       if $(comment).hasClass('oldComment') then $(comment).css('left', $(comment).position()['left']+20)
       # Removes old comments that have moved off the screen
       if $(comment).position()['left'] + 30 > $('#player-wrapper').width() then $(comment).remove()
-
-    
+  
 window.ageMostRecentComment = ->
   $('.newComment').unbind() #this gets rid of the tab pop up on mouse click
   $('.newComment').children().hide()
@@ -282,31 +332,17 @@ window.ageMostRecentComment = ->
     $(this).find('.threadCount').hide()
   ).removeClass('newComment').css('bottom', 27)
 
-# Gets all comments from db, installs their callbacks
-window.hasCallback = []
-window.addCallback = (comments)-> 
-    for comment in comments
-      if comment['discussion_id'] is '' #we only care about 'parent' comments
-        if hasCallback.indexOf(JSON.stringify(comment)) is -1
-          # finds replies for particular comment
-          replies = []
-          replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
-          timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->displayComment(comment, replies))
-          hasCallback.push(JSON.stringify(comment))
 
-# Pulls comments from database
-window.currentComments = ''
-window.getComments = (stage)->
-  $.ajax({
-    type: "GET",
-    url: "/comments",
-    dataType: "json",
-    success: (comments)->
-      console.log('successful comments get')
-      addCallback(comments)
-      draw(comments, stage)
-      return
-  });
+
+
+
+window.timelineURItoX = (uri) ->
+  time = uri.split('/')[1]
+  (time/timeline.totalDuration) * 100
+
+# -----------------------------------------
+# Display of Lines on Timeline
+#-----------------------------------------
 
 window.draw = (comments, stage)->
   for comment in comments
@@ -345,7 +381,20 @@ $ ->
     #if window.showComments? and window.showSubtitles
     #  window.toggleComments()
  
-    #Input Bar JQuery Functions
+    # Creates tooltip for viewing comments on the timeline
+    $('#comment-timeline-canvas').qtip({
+      style: { classes: 'qtip-dark' }
+      show: false
+      content: "Hover over the lines to see comments people have made"
+      position: {
+        target: 'mouse', 
+        adjust: { x: 0, y: 5 }
+      }
+    })
+    
+# -----------------------------------------
+# Input-field JQuery
+#-----------------------------------------
     $('#input-field').focus( ->
       if this.value is this.defaultValue
         this.value = '';
@@ -364,38 +413,9 @@ $ ->
       if e.which is 13 then submitInput()
     )
 
-
-    # Removes first comment after 10000ms
-    hideComment = ->
-      console.log('deleting')
-      $('#comment-container div:first').remove()
-
-    # Creates tooltip for viewing comments on the timeline
-    $('#comment-timeline-canvas').qtip({
-      style: { classes: 'qtip-dark' }
-      show: false
-      content: "Hover over the lines to see comments people have made"
-      position: {
-        target: 'mouse', 
-        adjust: { x: 0, y: 5 }
-      }
-    })
-
-    stage = new createjs.Stage("comment-timeline-canvas")
-    stage.on("stagemousedown", (evt)-> 
-        canvasWidth = document.getElementById('comment-timeline-canvas').width
-        console.log ("the canvas was clicked at "+evt.stageX)
-        timeline.seekDirect((evt.stageX).toPrecision(2), canvasWidth)
-    )
-
-    getComments(stage)
-    
-    intervalHandler = setInterval(->
-      pruneAndAgeComments()
-      getComments(stage)
-    , 1000)
-
-    #volume control
+# -----------------------------------------
+# Volume-related JQuery
+#-----------------------------------------
     $( "#slider-vertical" ).slider(
       orientation: "vertical",
       range: "min",
@@ -420,6 +440,28 @@ $ ->
       mouseleave: ->
           $(".ui-slider-vertical").hide()
     );
+
+    # Removes first comment after 10000ms
+    hideComment = ->
+      console.log('deleting')
+      $('#comment-container div:first').remove()
+
+
+    stage = new createjs.Stage("comment-timeline-canvas")
+    stage.on("stagemousedown", (evt)-> 
+        canvasWidth = document.getElementById('comment-timeline-canvas').width
+        console.log ("the canvas was clicked at "+evt.stageX)
+        timeline.seekDirect((evt.stageX).toPrecision(2), canvasWidth)
+    )
+
+    getComments(stage)
+    
+    intervalHandler = setInterval(->
+      pruneAndAgeComments()
+      getComments(stage)
+    , 1000)
+
+
 
     # Test reportOnDeck
     console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"

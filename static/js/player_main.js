@@ -39,6 +39,23 @@
     });
   };
 
+  window.toggleVolume = function() {
+    console.log("toggling volume");
+    if (!video_playing.muted) {
+      video_playing.mute();
+      video_playing.muted = true;
+      return $("#slider-vertical").slider({
+        value: 0
+      });
+    } else {
+      video_playing.fullvolume();
+      video_playing.muted = false;
+      return $("#slider-vertical").slider({
+        value: 100
+      });
+    }
+  };
+
   window.submitInput = function() {
     var comment, discussionID, replyToID, text, timestamp, user, _i, _len, _ref;
     console.log("start of submit Input method");
@@ -49,8 +66,8 @@
     };
     timestamp = timeline.currentTimelineURI();
     text = $('#input-field').val();
-    replyToID = $('#input-field').data('replyToID') || '';
-    discussionID = $('#input-field').data('discussionID') || '';
+    replyToID = $('#input-field').data('replyToID');
+    discussionID = $('#input-field').data('discussionID');
     $('#input-field').val('');
     comment = {
       video: timestamp.split('/')[0],
@@ -62,14 +79,14 @@
       discussion_id: discussionID
     };
     console.log('comment', comment);
-    if (replyToID === '') {
-      displayComment(comment);
+    if ((replyToID == null) === createCommentThread(comment, [])) {
+
     } else {
       _ref = $('.oldComments');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         comment = _ref[_i];
         if ($(comment).data('messageID') === replyToID) {
-          $(comment).parent().append(createBasicCommentDiv("reply", comment));
+          $(comment).parent().append(createComment("reply", comment));
           break;
         }
       }
@@ -127,36 +144,51 @@
     });
   };
 
-  window.toggleVolume = function() {
-    console.log("toggling volume");
-    if (!video_playing.muted) {
-      video_playing.mute();
-      video_playing.muted = true;
-      return $("#slider-vertical").slider({
-        value: 0
-      });
-    } else {
-      video_playing.fullvolume();
-      video_playing.muted = false;
-      return $("#slider-vertical").slider({
-        value: 100
-      });
+  window.hasCallback = [];
+
+  window.addCallback = function(comments) {
+    var c, comment, replies, _i, _j, _len, _len1, _results;
+    _results = [];
+    for (_i = 0, _len = comments.length; _i < _len; _i++) {
+      comment = comments[_i];
+      if (comment['discussion_id'] === '') {
+        if (hasCallback.indexOf(JSON.stringify(comment)) === -1) {
+          replies = [];
+          for (_j = 0, _len1 = comments.length; _j < _len1; _j++) {
+            c = comments[_j];
+            if (c['discussion_id'] === comment['_id']['$oid']) {
+              replies.push(c);
+            }
+          }
+          timeline.atTimelineURI(comment['timestamp'], (function(comment, replies) {
+            return function() {
+              return createCommentThread(comment, replies);
+            };
+          })(comment, replies));
+          _results.push(hasCallback.push(JSON.stringify(comment)));
+        } else {
+          _results.push(void 0);
+        }
+      } else {
+        _results.push(void 0);
+      }
     }
+    return _results;
   };
 
-  window.timelineURItoX = function(uri) {
-    var time;
-    time = uri.split('/')[1];
-    return (time / timeline.totalDuration) * 100;
-  };
+  window.currentComments = '';
 
-  window.resetInputField = function() {
-    $('#input-field').data('username', null);
-    $('#input-field').data('replyToID', null);
-    $('#input-field').data('discussionID', null);
-    $('#input-field').val('Say something...').addClass('default');
-    $('#reply-label, #cancel-button').hide();
-    return $('#input-field').css('padding-left', 5);
+  window.getComments = function(stage) {
+    return $.ajax({
+      type: "GET",
+      url: "/comments",
+      dataType: "json",
+      success: function(comments) {
+        console.log('successful comments get');
+        addCallback(comments);
+        draw(comments, stage);
+      }
+    });
   };
 
   window.replyToComment = function(myUsername, theirUsername, messageID, discussionID) {
@@ -168,7 +200,16 @@
     return $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25);
   };
 
-  window.createBasicCommentDiv = function(type, comment) {
+  window.resetInputField = function() {
+    $('#input-field').data('username', null);
+    $('#input-field').data('replyToID', null);
+    $('#input-field').data('discussionID', null);
+    $('#input-field').val('Say something...').addClass('default');
+    $('#reply-label, #cancel-button').hide();
+    return $('#input-field').css('padding-left', 5);
+  };
+
+  window.createComment = function(type, comment) {
     $newComment;
     var $newComment, discussionID, messageID;
     if (type === "initial") {
@@ -199,20 +240,22 @@
     }
     $newComment.data('messageID', messageID);
     $newComment.data('discussionID', discussionID);
-    console.log('$newComment', $newComment);
     return $newComment;
   };
 
-  window.displayComment = function(comment, replies) {
+  window.createCommentThread = function(comment, replies) {
     var $commentThread, $dot, $dotCount, $dotReply, $dottedLine, $firstComment, $newReply, count, dotPosition, i, lineHeight, reply, _i, _len;
     console.log('replies', replies);
     if (comment['display'] === 'true') {
       ageMostRecentComment();
       pruneAndAgeComments();
       $commentThread = $('<div/>').addClass('newComment');
-      $firstComment = createBasicCommentDiv("initial", comment).css('top', 0);
+      $firstComment = createComment("initial", comment).css('top', 0);
       $commentThread.append($firstComment);
       if (replies != null) {
+        lineHeight = 90 + replies.length * 30;
+        dotPosition = 60 + replies.length * 30;
+        count = replies.length > 0 ? '' : replies.length;
         if (replies.length > 0) {
           $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length);
         } else {
@@ -220,21 +263,21 @@
         }
         for (i = _i = 0, _len = replies.length; _i < _len; i = ++_i) {
           reply = replies[i];
-          $newReply = createBasicCommentDiv("reply", reply);
+          $newReply = createComment("reply", reply);
           $newReply.css('top', 30 + 30 * i);
           $commentThread.find('.oneComment:last').after($newReply);
         }
       } else {
         $commentThread.find('.threadCount').remove();
+        lineHeight = 90;
+        dotPosition = 60;
+        count = '';
       }
-      lineHeight = 90 + (replies.length * 30 || 0);
       $dottedLine = $('<div/>').addClass('dottedLine').hide().css('height', lineHeight);
       $commentThread.append($dottedLine);
-      dotPosition = 60 + (replies.length * 30 || 0);
       $dot = $('<div/>').addClass('dot').css('left', -15).css('top', dotPosition).hide();
       $dotReply = $('<div class="dotReply"><i class="icon-mail-forward dotReply" title="Reply to this Comment"></i></div>').hide();
       $dot.append($dotReply);
-      count = replies.length > 0 ? replies.length : '';
       $dotCount = $('<div class="dotCount">' + count + '</div>');
       $dot.append($dotCount);
       $commentThread.append($dot);
@@ -255,31 +298,27 @@
     }
   };
 
-  window.playAnimation = true;
-
   window.pruneAndAgeComments = function() {
     var comment, commentDate, currentDate, _i, _len, _ref, _results;
-    if (playAnimation) {
-      commentDate = $('.newComment').data("time-created");
-      currentDate = new Date().getTime();
-      if (currentDate - commentDate > 5000) {
-        ageMostRecentComment();
-      }
-      _ref = $('.oldComment');
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        comment = _ref[_i];
-        if ($(comment).hasClass('oldComment')) {
-          $(comment).css('left', $(comment).position()['left'] + 20);
-        }
-        if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
-          _results.push($(comment).remove());
-        } else {
-          _results.push(void 0);
-        }
-      }
-      return _results;
+    commentDate = $('.newComment').data("time-created");
+    currentDate = new Date().getTime();
+    if (currentDate - commentDate > 5000) {
+      ageMostRecentComment();
     }
+    _ref = $('.oldComment');
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      comment = _ref[_i];
+      if ($(comment).hasClass('oldComment')) {
+        $(comment).css('left', $(comment).position()['left'] + 20);
+      }
+      if ($(comment).position()['left'] + 30 > $('#player-wrapper').width()) {
+        _results.push($(comment).remove());
+      } else {
+        _results.push(void 0);
+      }
+    }
+    return _results;
   };
 
   window.ageMostRecentComment = function() {
@@ -310,51 +349,10 @@
     }).removeClass('newComment').css('bottom', 27);
   };
 
-  window.hasCallback = [];
-
-  window.addCallback = function(comments) {
-    var c, comment, replies, _i, _j, _len, _len1, _results;
-    _results = [];
-    for (_i = 0, _len = comments.length; _i < _len; _i++) {
-      comment = comments[_i];
-      if (comment['discussion_id'] === '') {
-        if (hasCallback.indexOf(JSON.stringify(comment)) === -1) {
-          replies = [];
-          for (_j = 0, _len1 = comments.length; _j < _len1; _j++) {
-            c = comments[_j];
-            if (c['discussion_id'] === comment['_id']['$oid']) {
-              replies.push(c);
-            }
-          }
-          timeline.atTimelineURI(comment['timestamp'], (function(comment, replies) {
-            return function() {
-              return displayComment(comment, replies);
-            };
-          })(comment, replies));
-          _results.push(hasCallback.push(JSON.stringify(comment)));
-        } else {
-          _results.push(void 0);
-        }
-      } else {
-        _results.push(void 0);
-      }
-    }
-    return _results;
-  };
-
-  window.currentComments = '';
-
-  window.getComments = function(stage) {
-    return $.ajax({
-      type: "GET",
-      url: "/comments",
-      dataType: "json",
-      success: function(comments) {
-        console.log('successful comments get');
-        addCallback(comments);
-        draw(comments, stage);
-      }
-    });
+  window.timelineURItoX = function(uri) {
+    var time;
+    time = uri.split('/')[1];
+    return (time / timeline.totalDuration) * 100;
   };
 
   window.draw = function(comments, stage) {
@@ -392,6 +390,20 @@
     if ((window.showSubtitles != null) && window.showSubtitles) {
       window.toggleSubtitles();
     }
+    $('#comment-timeline-canvas').qtip({
+      style: {
+        classes: 'qtip-dark'
+      },
+      show: false,
+      content: "Hover over the lines to see comments people have made",
+      position: {
+        target: 'mouse',
+        adjust: {
+          x: 0,
+          y: 5
+        }
+      }
+    });
     $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';
@@ -411,36 +423,6 @@
         return submitInput();
       }
     });
-    hideComment = function() {
-      console.log('deleting');
-      return $('#comment-container div:first').remove();
-    };
-    $('#comment-timeline-canvas').qtip({
-      style: {
-        classes: 'qtip-dark'
-      },
-      show: false,
-      content: "Hover over the lines to see comments people have made",
-      position: {
-        target: 'mouse',
-        adjust: {
-          x: 0,
-          y: 5
-        }
-      }
-    });
-    stage = new createjs.Stage("comment-timeline-canvas");
-    stage.on("stagemousedown", function(evt) {
-      var canvasWidth;
-      canvasWidth = document.getElementById('comment-timeline-canvas').width;
-      console.log("the canvas was clicked at " + evt.stageX);
-      return timeline.seekDirect(evt.stageX.toPrecision(2), canvasWidth);
-    });
-    getComments(stage);
-    intervalHandler = setInterval(function() {
-      pruneAndAgeComments();
-      return getComments(stage);
-    }, 1000);
     $("#slider-vertical").slider({
       orientation: "vertical",
       range: "min",
@@ -469,6 +451,22 @@
         return $(".ui-slider-vertical").hide();
       }
     });
+    hideComment = function() {
+      console.log('deleting');
+      return $('#comment-container div:first').remove();
+    };
+    stage = new createjs.Stage("comment-timeline-canvas");
+    stage.on("stagemousedown", function(evt) {
+      var canvasWidth;
+      canvasWidth = document.getElementById('comment-timeline-canvas').width;
+      console.log("the canvas was clicked at " + evt.stageX);
+      return timeline.seekDirect(evt.stageX.toPrecision(2), canvasWidth);
+    });
+    getComments(stage);
+    intervalHandler = setInterval(function() {
+      pruneAndAgeComments();
+      return getComments(stage);
+    }, 1000);
     console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
     reportOnDeck = function(ondecks) {
       return console.log(ondecks);
