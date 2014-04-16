@@ -1,30 +1,12 @@
 # Run this command from minimal-player/ to continuously monitor & compile files:
 # coffee --compile --watch --output static/js/ frontend/js/
 
-
 # -----------------------------------------
 # Feature Toggling
 #-----------------------------------------
 
-window.toggleHelp = ->
-  if $('#toggleHelp i').hasClass('on')
-    $('#toggleHelp i').removeClass('on')
-    $('.qtip').each( ->
-      $(this).qtip('hide')
-    )
-  else
-    $('#toggleHelp i').addClass('on')
-    $('#toggleComments').qtip('toggle', true);
-    $('#toggleSubtitles').qtip('toggle', true);
-    $('#scene-indicator-container').qtip('toggle', true);
-    $('#timeline-controls').qtip('toggle', true);
-    $('#comment-timeline-canvas-container').qtip('toggle', true);
-    $('#clock-text').qtip('toggle', true);
-    $('#confusion-control').qtip('toggle', true);
-    $('#volume-control').qtip('toggle', true);
-    $('#courseMapButton').qtip('toggle', true);
-    $('#downloadVideoButton').qtip('toggle', true);
-
+window.displayHelp = ->
+  $( "#helpDialog" ).dialog();
 
 window.toggleSubtitles = ->
   $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
@@ -224,11 +206,11 @@ window.createComment = (type, comment) ->
   , ->
     $newComment.find('.flag').hide()
   )
-  $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
+  $newComment.find('.message').text(comment['user']['username'] + ': ' + comment['text'])
   $newComment.find('.commentReply').click( (e) ->
     e.stopPropagation()
     discussionID = comment['discussion_id'] || comment['_id']['$oid']
-    replyToComment('testuser123', comment['username'], comment['_id']['$oid'], discussionID)
+    replyToComment('testuser123', comment['user']['username'], comment['_id']['$oid'], discussionID)
   )
   # assigns messageID & discussionID for comments from the database
   if comment['discussion_id'] || comment['_id']#['$oid']
@@ -398,122 +380,6 @@ $ ->
 
     #if window.showComments? and window.showSubtitles
     #  window.toggleComments()
-
-# -----------------------------------------
-# Help Dialogue
-#-----------------------------------------
-    $('#toggleHelp').qtip({
-      style: { classes: 'qtip-dark' }
-      content: "Hover here to see what video controls do"
-      position: {
-        my: 'top right',
-        at: 'bottom center',
-        target: true
-      }
-    })
-    $("#courseMapButton").qtip({
-      style: { classes: 'qtip-dark' }
-      show: false
-      content: "Go back to the course map"
-      position: 
-              my: 'right center',
-              at: 'left center',
-              target: true
-    })
-    $("#downloadVideoButton").qtip({
-      style:
-        classes: 'qtip-dark'
-      show: false
-      content: "Download this video"
-      position: 
-              my: 'top right',
-              at: 'bottom center',
-              target: true
-    })
-    $("#toggleComments").qtip({
-      style:
-        classes: 'qtip-dark'
-        tip:
-          height: 27
-          width: 5
-          offset: 10
-      show: false
-      content: "Toggle comment view"
-      position: 
-              my: 'bottom left',
-              at: 'top center',
-              target: true
-    })
-    $("#toggleSubtitles").qtip({
-      style:
-        classes: 'qtip-dark'
-      show: false
-      content: "Toggle subtitles"
-      position: 
-              my: 'bottom left',
-              at: 'top center',
-              target: true
-    })
-    $("#scene-indicator-container").qtip({
-      style:
-        classes: 'qtip-dark'
-      show: false
-      content: "Click a segment to choose a video"
-      position: 
-              my: 'bottom center',
-              at: 'top center',
-              target: true
-    })
-    $("#timeline-controls").qtip({
-      style:
-        classes: 'qtip-dark'
-      show: false
-      content: "Play or pause"
-      position: 
-              my: 'top left',
-              at: 'bottom left',
-              target: true
-    })
-    $("#comment-timeline-canvas-container").qtip({
-      style:
-        classes: 'qtip-dark'
-      show: false
-      content: "Hover here to see comments people have made on this video"
-      position: 
-              my: 'top center',
-              at: 'bottom center',
-              target: true
-    })
-    $("#clock-text").qtip({
-      style:
-        classes: 'qtip-dark'
-      show: false
-      content: "Time remaining on this video"
-      position: 
-              my: 'top right',
-              at: 'bottom left',
-              target: true
-    })
-    $("#confusion-control").qtip({
-      style:
-        classes: 'qtip-dark'
-      show: false
-      content: "Click here while watching the video to let the instructor know you find that part confusing!"
-      position: 
-              my: 'bottom right',
-              at: 'top center',
-              target: true
-    })
-    $("#volume-control").qtip({
-      style:
-        classes: 'qtip-dark'
-      show: false
-      content: "Volume Control"
-      position: 
-              my: 'top center',
-              at: 'bottom center',
-              target: true
-    })
  
     # Creates tooltip for viewing comments on the timeline
     $('#comment-timeline-canvas').qtip({

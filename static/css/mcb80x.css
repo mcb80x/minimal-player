@@ -152,6 +152,8 @@ bottom: 82px;}
 
 /* --- Confusion Control --- */
 #confusion-control{position: absolute; width: 30px; right: 5px; z-index: 1000;}
+.icon-meh{width:30px; height:30px; color:#3d3d3d;}
+.icon-meh:hover{color:#000;}
 
 /* --- Timeline Comment Visualizer --- */
 #comment-timeline-container {/*pointer-events: none;*/position: absolute; z-index: 1000000; position: absolute; /*border: 1px solid white;*/ top:0; bottom:0; left:40px; right:53px;}
