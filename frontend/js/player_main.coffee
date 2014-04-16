@@ -164,8 +164,8 @@ window.createBasicCommentDiv = (type, comment) ->
     $newComment = $('<div/>').addClass('oneComment').append('
             <p class="message"></p> 
             <span class="threadCount"></span>
-            <a href="javascript:void(0);" class="reply">
-              <i class="icon-mail-forward" title="Reply to this Comment"></i>
+            <a href="javascript:void(0);" class="commentReply">
+              <i class="icon-mail-forward commentReply" title="Reply to this Comment"></i>
             </a>
             <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
               <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
@@ -177,21 +177,16 @@ window.createBasicCommentDiv = (type, comment) ->
         <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
           <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
         </a>')
-  # add styling
-  #$newComment.css('width', 70 + 7*(comment['username'] + ': ' + comment['text']).length)
-  # add data/handlers to comment
   $newComment.hover(->
-    $newComment.css('background-color', 'rgba(240,240,240,1)')
     $newComment.find('.flag').show()
   , ->
-    $newComment.css('background-color', 'white')
     $newComment.find('.flag').hide()
   )
   $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
-  $newComment.find('.reply').click( (e) ->
+  $newComment.find('.commentReply').click( (e) ->
     e.stopPropagation()
     discussionID = comment['discussion_id'] || comment['_id']['$oid']
-    replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
+    replyToComment('testuser123', comment['username'], comment['_id']['$oid'], discussionID)
   )
   # assigns messageID & discussionID for comments from the database
   if comment['discussion_id'] || comment['_id']#['$oid']
@@ -214,7 +209,7 @@ window.displayComment = (comment, replies)->
 
     # create a comment thread, add initial message  
     $commentThread = $('<div/>').addClass('newComment')
-    $firstComment = createBasicCommentDiv("initial", comment)
+    $firstComment = createBasicCommentDiv("initial", comment).css('top', 0)
     $commentThread.append($firstComment)
 
     # add replies
@@ -222,29 +217,42 @@ window.displayComment = (comment, replies)->
       if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length)
       for reply, i in replies
         $newReply = createBasicCommentDiv("reply", reply)
-        $newReply.css('top', 31+30*i)
+        $newReply.css('top', 30+30*i)
         $commentThread.find('.oneComment:last').after($newReply)
-    else
-      $commentThread.find('.oneComment:first').find('.threadCount').remove()
+    
+    # add the dotted line that will be displayed on mouseover
+    lineHeight = 90 + (replies.length*30 || 0)
+    $dottedLine = $('<div/>').addClass('dottedLine').hide().css('height', lineHeight)
+    $commentThread.append($dottedLine)
+    
+    #add the dot    
+    dotPosition = 60 + (replies.length*30 || 0)
+    $dot = $('<div/>').addClass('dot').css('left', -15).css('top', dotPosition).hide()
+
+    $dotReply = $('<div class="dotReply"><i class="icon-mail-forward dotReply" title="Reply to this Comment"></i></div>').hide()
+    $dot.append($dotReply)
+    
+    count = if replies.length > 0 then replies.length else '' 
+    $dotCount = $('<div class="dotCount">'+ count + '</div>')
+    $dot.append($dotCount)
+    
+    $commentThread.append($dot)
+
     # add popup feature
     $commentThread.click(->
       if !$(this).data('clicked')? || $(this).data('clicked')
-        newPosition = parseInt($('.newComment').css('top').slice(0,-2))-(32*replies.length)
-        $('.newComment').css('top', newPosition)
-        $('.newComment').children().show()
+        #newPosition = parseInt($('.newComment').css('top').slice(0,-2))-(32*replies.length)
+        $(this).css('bottom',25-61) #edited
         $(this).data('clicked', false)
       else
-        newPosition = parseInt($('.newComment').css('top').slice(0,-2))+(32*replies.length)
-        $('.newComment').css('top', newPosition)
-        $('.newComment').children().hide()
-        $('.newComment .oneComment:first').show() 
+        newPosition = 27 - 62 - (30*replies.length||0)
+        $(this).css('bottom', newPosition) #edited
         $(this).data('clicked', true)
     )
-    # add dotted line for mouseover
-    $dottedLine = $('<div/>').addClass('dottedLine').css('left', 15).hide()
-    $commentThread.find('.oneComment:last').after($dottedLine)
+
     # position commentThread
-    $commentThread.css('top', $('#stage').height()-77)
+    $commentThread.css('height', 90+(30*replies.length||0))
+    $commentThread.css('bottom', 27 -62 -(30*replies.length||0))
     # add comment to DOM   
     $('#comment-container').prepend($commentThread)
 
@@ -264,17 +272,30 @@ window.pruneAndAgeComments = ->
 
     
 window.ageMostRecentComment = ->
-  $('.newComment').find('.oneComment, .dottedLine, .threadCount').hide()
-  $('.newComment').addClass('oldComment').css('left', 300).css('top', 440).hover( ->
-
+  $('.newComment').unbind() #this gets rid of the tab pop up on mouse click
+  $('.newComment').children().hide()
+  $('.newComment').find('.dot').show().click( ->
+    messageID = $(this).parent().data('messageID')
+    console.log('messageID', messageID)
+    discussionID = $(this).parent().data('discussionID')
+    console.log('discussionID', discussionID)
+    message = $(this).parent().find('.oneComment:last .message').text()
+    theirUsername = message.slice(0,message.indexOf(':'))
+    replyToComment("testuser123", theirUsername, messageID, discussionID)
+  )
+  $('.newComment').addClass('oldComment').hover( ->
+    $(this).find('.dotReply').show()
+    $(this).find('.dotCount').hide()
     $(this).find('.dottedLine').show()
     $(this).find('.oneComment').show()
     $(this).find('.threadCount').show()
   , ->
+    $(this).find('.dotReply').hide()
+    $(this).find('.dotCount').show()
     $(this).find('.dottedLine').hide()
     $(this).find('.oneComment').hide()
     $(this).find('.threadCount').hide()
-  ).removeClass('newComment')
+  ).removeClass('newComment').css('bottom', 27)
 
 # Gets all comments from db, installs their callbacks
 window.hasCallback = []
