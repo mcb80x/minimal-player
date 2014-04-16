@@ -34,7 +34,6 @@ window.toggleSubtitles = ->
       #$('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
-drawCommentLines = false
 window.toggleComments = ->
   $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
   $('.icon-quote-left').removeClass('on')
@@ -42,12 +41,10 @@ window.toggleComments = ->
   if $('#toggleComments').hasClass('on')
     #turn comments off
     $('#toggleComments').removeClass('on')
-    drawCommentLines = false
     $('#comment-timeline-canvas').hide()
   else
     #turn comments on
     $('#toggleComments').addClass('on')
-    drawCommentLines = true
     $('#comment-timeline-canvas').show()
   $('#comment-container').slideToggle
     duration: 400
@@ -57,6 +54,7 @@ window.toggleComments = ->
 
 window.submitInput = ()->
   #change the username to refer to an actual user
+  console.log("start of submit Input method")
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#input-field').val()
@@ -72,7 +70,7 @@ window.submitInput = ()->
               parent_id: replyToID
               discussion_id: discussionID
 
-
+  console.log('comment', comment)
   # display comment on screen
   if replyToID is '' #if it is a new comment thread
     displayComment(comment)
@@ -214,9 +212,9 @@ window.displayComment = (comment, replies)->
     $firstComment = createBasicCommentDiv("initial", comment).css('top', 0)
     $commentThread.append($firstComment)
 
-    if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length) else $commentThread.find('.oneComment:first').find('.threadCount').remove()
     # add replies
     if replies?
+      if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length)
       for reply, i in replies
         $newReply = createBasicCommentDiv("reply", reply)
         $newReply.css('top', 30+30*i)
@@ -320,22 +318,17 @@ window.getComments = (stage)->
     dataType: "json",
     success: (comments)->
       console.log('successful comments get')
-      stringifiedComments = JSON.stringify(comments)
-      if currentComments isnt stringifiedComments
-        console.log "new comment"
-        addCallback(comments)
-        draw(comments, stage)
-        currentComments = stringifiedComments
+      addCallback(comments)
+      draw(comments, stage)
       return
   });
 
 window.draw = (comments, stage)->
   for comment in comments
-    # console.log canvas.width #300
-    # x/300 = percent/100
-    percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * 3).toPrecision(2)
+    canvasWidth = document.getElementById('comment-timeline-canvas').width
+    percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * canvasWidth/100).toPrecision(2)
     line = new createjs.Shape()
-    line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,300)
+    line.graphics.beginFill("a7fd9a").drawRect(percentAcrossCanvas,0,2,canvasWidth)
 
     # Draws comments to timeline
     stage.addChild(line)
