@@ -200,12 +200,12 @@
     }, function() {
       return $newComment.find('.flag').hide();
     });
-    $newComment.find('.message').text(comment['username'] + ': ' + comment['text']);
+    $newComment.find('.message').text(comment['user']['username'] + ': ' + comment['text']);
     $newComment.find('.commentReply').click(function(e) {
       var discussionID;
       e.stopPropagation();
       discussionID = comment['discussion_id'] || comment['_id']['$oid'];
-      return replyToComment('testuser123', comment['username'], comment['_id']['$oid'], discussionID);
+      return replyToComment('testuser123', comment['user']['username'], comment['_id']['$oid'], discussionID);
     });
     if (comment['discussion_id'] || comment['_id']) {
       messageID = comment['_id']['$oid'];
