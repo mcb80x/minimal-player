@@ -64,6 +64,7 @@
 
   window.submitInput = function() {
     var comment, discussionID, replyToID, text, timestamp, user, _i, _len, _ref;
+    console.log("start of submit Input method");
     user = {
       username: 'testuser',
       userID: '12dfeg92345301xsdfj',
@@ -83,6 +84,7 @@
       parent_id: replyToID,
       discussion_id: discussionID
     };
+    console.log('comment', comment);
     if (replyToID === '') {
       displayComment(comment);
     } else {
@@ -235,18 +237,18 @@
       $commentThread = $('<div/>').addClass('newComment');
       $firstComment = createBasicCommentDiv("initial", comment);
       $commentThread.append($firstComment);
-      if (replies.length > 0) {
-        $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length);
-      } else {
-        $commentThread.find('.oneComment:first').find('.threadCount').remove();
-      }
       if (replies != null) {
+        if (replies.length > 0) {
+          $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length);
+        }
         for (i = _i = 0, _len = replies.length; _i < _len; i = ++_i) {
           reply = replies[i];
           $newReply = createBasicCommentDiv("reply", reply);
           $newReply.css('top', 31 + 30 * i);
           $commentThread.find('.oneComment:last').after($newReply);
         }
+      } else {
+        $commentThread.find('.oneComment:first').find('.threadCount').remove();
       }
       $commentThread.click(function() {
         var newPosition;
