@@ -194,7 +194,7 @@
     var $newComment, discussionID, messageID;
     if (type === "initial") {
       console.log('creating initial comment');
-      $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <span class="threadCount"></span> <a href="javascript:void(0);" class="reply"> <i class="icon-mail-forward" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
+      $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <span class="threadCount"></span> <a href="javascript:void(0);" class="commentReply"> <i class="icon-mail-forward commentReply" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
     } else {
       console.log('create a reply');
       $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
@@ -205,11 +205,11 @@
       return $newComment.find('.flag').hide();
     });
     $newComment.find('.message').text(comment['username'] + ': ' + comment['text']);
-    $newComment.find('.reply').click(function(e) {
+    $newComment.find('.commentReply').click(function(e) {
       var discussionID;
       e.stopPropagation();
       discussionID = comment['discussion_id'] || comment['_id']['$oid'];
-      return replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID);
+      return replyToComment('testuser123', comment['username'], comment['_id']['$oid'], discussionID);
     });
     if (comment['discussion_id'] || comment['_id']) {
       messageID = comment['_id']['$oid'];
@@ -225,7 +225,7 @@
   };
 
   window.displayComment = function(comment, replies) {
-    var $commentThread, $dot, $dottedLine, $firstComment, $newReply, dotPosition, i, lineHeight, reply, _i, _len;
+    var $commentThread, $dot, $dotCount, $dotReply, $dottedLine, $firstComment, $newReply, count, dotPosition, i, lineHeight, reply, _i, _len;
     console.log('replies', replies);
     if (comment['display'] === 'true') {
       ageMostRecentComment();
@@ -251,11 +251,11 @@
       $commentThread.append($dottedLine);
       dotPosition = 60 + (replies.length * 30 || 0);
       $dot = $('<div/>').addClass('dot').css('left', -15).css('top', dotPosition).hide();
-      if (replies.length != null) {
-        if (replies.length > 0) {
-          $dot.text(replies.length);
-        }
-      }
+      $dotReply = $('<div class="dotReply"><i class="icon-mail-forward dotReply" title="Reply to this Comment"></i></div>').hide();
+      $dot.append($dotReply);
+      count = replies.length > 0 ? replies.length : '';
+      $dotCount = $('<div class="dotCount">' + count + '</div>');
+      $dot.append($dotCount);
       $commentThread.append($dot);
       $commentThread.click(function() {
         var newPosition;
@@ -304,12 +304,25 @@
   window.ageMostRecentComment = function() {
     $('.newComment').unbind();
     $('.newComment').children().hide();
-    $('.newComment').find('.dot').show();
+    $('.newComment').find('.dot').show().click(function() {
+      var discussionID, message, messageID, theirUsername;
+      messageID = $(this).parent().data('messageID');
+      console.log('messageID', messageID);
+      discussionID = $(this).parent().data('discussionID');
+      console.log('discussionID', discussionID);
+      message = $(this).parent().find('.oneComment:last .message').text();
+      theirUsername = message.slice(0, message.indexOf(':'));
+      return replyToComment("testuser123", theirUsername, messageID, discussionID);
+    });
     return $('.newComment').addClass('oldComment').hover(function() {
+      $(this).find('.dotReply').show();
+      $(this).find('.dotCount').hide();
       $(this).find('.dottedLine').show();
       $(this).find('.oneComment').show();
       return $(this).find('.threadCount').show();
     }, function() {
+      $(this).find('.dotReply').hide();
+      $(this).find('.dotCount').show();
       $(this).find('.dottedLine').hide();
       $(this).find('.oneComment').hide();
       return $(this).find('.threadCount').hide();

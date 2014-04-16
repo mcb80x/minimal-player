@@ -86,17 +86,19 @@ img.lesson-teaser{float:right;}
 .oneComment{background-color: white; bottom: 180px; color: #000; /*display: none;*/ height: 20px; padding: 5px 0px; position: absolute; width: 300px;}
 .newComment .oneComment:first-of-type{border-radius: 15px 15px 0px 0px; /*display: block;*/ height: 21px; left: 0px; position: absolute; top: 0px; z-index: 100;}
 .message{top: 5px; left: 50px; margin: 0px; position: absolute;}
-
+.oldComment .message{top: 5px; left: 5px; margin: 0px; position: absolute;}
 
 /*.newComment .time{display: none;} */
 /*.newComment .message{bottom: 5px; font-size: 16px; left: 50px; margin: 0px; position: absolute;}*/
 
 
 .threadCount{background-color: white; border: 1px dotted gray; border-radius: 5px; bottom: 5px; display: block; font-size: 16px; left: 25px; position: absolute; text-align: center; width: 20px; z-index: 1000;}
-
+.oldComment .threadCount{opacity: 0;}
 
 .dottedLine{border-left: 1px gray dotted; left: 0px; position: absolute; top: 0px;}
 .dot{background: rgba(255,255,255,.5); border-radius: 15px; font-size: 24px; height: 30px; left: 0px; position: absolute; text-align: center; width: 30px;}
+.dotReply{color: #999; display:block; height: 30px; position: absolute; width:30px;}
+.dotReply:hover{color:#0F0;}
 
 /* Comment Action Buttons */
 .newComment .icon-mail-forward{bottom: 5px;}
@@ -106,8 +108,9 @@ img.lesson-teaser{float:right;}
 
 /*.newComment .reply{bottom: 5px;}*/
 /*.oldCommentHover .reply{top: 5px;}*/
-.reply{color: #999; left: 5px; position: absolute:}
-.reply:hover{color:#0F0;}
+.commentReply{color: #999; left: 3px; position: absolute; top: 4px;}
+.commentReply:hover{color:#0F0;}
+.oldComment .commentReply{display:none;}
 
 /*.newComment .flag{bottom: 5px;}*/
 /*.oldCommentHover .flag{top: 5px;}*/

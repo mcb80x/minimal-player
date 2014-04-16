@@ -166,8 +166,8 @@ window.createBasicCommentDiv = (type, comment) ->
     $newComment = $('<div/>').addClass('oneComment').append('
             <p class="message"></p> 
             <span class="threadCount"></span>
-            <a href="javascript:void(0);" class="reply">
-              <i class="icon-mail-forward" title="Reply to this Comment"></i>
+            <a href="javascript:void(0);" class="commentReply">
+              <i class="icon-mail-forward commentReply" title="Reply to this Comment"></i>
             </a>
             <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
               <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
@@ -179,19 +179,16 @@ window.createBasicCommentDiv = (type, comment) ->
         <a href="javascript:void(0);" class="flag" onclick="deleteComment();">
           <i class="icon-warning-sign" title="Flag Comment for Removal"></i>
         </a>')
-  # add styling
-  #$newComment.css('width', 70 + 7*(comment['username'] + ': ' + comment['text']).length)
-  # add data/handlers to comment
   $newComment.hover(->
     $newComment.find('.flag').show()
   , ->
     $newComment.find('.flag').hide()
   )
   $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
-  $newComment.find('.reply').click( (e) ->
+  $newComment.find('.commentReply').click( (e) ->
     e.stopPropagation()
     discussionID = comment['discussion_id'] || comment['_id']['$oid']
-    replyToComment('katie', comment['username'], comment['_id']['$oid'], discussionID)
+    replyToComment('testuser123', comment['username'], comment['_id']['$oid'], discussionID)
   )
   # assigns messageID & discussionID for comments from the database
   if comment['discussion_id'] || comment['_id']#['$oid']
@@ -230,11 +227,17 @@ window.displayComment = (comment, replies)->
     $dottedLine = $('<div/>').addClass('dottedLine').hide().css('height', lineHeight)
     $commentThread.append($dottedLine)
     
-    #add the dot
+    #add the dot    
     dotPosition = 60 + (replies.length*30 || 0)
     $dot = $('<div/>').addClass('dot').css('left', -15).css('top', dotPosition).hide()
-    if replies.length?
-      if replies.length > 0 then $dot.text(replies.length)
+
+    $dotReply = $('<div class="dotReply"><i class="icon-mail-forward dotReply" title="Reply to this Comment"></i></div>').hide()
+    $dot.append($dotReply)
+    
+    count = if replies.length > 0 then replies.length else '' 
+    $dotCount = $('<div class="dotCount">'+ count + '</div>')
+    $dot.append($dotCount)
+    
     $commentThread.append($dot)
 
     # add popup feature
@@ -273,12 +276,24 @@ window.pruneAndAgeComments = ->
 window.ageMostRecentComment = ->
   $('.newComment').unbind() #this gets rid of the tab pop up on mouse click
   $('.newComment').children().hide()
-  $('.newComment').find('.dot').show()
+  $('.newComment').find('.dot').show().click( ->
+    messageID = $(this).parent().data('messageID')
+    console.log('messageID', messageID)
+    discussionID = $(this).parent().data('discussionID')
+    console.log('discussionID', discussionID)
+    message = $(this).parent().find('.oneComment:last .message').text()
+    theirUsername = message.slice(0,message.indexOf(':'))
+    replyToComment("testuser123", theirUsername, messageID, discussionID)
+  )
   $('.newComment').addClass('oldComment').hover( ->
+    $(this).find('.dotReply').show()
+    $(this).find('.dotCount').hide()
     $(this).find('.dottedLine').show()
     $(this).find('.oneComment').show()
     $(this).find('.threadCount').show()
   , ->
+    $(this).find('.dotReply').hide()
+    $(this).find('.dotCount').show()
     $(this).find('.dottedLine').hide()
     $(this).find('.oneComment').hide()
     $(this).find('.threadCount').hide()
