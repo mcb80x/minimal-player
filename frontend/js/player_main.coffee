@@ -60,8 +60,8 @@ window.submitInput = ()->
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#input-field').val()
-  replyToID = $('#input-field').data('replyToID')
-  discussionID = $('#input-field').data('discussionID')
+  replyToID = $('#input-field').data('replyToID') || ''
+  discussionID = $('#input-field').data('discussionID') || ''
   $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
