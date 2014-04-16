@@ -66,8 +66,8 @@
     };
     timestamp = timeline.currentTimelineURI();
     text = $('#input-field').val();
-    replyToID = $('#input-field').data('replyToID');
-    discussionID = $('#input-field').data('discussionID');
+    replyToID = $('#input-field').data('replyToID') || '';
+    discussionID = $('#input-field').data('discussionID') || '';
     $('#input-field').val('');
     comment = {
       video: timestamp.split('/')[0],
