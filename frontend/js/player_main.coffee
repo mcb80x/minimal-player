@@ -214,11 +214,13 @@ window.displayComment = (comment, replies)->
 
     # add replies
     if replies?
-      if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length)
+      if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length) else $commentThread.find('.threadCount').remove()
       for reply, i in replies
         $newReply = createBasicCommentDiv("reply", reply)
         $newReply.css('top', 30+30*i)
         $commentThread.find('.oneComment:last').after($newReply)
+    else
+      $commentThread.find('.threadCount').remove()
     
     # add the dotted line that will be displayed on mouseover
     lineHeight = 90 + (replies.length*30 || 0)
