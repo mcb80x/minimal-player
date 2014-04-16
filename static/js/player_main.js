@@ -232,6 +232,8 @@
       if (replies != null) {
         if (replies.length > 0) {
           $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length);
+        } else {
+          $commentThread.find('.threadCount').remove();
         }
         for (i = _i = 0, _len = replies.length; _i < _len; i = ++_i) {
           reply = replies[i];
@@ -239,6 +241,8 @@
           $newReply.css('top', 30 + 30 * i);
           $commentThread.find('.oneComment:last').after($newReply);
         }
+      } else {
+        $commentThread.find('.threadCount').remove();
       }
       lineHeight = 90 + (replies.length * 30 || 0);
       $dottedLine = $('<div/>').addClass('dottedLine').hide().css('height', lineHeight);
