@@ -183,10 +183,8 @@ window.createBasicCommentDiv = (type, comment) ->
   #$newComment.css('width', 70 + 7*(comment['username'] + ': ' + comment['text']).length)
   # add data/handlers to comment
   $newComment.hover(->
-    $newComment.css('background-color', 'rgba(240,240,240,1)')
     $newComment.find('.flag').show()
   , ->
-    $newComment.css('background-color', 'white')
     $newComment.find('.flag').hide()
   )
   $newComment.find('.message').text(comment['username'] + ': ' + comment['text'])
@@ -216,7 +214,7 @@ window.displayComment = (comment, replies)->
 
     # create a comment thread, add initial message  
     $commentThread = $('<div/>').addClass('newComment')
-    $firstComment = createBasicCommentDiv("initial", comment)
+    $firstComment = createBasicCommentDiv("initial", comment).css('top', 0)
     $commentThread.append($firstComment)
 
     if replies.length > 0 then $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length) else $commentThread.find('.oneComment:first').find('.threadCount').remove()
@@ -224,27 +222,36 @@ window.displayComment = (comment, replies)->
     if replies?
       for reply, i in replies
         $newReply = createBasicCommentDiv("reply", reply)
-        $newReply.css('top', 31+30*i)
+        $newReply.css('top', 30+30*i)
         $commentThread.find('.oneComment:last').after($newReply)
+    
+    # add the dotted line that will be displayed on mouseover
+    lineHeight = 90 + (replies.length*30 || 0)
+    $dottedLine = $('<div/>').addClass('dottedLine').hide().css('height', lineHeight)
+    $commentThread.append($dottedLine)
+    
+    #add the dot
+    dotPosition = 60 + (replies.length*30 || 0)
+    $dot = $('<div/>').addClass('dot').css('left', -15).css('top', dotPosition).hide()
+    if replies.length?
+      if replies.length > 0 then $dot.text(replies.length)
+    $commentThread.append($dot)
+
     # add popup feature
     $commentThread.click(->
       if !$(this).data('clicked')? || $(this).data('clicked')
-        newPosition = parseInt($('.newComment').css('top').slice(0,-2))-(32*replies.length)
-        $('.newComment').css('top', newPosition)
-        $('.newComment').children().show()
+        #newPosition = parseInt($('.newComment').css('top').slice(0,-2))-(32*replies.length)
+        $(this).css('bottom',25-61) #edited
         $(this).data('clicked', false)
       else
-        newPosition = parseInt($('.newComment').css('top').slice(0,-2))+(32*replies.length)
-        $('.newComment').css('top', newPosition)
-        $('.newComment').children().hide()
-        $('.newComment .oneComment:first').show() 
+        newPosition = 27 - 62 - (30*replies.length||0)
+        $(this).css('bottom', newPosition) #edited
         $(this).data('clicked', true)
     )
-    # add dotted line for mouseover
-    $dottedLine = $('<div/>').addClass('dottedLine').css('left', 15).hide()
-    $commentThread.find('.oneComment:last').after($dottedLine)
+
     # position commentThread
-    $commentThread.css('top', $('#stage').height()-77)
+    $commentThread.css('height', 90+(30*replies.length||0))
+    $commentThread.css('bottom', 27 -62 -(30*replies.length||0))
     # add comment to DOM   
     $('#comment-container').prepend($commentThread)
 
@@ -264,9 +271,10 @@ window.pruneAndAgeComments = ->
 
     
 window.ageMostRecentComment = ->
-  $('.newComment').find('.oneComment, .dottedLine, .threadCount').hide()
-  $('.newComment').addClass('oldComment').css('left', 300).css('top', 440).hover( ->
-
+  $('.newComment').unbind() #this gets rid of the tab pop up on mouse click
+  $('.newComment').children().hide()
+  $('.newComment').find('.dot').show()
+  $('.newComment').addClass('oldComment').hover( ->
     $(this).find('.dottedLine').show()
     $(this).find('.oneComment').show()
     $(this).find('.threadCount').show()
@@ -274,7 +282,7 @@ window.ageMostRecentComment = ->
     $(this).find('.dottedLine').hide()
     $(this).find('.oneComment').hide()
     $(this).find('.threadCount').hide()
-  ).removeClass('newComment')
+  ).removeClass('newComment').css('bottom', 27)
 
 # Gets all comments from db, installs their callbacks
 window.hasCallback = []
