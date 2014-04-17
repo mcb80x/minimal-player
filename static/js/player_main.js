@@ -374,7 +374,7 @@
       $(this).find('.oneComment').hide();
       $(this).find('.threadCount').hide();
       return $(this).find('.dotCount').show();
-    }).removeClass('newComment').css('bottom', 27);
+    }).removeClass('newComment').css('bottom', 27).css('left', 350);
   };
 
   window.draw = function(comments, stage) {
