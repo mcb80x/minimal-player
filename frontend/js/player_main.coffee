@@ -167,6 +167,7 @@ window.resetInputField = ->
 # -----------------------------------------
 # Initial Comment Display
 #-----------------------------------------
+
 window.createComment = (type, comment) ->
   $newComment
   if type is "initial"
@@ -273,6 +274,21 @@ window.createCommentThread = (comment, replies)->
     $commentThread.css('bottom', 27 -62 -(30*replies.length||0))
     # add comment to DOM   
     $('#comment-container').prepend($commentThread)
+
+    $('.icon-mail-forward').qtip({
+      content: "Reply to this comment"
+      position: {
+        target: 'mouse', 
+        adjust: { x: 0, y: 5 }
+      }
+    })
+    $('.icon-warning-sign').qtip({
+      content: "Flag this comment as inappropriate"
+      position: {
+        target: 'mouse', 
+        adjust: { x: 0, y: 5 }
+      }
+    })
 
 # -----------------------------------------
 # Manipulating Comment Display
