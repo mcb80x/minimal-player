@@ -7,8 +7,14 @@
   window.toggleSubtitles = function() {
     if ($('.icon-quote-left').hasClass('on')) {
       $('.icon-quote-left').removeClass('on');
+      if ($('#toggleComments').hasClass('on')) {
+        bumpSubtitles('down');
+      }
     } else {
       $('.icon-quote-left').addClass('on');
+      if ($('#toggleComments').hasClass('on')) {
+        bumpSubtitles('up');
+      }
     }
     return $('#subtitle-container').slideToggle({
       duration: 400,
@@ -18,21 +24,40 @@
     });
   };
 
+  window.bumpSubtitles = function(direction) {
+    var $subtitles, height;
+    $subtitles = $('#subtitle-container');
+    height = $subtitles.height();
+    if (direction === 'down') {
+      $subtitles.css('height', height - 50);
+    }
+    if (direction === 'up') {
+      return $subtitles.css('height', height + 50);
+    }
+  };
+
   window.toggleComments = function() {
     if ($('#toggleComments').hasClass('on')) {
       $('#toggleComments').removeClass('on');
       $('#comment-timeline-canvas').hide();
+      if ($('.icon-quote-left').hasClass('on')) {
+        bumpSubtitles('down');
+      }
     } else {
       $('#toggleComments').addClass('on');
       $('#comment-timeline-canvas').show();
+      if ($('.icon-quote-left').hasClass('on')) {
+        bumpSubtitles('up');
+      }
     }
-    return $('#comment-container').slideToggle({
+    $('#comment-container').slideToggle({
       duration: 400,
       complete: function() {
         $('comment-container').css('display', 'none');
         return util.maintainAspect();
       }
     });
+    return adjustSubtitlesForComments();
   };
 
   window.toggleVolume = function() {

@@ -11,27 +11,40 @@ window.displayHelp = ->
 window.toggleSubtitles = ->
   if $('.icon-quote-left').hasClass('on')
     $('.icon-quote-left').removeClass('on')
-  else $('.icon-quote-left').addClass('on')
+    if $('#toggleComments').hasClass('on') then bumpSubtitles('down')
+  else
+    $('.icon-quote-left').addClass('on')
+    if $('#toggleComments').hasClass('on') then bumpSubtitles('up')
+
   $('#subtitle-container').slideToggle
     duration: 400
     complete: ->
-      #$('subtitle-container').css('display', 'none')
       util.maintainAspect()
+
+window.bumpSubtitles = (direction) ->
+  $subtitles = $('#subtitle-container')
+  height = $subtitles.height()
+  if direction is 'down'
+    $subtitles.css('height', height - 50) # 50 = input field height + top tab height 
+  if direction is 'up'
+    $subtitles.css('height', height + 50)
 
 window.toggleComments = ->
   if $('#toggleComments').hasClass('on')
-    #turn comments off
     $('#toggleComments').removeClass('on')
     $('#comment-timeline-canvas').hide()
+    if $('.icon-quote-left').hasClass('on') then bumpSubtitles('down')
   else
     #turn comments on
     $('#toggleComments').addClass('on')
     $('#comment-timeline-canvas').show()
+    if $('.icon-quote-left').hasClass('on') then bumpSubtitles('up')
   $('#comment-container').slideToggle
     duration: 400
     complete: ->
       $('comment-container').css('display', 'none')
       util.maintainAspect()
+  adjustSubtitlesForComments()
 
 window.toggleVolume = ->
   if not video_playing.muted
