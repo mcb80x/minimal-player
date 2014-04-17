@@ -105,6 +105,9 @@
     var timestamp, totalLength;
     timestamp = timeline.currentTimelineURI();
     totalLength = timeline.totalDuration;
+    $("#confusionDialog").dialog({
+      width: 460
+    });
     return $.ajax({
       type: "POST",
       url: "/confusion",

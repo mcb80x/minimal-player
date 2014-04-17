@@ -162,3 +162,5 @@ bottom: 82px;}
 .qtip-dark .qtip-content{font-size: 12px;font-family:sans-serif;}
 #qtip-image{vertical-align: middle;}
 
+/* --- JQuery UI Modal Dialog --- */
+.ui-dialog {text-align: center;}

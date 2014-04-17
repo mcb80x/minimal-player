@@ -93,6 +93,8 @@ window.submitConfusion = ->
   timestamp = timeline.currentTimelineURI()
   totalLength = timeline.totalDuration
   
+  $( "#confusionDialog" ).dialog({width: 460});
+
   $.ajax({
     type: "POST",
     url: "/confusion",
