@@ -228,9 +228,6 @@ def confusion_post():
     videoName = request.json['timestamp'].split('/')[0]
     timestamp = request.json['timestamp'].split('/')[1]
     totalLength = request.json['totalLength']
-    print videoName
-    print timestamp
-    print totalLength
     io = StringIO(dumps(confusion.find({'video': videoName})))
     if(len(json.load(io)) > 0):
         connection.comment_db.confusion.find_and_modify({'video':videoName}, {'$push':{'timestamps':timestamp}}) 

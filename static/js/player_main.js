@@ -139,15 +139,13 @@
     });
   };
 
-  window.hasCallback = [];
-
   window.addCallback = function(comments) {
     var c, comment, replies, _i, _j, _len, _len1, _results;
     _results = [];
     for (_i = 0, _len = comments.length; _i < _len; _i++) {
       comment = comments[_i];
       if (comment['discussion_id'] === '') {
-        if (hasCallback.indexOf(JSON.stringify(comment)) === -1) {
+        if (timeline.getCommentCallbackList().indexOf(JSON.stringify(comment)) === -1) {
           replies = [];
           for (_j = 0, _len1 = comments.length; _j < _len1; _j++) {
             c = comments[_j];
@@ -160,7 +158,7 @@
               return createCommentThread(comment, replies);
             };
           })(comment, replies));
-          _results.push(hasCallback.push(JSON.stringify(comment)));
+          _results.push(timeline.addCommentCallback(JSON.stringify(comment)));
         } else {
           _results.push(void 0);
         }
@@ -170,8 +168,6 @@
     }
     return _results;
   };
-
-  window.currentComments = '';
 
   window.getComments = function(stage) {
     return $.ajax({

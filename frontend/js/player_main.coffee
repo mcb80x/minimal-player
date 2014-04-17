@@ -120,18 +120,17 @@ window.deleteComment = ->
 # GET comments from Database
 #-----------------------------------------
 
-window.hasCallback = []
-window.addCallback = (comments)-> 
-    for comment in comments
-      if comment['discussion_id'] is '' #if comment is the parent/start of a comment thread
-        if hasCallback.indexOf(JSON.stringify(comment)) is -1
-          # finds replies for particular comment
-          replies = []
-          replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
-          timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->createCommentThread(comment, replies))
-          hasCallback.push(JSON.stringify(comment))
+# Gets all comments from db, installs their callbacks
+window.addCallback = (comments)->
+  for comment in comments
+    if comment['discussion_id'] is '' #we only care about 'parent' comments
+      if timeline.getCommentCallbackList().indexOf(JSON.stringify(comment)) is -1
+        # finds replies for particular comment
+        replies = []
+        replies.push(c) for c in comments when c['discussion_id'] is comment['_id']['$oid']
+        timeline.atTimelineURI(comment['timestamp'], do(comment, replies)-> ->createCommentThread(comment, replies))
+        timeline.addCommentCallback(JSON.stringify(comment))
 
-window.currentComments = ''
 window.getComments = (stage)->
   $.ajax({
     type: "GET",
