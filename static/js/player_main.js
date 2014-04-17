@@ -280,7 +280,27 @@
       });
       $commentThread.css('height', 90 + (30 * replies.length || 0));
       $commentThread.css('bottom', 27 - 62 - (30 * replies.length || 0));
-      return $('#comment-container').prepend($commentThread);
+      $('#comment-container').prepend($commentThread);
+      $('.icon-mail-forward').qtip({
+        content: "Reply to this comment",
+        position: {
+          target: 'mouse',
+          adjust: {
+            x: 0,
+            y: 5
+          }
+        }
+      });
+      return $('.icon-warning-sign').qtip({
+        content: "Flag this comment as inappropriate",
+        position: {
+          target: 'mouse',
+          adjust: {
+            x: 0,
+            y: 5
+          }
+        }
+      });
     }
   };
 
