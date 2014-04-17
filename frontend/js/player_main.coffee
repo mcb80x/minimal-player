@@ -193,7 +193,7 @@ window.createComment = (type, comment) ->
   )
   $newComment.find('.message').text(comment['user']['username'] + ': ' + comment['text'])
 
-  if comment['discussion_id'] || comment['_id']['$oid']
+  if comment['discussion_id'] || comment['_id']#['$oid']
     messageID = comment['_id']['$oid']
     discussionID = comment['discussion_id'] || comment['_id']['$oid']
   else # message ID & discssionID for comments directly from the user (don't have IDs yet)

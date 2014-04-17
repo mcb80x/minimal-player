@@ -217,7 +217,7 @@
       return $newComment.find('.flag').hide();
     });
     $newComment.find('.message').text(comment['user']['username'] + ': ' + comment['text']);
-    if (comment['discussion_id'] || comment['_id']['$oid']) {
+    if (comment['discussion_id'] || comment['_id']) {
       messageID = comment['_id']['$oid'];
       discussionID = comment['discussion_id'] || comment['_id']['$oid'];
     } else {
