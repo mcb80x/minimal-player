@@ -335,7 +335,7 @@ window.ageMostRecentComment = ->
     $(this).find('.oneComment').hide()
     $(this).find('.threadCount').hide()
     $(this).find('.dotCount').show()
-  ).removeClass('newComment').css('bottom', 27)
+  ).removeClass('newComment').css('bottom', 27).css('left', 350)
 
 # -----------------------------------------
 # Display of Lines on Timeline
