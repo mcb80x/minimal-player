@@ -9,9 +9,6 @@ window.displayHelp = ->
   $( "#helpDialog" ).dialog();
 
 window.toggleSubtitles = ->
-  $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
-  $('#toggleComments').removeClass('on')
-
   if $('.icon-quote-left').hasClass('on')
     $('.icon-quote-left').removeClass('on')
   else $('.icon-quote-left').addClass('on')
@@ -22,9 +19,6 @@ window.toggleSubtitles = ->
       util.maintainAspect()
 
 window.toggleComments = ->
-  $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
-  $('.icon-quote-left').removeClass('on')
-
   if $('#toggleComments').hasClass('on')
     #turn comments off
     $('#toggleComments').removeClass('on')
@@ -225,7 +219,7 @@ window.createCommentThread = (comment, replies)->
 
       lineHeight = 90 + replies.length*30
       dotPosition = 60 + replies.length*30
-      count = if replies.length > 0 then '' else replies.length
+      count = if replies.length is 0 then '' else replies.length
       
       if replies.length > 0
         $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length)

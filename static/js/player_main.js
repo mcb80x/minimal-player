@@ -5,8 +5,6 @@
   };
 
   window.toggleSubtitles = function() {
-    $('#comment-container').css('display', 'none');
-    $('#toggleComments').removeClass('on');
     if ($('.icon-quote-left').hasClass('on')) {
       $('.icon-quote-left').removeClass('on');
     } else {
@@ -21,8 +19,6 @@
   };
 
   window.toggleComments = function() {
-    $('#subtitle-container').css('display', 'none');
-    $('.icon-quote-left').removeClass('on');
     if ($('#toggleComments').hasClass('on')) {
       $('#toggleComments').removeClass('on');
       $('#comment-timeline-canvas').hide();
@@ -241,7 +237,7 @@
       if (replies != null) {
         lineHeight = 90 + replies.length * 30;
         dotPosition = 60 + replies.length * 30;
-        count = replies.length > 0 ? '' : replies.length;
+        count = replies.length === 0 ? '' : replies.length;
         if (replies.length > 0) {
           $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length);
         } else {
