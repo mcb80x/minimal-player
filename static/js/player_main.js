@@ -40,7 +40,6 @@
   };
 
   window.toggleVolume = function() {
-    console.log("toggling volume");
     if (!video_playing.muted) {
       video_playing.mute();
       video_playing.muted = true;
@@ -58,7 +57,6 @@
 
   window.submitInput = function() {
     var comment, discussionID, replyToID, text, timestamp, user, _i, _len, _ref;
-    console.log("start of submit Input method");
     user = {
       username: 'testuser',
       userID: '12dfeg92345301xsdfj',
@@ -78,7 +76,6 @@
       parent_id: replyToID,
       discussion_id: discussionID
     };
-    console.log('comment', comment);
     if ((replyToID == null) === createCommentThread(comment, [])) {
 
     } else {
@@ -108,7 +105,6 @@
     var timestamp, totalLength;
     timestamp = timeline.currentTimelineURI();
     totalLength = timeline.totalDuration;
-    console.log(totalLength);
     return $.ajax({
       type: "POST",
       url: "/confusion",
@@ -131,7 +127,6 @@
         "text": $('.message').text()
       }
     };
-    console.log('updateParameters', updateParameters);
     return $.ajax({
       type: "POST",
       url: "/delete",
@@ -180,7 +175,6 @@
       url: "/comments",
       dataType: "json",
       success: function(comments) {
-        console.log('successful comments get');
         addCallback(comments);
         draw(comments, stage);
       }
@@ -209,10 +203,8 @@
     $newComment;
     var $newComment, discussionID, messageID;
     if (type === "initial") {
-      console.log('creating initial comment');
       $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <span class="threadCount"></span> <a href="javascript:void(0);" class="commentReply"> <i class="icon-mail-forward commentReply" title="Reply to this Comment"></i> </a> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
     } else {
-      console.log('create a reply');
       $newComment = $('<div/>').addClass('oneComment').append('<p class="message"></p> <a href="javascript:void(0);" class="flag" onclick="deleteComment();"> <i class="icon-warning-sign" title="Flag Comment for Removal"></i> </a>');
     }
     $newComment.hover(function() {
@@ -221,19 +213,18 @@
       return $newComment.find('.flag').hide();
     });
     $newComment.find('.message').text(comment['user']['username'] + ': ' + comment['text']);
-    $newComment.find('.commentReply').click(function(e) {
-      var discussionID;
-      e.stopPropagation();
-      discussionID = comment['discussion_id'] || comment['_id']['$oid'];
-      return replyToComment('testuser123', comment['user']['username'], comment['_id']['$oid'], discussionID);
-    });
     if (comment['discussion_id'] || comment['_id']) {
       messageID = comment['_id']['$oid'];
       discussionID = comment['discussion_id'] || comment['_id']['$oid'];
     } else {
-      discussionID = 'none';
-      messageID = 'none';
+      discussionID = '';
+      messageID = '';
     }
+    $newComment.find('.commentReply').click(function(e) {
+      e.stopPropagation();
+      discussionID = comment['discussion_id'] || comment['_id']['$oid'];
+      return replyToComment('testuser123', comment['user']['username'], messageID, discussionID);
+    });
     $newComment.data('messageID', messageID);
     $newComment.data('discussionID', discussionID);
     return $newComment;
@@ -241,10 +232,9 @@
 
   window.createCommentThread = function(comment, replies) {
     var $commentThread, $dot, $dotCount, $dotReply, $dottedLine, $firstComment, $newReply, count, dotPosition, i, lineHeight, reply, _i, _len;
-    console.log('replies', replies);
     if (comment['display'] === 'true') {
       ageMostRecentComment();
-      pruneAndAgeComments();
+      moveOldComments();
       $commentThread = $('<div/>').addClass('newComment');
       $firstComment = createComment("initial", comment).css('top', 0);
       $commentThread.append($firstComment);
@@ -294,7 +284,7 @@
     }
   };
 
-  window.pruneAndAgeComments = function() {
+  window.moveOldComments = function() {
     var comment, commentDate, currentDate, _i, _len, _ref, _results;
     commentDate = $('.newComment').data("time-created");
     currentDate = new Date().getTime();
@@ -330,23 +320,17 @@
     });
     return $('.newComment').addClass('oldComment').hover(function() {
       $(this).find('.dotReply').show();
-      $(this).find('.dotCount').hide();
       $(this).find('.dottedLine').show();
       $(this).find('.oneComment').show();
-      return $(this).find('.threadCount').show();
+      $(this).find('.threadCount').show();
+      return $(this).find('.dotCount').hide();
     }, function() {
       $(this).find('.dotReply').hide();
-      $(this).find('.dotCount').show();
       $(this).find('.dottedLine').hide();
       $(this).find('.oneComment').hide();
-      return $(this).find('.threadCount').hide();
+      $(this).find('.threadCount').hide();
+      return $(this).find('.dotCount').show();
     }).removeClass('newComment').css('bottom', 27);
-  };
-
-  window.timelineURItoX = function(uri) {
-    var time;
-    time = uri.split('/')[1];
-    return (time / timeline.totalDuration) * 100;
   };
 
   window.draw = function(comments, stage) {
@@ -374,6 +358,12 @@
       _fn(comment);
     }
     return stage.update();
+  };
+
+  window.timelineURItoX = function(uri) {
+    var time;
+    time = uri.split('/')[1];
+    return (time / timeline.totalDuration) * 100;
   };
 
   $(function() {
@@ -424,7 +414,6 @@
       max: 100,
       value: 95,
       slide: function(event, ui) {
-        console.log(ui);
         video_playing.muted = false;
         return video_playing.changevolume(ui.value / 100);
       }
@@ -446,19 +435,17 @@
       }
     });
     hideComment = function() {
-      console.log('deleting');
       return $('#comment-container div:first').remove();
     };
     stage = new createjs.Stage("comment-timeline-canvas");
     stage.on("stagemousedown", function(evt) {
       var canvasWidth;
       canvasWidth = document.getElementById('comment-timeline-canvas').width;
-      console.log("the canvas was clicked at " + evt.stageX);
       return timeline.seekDirect(evt.stageX.toPrecision(2), canvasWidth);
     });
     getComments(stage);
     intervalHandler = setInterval(function() {
-      pruneAndAgeComments();
+      moveOldComments();
       return getComments(stage);
     }, 1000);
     console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
