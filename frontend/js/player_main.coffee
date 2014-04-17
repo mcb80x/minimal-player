@@ -9,35 +9,42 @@ window.displayHelp = ->
   $( "#helpDialog" ).dialog();
 
 window.toggleSubtitles = ->
-  $('#comment-container').css('display', 'none') #hides commments so subtitles can be displayed
-  $('#toggleComments').removeClass('on')
-
   if $('.icon-quote-left').hasClass('on')
     $('.icon-quote-left').removeClass('on')
-  else $('.icon-quote-left').addClass('on')
+    if $('#toggleComments').hasClass('on') then bumpSubtitles('down')
+  else
+    $('.icon-quote-left').addClass('on')
+    if $('#toggleComments').hasClass('on') then bumpSubtitles('up')
+
   $('#subtitle-container').slideToggle
     duration: 400
     complete: ->
-      #$('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
-window.toggleComments = ->
-  $('#subtitle-container').css('display', 'none') #hides subtitles so comments can be displayed
-  $('.icon-quote-left').removeClass('on')
+window.bumpSubtitles = (direction) ->
+  $subtitles = $('#subtitle-container')
+  height = $subtitles.height()
+  if direction is 'down'
+    $subtitles.css('height', height - 50) # 50 = input field height + top tab height 
+  if direction is 'up'
+    $subtitles.css('height', height + 50)
 
+window.toggleComments = ->
   if $('#toggleComments').hasClass('on')
-    #turn comments off
     $('#toggleComments').removeClass('on')
     $('#comment-timeline-canvas').hide()
+    if $('.icon-quote-left').hasClass('on') then bumpSubtitles('down')
   else
     #turn comments on
     $('#toggleComments').addClass('on')
     $('#comment-timeline-canvas').show()
+    if $('.icon-quote-left').hasClass('on') then bumpSubtitles('up')
   $('#comment-container').slideToggle
     duration: 400
     complete: ->
       $('comment-container').css('display', 'none')
       util.maintainAspect()
+  adjustSubtitlesForComments()
 
 window.toggleVolume = ->
   if not video_playing.muted
@@ -228,7 +235,7 @@ window.createCommentThread = (comment, replies)->
 
       lineHeight = 90 + replies.length*30
       dotPosition = 60 + replies.length*30
-      count = if replies.length > 0 then '' else replies.length
+      count = if replies.length is 0 then '' else replies.length
       
       if replies.length > 0
         $commentThread.find('.oneComment:first').find('.threadCount').text(replies.length)

@@ -169,7 +169,7 @@ html
           #interactive-subtitles
           
         #comment-container
-          input#input-field(value="Say something...", placeholder="Say something...")
+          input#input-field(value="Say something...", placeholder="Say something...", maxlength="80")
           i#cancel-button(class="icon-undo", title="Clear the input field", onclick="resetInputField();")
           span#reply-label
           i#submit-button(class="icon-double-angle-right", title="Submit this Comment", onclick="submitInput();")
