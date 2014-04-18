@@ -31,7 +31,7 @@ from backend.structure import (course_structure,
                                get_segment_list,
                                get_lesson)
 import backend.config
-
+import backend.mongo
 # from backend.progress import Progress
 # from backend.status import Status
 
@@ -204,7 +204,60 @@ def course_content(module_id, lesson_id, segment_id, login_required=True):
 def course_content_nologin(module_id, lesson_id, segment_id):
     return course_content(module_id, lesson_id, segment_id, login_required=False)
 
+# -------------------------------------------------------
+# URL Routing for GET/POST Comments
+# -------------------------------------------------------
 
+@app.route('/comments', methods=['GET'])
+def comment_get():
+    return dumps(comments.find())
+
+@app.route('/comments', methods=['POST'])
+def comment_post():
+    #creates and saves posted comment
+    newComment = connection.Comment()
+    newComment['video'] = request.json['video']
+    newComment['text'] = request.json['text']
+    newComment['timestamp'] = request.json['timestamp']
+    newComment['user'] = request.json['user']
+    newComment['display'] = request.json['display']
+    newComment['parent_id'] = request.json['parent_id']
+    newComment['discussion_id'] = request.json['discussion_id']
+    newComment.save()
+
+    return 'COMMENTS POST'
+
+@app.route('/delete', methods=['POST'])
+def comment_edit():
+  comment = connection.Comment.find_one(request.json['selector'])
+  comment['display'] = 'false'
+  comment.save()
+
+# -------------------------------------------------------
+# URL Routing for GET/POST Confusion
+# -------------------------------------------------------
+
+@app.route('/confusion/<videoName>', methods=['GET'])
+def confusion_get(videoName):
+    data = dumps(confusion.find({'video': str(videoName)}))
+    return render_template('confusion.jade', data=data)
+
+@app.route('/confusion', methods=['POST'])
+def confusion_post():
+    videoName = request.json['timestamp'].split('/')[0]
+    timestamp = request.json['timestamp'].split('/')[1]
+    totalLength = request.json['totalLength']
+    io = StringIO(dumps(confusion.find({'video': videoName})))
+    if(len(json.load(io)) > 0):
+        connection.comment_db.confusion.find_and_modify({'video':videoName}, {'$push':{'timestamps':timestamp}}) 
+    else:
+        newConf = connection.Confusion()
+        newConf['video'] = videoName
+        newConf['timestamps'] = [timestamp]
+        newConf['totalLength'] = totalLength
+        newConf.save()
+
+    return 'CONFUSION POST'
 
 
 # -------------------------------------------------------
