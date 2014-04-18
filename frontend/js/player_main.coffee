@@ -6,6 +6,13 @@ window.toggleSubtitles = ->
       $('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
+window.toggleVolume = ->
+  video_playing.toggleMute()
+  if video_playing.muted is true
+    $( "#slider-vertical" ).slider({value: 0})
+  else
+    $( "#slider-vertical" ).slider({value: 100})
+
 
 $ ->
     util.maintainAspect()
@@ -27,20 +34,33 @@ $ ->
 
     timeline.onNewOnDeckURIs(reportOnDeck)
 
-    # # Test current URI (@ 1 sec intervals)
-    # console.log "~~~~~~~~~ CURRENT URI ~~~~~~~~~~~~~"
-    # chirp = ->
-    #     currentURI = timeline.currentTimelineURI() 
-    #     console.log 'Current URI'
-    #     console.log currentURI
-    #     console.log timeline.timelineURItoX(currentURI) + '%'
-
-    # setInterval(chirp, 1000)
-
-
-    # Test registering a callback
-    console.log "~~~~~~~~~ INSTALL TIMED CALLBACK ~~~~~~~~~~~~~"
-    timeline.atTimelineURI('fleet_week/5.0', -> alert('This is an installed callback!'))
-
     window.timeline = timeline
 
+    # -----------------------------------------
+    # Volume-related JQuery
+    #-----------------------------------------
+    $( "#slider-vertical" ).slider(
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 95,
+      slide: ( event, ui )->
+        video_playing.changeVolume(ui.value/100)
+    );
+
+    $(".icon-volume-down").on(
+      mouseenter: ->
+          $(".ui-slider-vertical").show()
+      mouseleave: ->
+          $(".ui-slider-vertical").hide()
+    );
+    $(".ui-slider-vertical").on(
+      mouseenter: ->
+          $(".ui-slider-vertical").show()
+      mouseleave: ->
+          $(".ui-slider-vertical").hide()
+    );
+
+    #hides the volume slider on load
+    $(".ui-slider-vertical").hide()
