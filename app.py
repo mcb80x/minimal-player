@@ -31,7 +31,7 @@ from backend.structure import (course_structure,
                                get_segment_list,
                                get_lesson)
 import backend.config
-
+import backend.mongo
 # from backend.progress import Progress
 # from backend.status import Status
 
