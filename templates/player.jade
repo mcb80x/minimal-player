@@ -199,7 +199,19 @@ html
 
       #comment-container
         #input-container
+          input#input-field(value="Say something...", placeholder="Say something...", maxlength="80")
         #message-container
+          #avatar
+          #message
+          a(href="javascript:void(0);", onclick="reportComment();")
+            i#reportComment.icon-warning-sign.commentButton(title='Report this comment')
+
+          a(href="javascript:void(0);", onclick="likeComment();")
+            i#likeComment.icon-thumbs-up.commentButton(title='Like this comment')
+
+          a(href="javascript:void(0);", onclick="replyToComment();")
+            i#replyToComment.icon-mail-forward.commentButton(title='Reply to this comment')
+
 
 
     //- #alt-player-link
