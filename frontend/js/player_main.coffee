@@ -78,6 +78,23 @@ $ ->
     window.timeline = timeline
 
     # -----------------------------------------
+    # Input-field JQuery
+    #-----------------------------------------
+    $('#input-field').focus( ->
+      if this.value is this.defaultValue
+        this.value = '';
+        $(this).removeClass('inputDefault');
+      #else
+      #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
+    ).blur( ->
+      if this.value is ''
+        this.value = this.defaultValue;
+        $(this).addClass('inputDefault');
+    ).keypress((e)->
+      if e.which is 13 then submitInput()
+    )
+
+    # -----------------------------------------
     # Volume-related JQuery
     #-----------------------------------------
     $( "#slider-vertical" ).slider(
