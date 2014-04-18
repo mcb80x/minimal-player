@@ -203,6 +203,25 @@ html
         #message-container
 
 
+      #comment-container
+        #input-container
+          input#input-field(value="Say something...", placeholder="Say something...", maxlength="80")
+        #message-container
+          #previousMessage.icon-double-angle-left(title='Display previous message')
+          #avatar
+          #message
+          a(href="javascript:void(0);", onclick="reportComment();")
+            i#reportComment.icon-warning-sign.commentButton(title='Report this comment')
+
+          a(href="javascript:void(0);", onclick="likeComment();")
+            i#likeComment.icon-thumbs-up.commentButton(title='Like this comment')
+
+          a(href="javascript:void(0);", onclick="replyToComment();")
+            i#replyToComment.icon-mail-forward.commentButton(title='Reply to this comment')
+          #nextMessage.icon-double-angle-right(title='Display next message')
+
+
+
     //- #alt-player-link
 
     //- if(show_interactive_tutorial)

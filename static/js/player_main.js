@@ -77,6 +77,21 @@
     };
     timeline.onNewOnDeckURIs(reportOnDeck);
     window.timeline = timeline;
+    $('#input-field').focus(function() {
+      if (this.value === this.defaultValue) {
+        this.value = '';
+        return $(this).removeClass('inputDefault');
+      }
+    }).blur(function() {
+      if (this.value === '') {
+        this.value = this.defaultValue;
+        return $(this).addClass('inputDefault');
+      }
+    }).keypress(function(e) {
+      if (e.which === 13) {
+        return submitInput();
+      }
+    });
     $("#slider-vertical").slider({
       orientation: "vertical",
       range: "min",
