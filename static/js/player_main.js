@@ -46,6 +46,19 @@
     return $('#stage').css('width', newWidth);
   };
 
+  window.toggleVolume = function() {
+    video_playing.toggleMute();
+    if (video_playing.muted === true) {
+      return $("#slider-vertical").slider({
+        value: 0
+      });
+    } else {
+      return $("#slider-vertical").slider({
+        value: 100
+      });
+    }
+  };
+
   $(function() {
     var reportOnDeck, timeline;
     window.maintainAspectRatio();
@@ -63,11 +76,34 @@
       return console.log(ondecks);
     };
     timeline.onNewOnDeckURIs(reportOnDeck);
-    console.log("~~~~~~~~~ INSTALL TIMED CALLBACK ~~~~~~~~~~~~~");
-    timeline.atTimelineURI('fleet_week/5.0', function() {
-      return alert('This is an installed callback!');
+    window.timeline = timeline;
+    $("#slider-vertical").slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 95,
+      slide: function(event, ui) {
+        return video_playing.changeVolume(ui.value / 100);
+      }
     });
-    return window.timeline = timeline;
+    $(".icon-volume-down").on({
+      mouseenter: function() {
+        return $(".ui-slider-vertical").show();
+      },
+      mouseleave: function() {
+        return $(".ui-slider-vertical").hide();
+      }
+    });
+    $(".ui-slider-vertical").on({
+      mouseenter: function() {
+        return $(".ui-slider-vertical").show();
+      },
+      mouseleave: function() {
+        return $(".ui-slider-vertical").hide();
+      }
+    });
+    return $(".ui-slider-vertical").hide();
   });
 
 }).call(this);
