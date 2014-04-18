@@ -1,11 +1,31 @@
 
 window.toggleSubtitles = ->
+  if $('#toggleSubtitles').hasClass('on')
+    $('#toggleSubtitles').removeClass('on')
+  else
+    $('#toggleSubtitles').addClass('on')
+
   $('#subtitle-container').slideToggle
     duration: 400
     complete: ->
       $('subtitle-container').css('display', 'none')
       util.maintainAspect()
 
+window.toggleComments = ->
+  if $('#toggleComments').hasClass('on')
+    $('#toggleComments').removeClass('on')
+    # < comment area > .hide()
+  else
+    $('#toggleComments').addClass('on')
+    # < comment area > .show()
+  
+  ###
+  $('#comment-container').slideToggle
+    duration: 400
+    complete: ->
+      $('comment-container').css('display', 'none')
+      util.maintainAspect()
+  ###
 
 $ ->
     util.maintainAspect()

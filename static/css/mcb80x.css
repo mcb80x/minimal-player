@@ -69,3 +69,8 @@ img.lesson-teaser{float:right;}
 .alt-player-link-top{color:#ccc;position:absolute;top:0;left:0;right:0;text-align:center;font-family:Lato,sans-serif;font-size:12px;}
 .alt-player-link a{color:#ccc;hover-color:#f00;}
 .ui-front{z-index:1000000 !important;}
+/* Added by HR ----------------------------------------------------------------------------*/
+/* Upper-Right Nav Buttons --*/
+.navButton{color:#ccc; font-size: 18px; padding: 3px; text-decoration: none;}
+.navButton:hover{color:#0F0;}
+.on{color: #0F0 !important;}

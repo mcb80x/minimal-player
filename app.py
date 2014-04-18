@@ -1,6 +1,7 @@
 import os
 import os.path
 import re
+import json
 from copy import copy
 from datetime import datetime
 
@@ -15,7 +16,11 @@ from flask import (Flask,
                    abort)
 
 # from flask.ext import restful
-# from mongokit import Document
+from mongokit import Connection, Document
+import datetime
+from bson import Binary, Code
+from bson.json_util import dumps
+from StringIO import StringIO
 
 # from backend.db import User, SiteInfo, db
 # from backend.login import login, oid, get_user, require_login
@@ -31,12 +36,19 @@ from backend.structure import (course_structure,
                                get_segment_list,
                                get_lesson)
 import backend.config
-import backend.mongo
+
 # from backend.progress import Progress
 # from backend.status import Status
 
 # import backend.logging
 # from backend.logging import page_loaded
+
+
+# -------------------------------------------------------
+# Mongo Database Connection Setup
+# -------------------------------------------------------
+MONGODB_HOST = '127.0.0.1'
+MONGODB_PORT = 27017
 
 # -------------------------------------------------------
 # Flask App Setup (flask + flask-restful)
@@ -47,6 +59,58 @@ app = Flask(__name__)
 # Enable jade handling automatically
 app.jinja_env.add_extension('pyjade.ext.jinja.PyJadeExtension')
 
+# -------------------------------------------------------
+# Open Mongo Connection
+# -------------------------------------------------------
+connection = Connection(MONGODB_HOST, MONGODB_PORT)
+
+
+# -------------------------------------------------------
+# Database Schema Setup
+# -------------------------------------------------------
+def max_length(length):
+    def validate(value):
+        if len(value) <= length:
+            return True
+        raise Exception('%s must be at most %s characters long' % length)
+    return validate
+
+@connection.register
+class Comment(Document):
+    __collection__='comments'
+    __database__='comment_db'
+    structure = {
+        'video': basestring,
+        'user': dict,
+        'text': basestring,
+        'created_at': basestring,
+        'timestamp': basestring,
+        'display': basestring,
+        'parent_id': basestring,
+        'discussion_id': basestring #ids are basestring because mongokit is not recognising objid
+    }
+    validators = {
+        'text': max_length(140)
+    }
+    default_values = {'created_at': datetime.datetime.utcnow().isoformat(), 'display': 'true'} #format: ISODate("2014-04-04T02:45:04.226Z")
+    required_fields = ['video', 'user', 'text', 'created_at', 'timestamp', 'display']
+    use_dot_notation = True
+
+@connection.register
+class Confusion(Document):
+    __collection__='confusion'
+    __database__='comment_db'
+    structure= {
+        'video': basestring,
+        'totalLength': float,
+        'timestamps': list
+    }
+    required_fields = ['video', 'timestamps']
+    use_dot_notation = True
+
+db = connection.comment_db
+comments = db.Comment
+confusion = db.Confusion
 
 # -------------------------------------------------------
 # Register login/openid blueprint
@@ -121,6 +185,60 @@ def page_error(e):
     return render_template('500.jade', **parameters), 500
 
 
+# -------------------------------------------------------
+# URL Routing for GET/POST Comments
+# -------------------------------------------------------
+
+@app.route('/comments', methods=['GET'])
+def comment_get():
+    return dumps(comments.find())
+
+@app.route('/comments', methods=['POST'])
+def comment_post():
+    #creates and saves posted comment
+    newComment = connection.Comment()
+    newComment['video'] = request.json['video']
+    newComment['text'] = request.json['text']
+    newComment['timestamp'] = request.json['timestamp']
+    newComment['user'] = request.json['user']
+    newComment['display'] = request.json['display']
+    newComment['parent_id'] = request.json['parent_id']
+    newComment['discussion_id'] = request.json['discussion_id']
+    newComment.save()
+
+    return 'COMMENTS POST'
+
+@app.route('/delete', methods=['POST'])
+def comment_edit():
+  comment = connection.Comment.find_one(request.json['selector'])
+  comment['display'] = 'false'
+  comment.save()
+
+# -------------------------------------------------------
+# URL Routing for GET/POST Confusion
+# -------------------------------------------------------
+
+@app.route('/confusion/<videoName>', methods=['GET'])
+def confusion_get(videoName):
+    data = dumps(confusion.find({'video': str(videoName)}))
+    return render_template('confusion.jade', data=data)
+
+@app.route('/confusion', methods=['POST'])
+def confusion_post():
+    videoName = request.json['timestamp'].split('/')[0]
+    timestamp = request.json['timestamp'].split('/')[1]
+    totalLength = request.json['totalLength']
+    io = StringIO(dumps(confusion.find({'video': videoName})))
+    if(len(json.load(io)) > 0):
+        connection.comment_db.confusion.find_and_modify({'video':videoName}, {'$push':{'timestamps':timestamp}}) 
+    else:
+        newConf = connection.Confusion()
+        newConf['video'] = videoName
+        newConf['timestamps'] = [timestamp]
+        newConf['totalLength'] = totalLength
+        newConf.save()
+
+    return 'CONFUSION POST'
 
 # -------------------------------------------------------
 # URL Routing for Course Content
@@ -224,4 +342,3 @@ def log_interaction():
 
 if __name__ == "__main__":
     app.run(port=2664, debug=True)
-

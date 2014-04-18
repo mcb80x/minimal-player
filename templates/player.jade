@@ -150,14 +150,20 @@ html
 
         // Site Navigation
         .right-nav
+          a(href="javascript:void(0);", onclick="toggleComments();")
+            i#toggleComments.icon-comments.navButton(title='Toggle Comments')
+         
           a(href="javascript:void(0);", onclick="toggleSubtitles();")
-            span.livicon(title='toggle subtitles', data-name='quote-left', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+            i#toggleSubtitles.icon-quote-left.navButton(title='Toggle Subtitles')
 
           a(href='/course#!/map')
-            span.livicon(title='Course Map', data-name='map', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+            i#courseMap.icon-map-marker.navButton(title='Course Map')
 
-          a(id='video-download-link', href='download-link', style="display:none;")
-            span.livicon(title='Download Video', data-name='download', data-color='#ccc', data-hovercolor='#c33', data-size='20')
+          a(href='download-link')
+            i#videoDownload.icon-download.navButton(title='Download Video')
+
+          a(href="javascript:void(0);", onclick="toggleSubtitles();")
+            i#toggleHelp.icon-question.navButton(title='Help!')
 
       #controls
         #subtitle-container.subtitles
