@@ -62,3 +62,4 @@ class Confusion(Document):
 db = connection.comment_db
 comments = db.Comment
 confusion = db.Confusion
+

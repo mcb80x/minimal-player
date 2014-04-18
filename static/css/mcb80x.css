@@ -17,7 +17,7 @@ svg{font:10px sans-serif;-webkit-touch-callout:none;-webkit-user-select:none;-kh
 .noTitleStuff .ui-dialog-titlebar{display:none;}
 .standard-wrapper{position:absolute;top:30px;left:30px;bottom:30px;right:30px;}
 .tight-wrapper{position:absolute;top:0;left:0;right:0;bottom:30px;}
-#stage{width:100%;position:absolute;top:0;bottom:50px;}
+#stage{width:100%;position:absolute;/*top:0;bottom:60px;*/}
 #controls{background-color:#666;position:absolute;bottom:0;height:50px;width:100%;}
 #timeline-controls{width:100%;height:30px;bottom:0;position:absolute;opacity:0.7;z-index:1001;background-color:#ccc;}
 .timeline-container{top:0;bottom:0;left:40px;right:70px;position:absolute;}
@@ -70,10 +70,20 @@ img.lesson-teaser{float:right;}
 .alt-player-link a{color:#ccc;hover-color:#f00;}
 .ui-front{z-index:1000000 !important;}
 
-a, i{text-decoration: none;}
+/* Added by HR ----------------------------------------------------------------------------*/
+/* Upper-Right Nav Buttons --*/
+.navButton{color:#ccc; font-size: 18px; padding: 3px; text-decoration: none;}
+.navButton:hover{color:#0F0;}
+.on{color: #0F0 !important;}
+#comment-container{bottom: 0px; display: none; height:60px; position: absolute; width:100%;}
+#input-container{background-color: orange; height: 30px; position: absolute; top: 0px; width: 100%;}
+#message-container{background-color: yellow; bottom: 0px; height: 30px; position: absolute; width: 100%;}
+
 
 /* --- Volume Control --- */
+a, i{text-decoration: none;}
 .icon-volume-down{color:#999;}
 #volume-icon{position: absolute; width: 25px; right: 0;top: 0;}
 #volume-icon i:hover{color:#3d3d3d;}
 .ui-slider-vertical {z-index: 1;margin-left: auto; top:-132px; right:7px;height:100px;}
+>>>>>>> master

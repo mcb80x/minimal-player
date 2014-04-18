@@ -1,10 +1,45 @@
 
 window.toggleSubtitles = ->
-  $('#subtitle-container').slideToggle
-    duration: 400
-    complete: ->
-      $('subtitle-container').css('display', 'none')
-      util.maintainAspect()
+  if $('#toggleSubtitles').hasClass('on')
+    $('#toggleSubtitles').removeClass('on')
+    $('#subtitle-container').hide()
+  else
+    $('#toggleSubtitles').addClass('on')
+    $('#subtitle-container').show()
+  maintainAspectRatio()
+
+window.toggleComments = ->
+  if $('#toggleComments').hasClass('on')
+    $('#toggleComments').removeClass('on')
+    $('#stage').css('bottom', 50)
+    $('#controls').css('bottom', 0)
+    $('#comment-container').hide()
+  else
+    $('#toggleComments').addClass('on')
+    $('#stage').css('bottom', 110)
+    $('#controls').css('bottom', 60)
+    $('#comment-container').show()
+  maintainAspectRatio()
+
+window.maintainAspectRatio = ->
+  console.log('maintain')
+  commentHeight = if $('#toggleComments').hasClass('on') then 60 else 0
+  subtitleHeight = if $('#toggleSubtitles').hasClass('on') then 60 else 0
+  controlsHeight =  50
+
+  availableHeight = $('#player-wrapper').height()-commentHeight-subtitleHeight-controlsHeight
+  availableWidth = $('#player-wrapper').width()
+  
+
+  $('#stage').css('bottom', commentHeight + subtitleHeight + controlsHeight)
+
+  newWidth = if (availableWidth/availableHeight) >= 16/9 then Math.round(availableHeight * (16/9)) else availableWidth
+  newHeight = if (availableWidth/availableHeight) >= 16/9 then availableHeight else Math.round(availableWidth * (9/16))
+
+  if newWidth < availableWidth then $('#stage').css('left', .5*(availableWidth-newWidth)) else $('#stage').css('left', 0)
+
+  $('#stage').css('height', newHeight)
+  $('#stage').css('width', newWidth)
 
 window.toggleVolume = ->
   video_playing.toggleMute()
@@ -15,7 +50,13 @@ window.toggleVolume = ->
 
 
 $ ->
-    util.maintainAspect()
+    window.maintainAspectRatio()
+
+
+    $(window).resize( ->
+      console.log('resize')
+      window.maintainAspectRatio()
+    );
 
     # Create a scene controller
     window.sceneController = new lessonplan.SceneController(sceneList)
