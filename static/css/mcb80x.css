@@ -90,8 +90,10 @@ img.lesson-teaser{float:right;}
 #replyToComment{bottom: 5px; position: absolute; right: 35px;}
 .inputDefault{color: gray;}
 #previousMessage{bottom: 15px; color: white; font-size: 30px; left: 5px; position: absolute; text-align: center; width: 30px;}
-#avatar{background-color: white; border: 1px black solid; height: 29px; left: 50px; position: absolute; width: 70px;}
-#message{color: white; font-size: 22px; height: 30px; left: 130px; position: absolute; text-align: left; right: 125px;}
+#avatar{background-color: white; border: 1px black solid; bottom: 30px height: 29px; left: 50px; position: absolute; width: 30px;}
+#message{height: 30px; left: 100px; position: absolute; text-align: left; right: 125px;}
+#messageUsername{color: black; font-family: Lato, sans-serif; font-size: 18px; font-style: italic;}
+#messageText{color: black; font-family: Lato, sans-serif; font-size: 18px; padding-left: 5px;}
 #nextMessage{bottom: 15px; color: white; font-size: 30px; position: absolute; right: 5px; text-align: center; width: 30px;}
 #message-container{background-color: darkgray; bottom: 0px; height: 30px; position: absolute; width: 100%;}
 
