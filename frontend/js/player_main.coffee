@@ -23,6 +23,35 @@ window.toggleComments = ->
     $('#comment-container').show()
   maintainAspectRatio()
 
+window.displayComment = (comment) ->
+  messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>'
+  $('#message').html(messageString)
+
+window.submitComment = ()->
+  # HARDCODED - will need to be updated with actual user info once user database is integrated
+  user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
+  timestamp = timeline.currentTimelineURI()
+  text = $('#input-field').val()
+  $('#input-field').val('')
+  comment = 
+              video: timestamp.split('/')[0]
+              user: user,
+              timestamp: timestamp, 
+              text: text,
+              display: 'true'
+              parent_id: ''
+              discussion_id: ''
+  displayComment(comment)
+  $.ajax({
+    type: "POST",
+    url: "/comments",
+    data: JSON.stringify(comment),
+    contentType:"application/json; charset=utf-8",
+    dataType: "json",
+    success: ->
+      alert('successful post')
+  });
+
 window.maintainAspectRatio = ->
   console.log('maintain')
   commentHeight = if $('#toggleComments').hasClass('on') then 60 else 0
@@ -123,7 +152,7 @@ $ ->
         this.value = this.defaultValue;
         $(this).addClass('inputDefault');
     ).keypress((e)->
-      if e.which is 13 then submitInput()
+      if e.which is 13 then submitComment()
     )
 
     # -----------------------------------------

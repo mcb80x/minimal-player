@@ -152,12 +152,6 @@ html
 
         // Site Navigation
         .right-nav
-          a(href="javascript:void(0);", onclick="toggleComments();")
-            i#toggleComments.icon-comments.navButton(title='Toggle Comments')
-         
-          a(href="javascript:void(0);", onclick="toggleSubtitles();")
-            i#toggleSubtitles.icon-quote-left.navButton(title='Toggle Subtitles')
-
           a(href='/course#!/map')
             i#courseMap.icon-map-marker.navButton(title='Course Map')
 
@@ -178,8 +172,12 @@ html
         // A marker indicating which segment we are currently in
         // and allowing navigation between segments
         #scene-indicator-container
-                #scene-indicator
-                span.scene-indicator-label segment:
+          a#toggleComments(href="javascript:void(0);", onclick="toggleComments();")
+            i.icon-comments(title='Toggle Comments')
+          a#toggleSubtitles(href="javascript:void(0);", onclick="toggleSubtitles();")
+            i.icon-quote-left(title='Toggle Subtitles')
+          #scene-indicator
+          span.scene-indicator-label segment:
 
         // Timeline
         #timeline-controls
@@ -208,7 +206,7 @@ html
           input#input-field(value="Say something...", placeholder="Say something...", maxlength="80")
         #message-container
           #previousMessage.icon-double-angle-left(title='Display previous message')
-          #avatar
+          img#avatar(src='http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&amp;r=r')
           #message
           a(href="javascript:void(0);", onclick="reportComment();")
             i#reportComment.icon-warning-sign.commentButton(title='Report this comment')

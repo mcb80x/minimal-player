@@ -31,12 +31,12 @@ svg{font:10px sans-serif;-webkit-touch-callout:none;-webkit-user-select:none;-kh
 .timeline-button{height:100%;width:40px;margin:0;padding:0;opacity:0.5;}
 .timeline-svg{width:100%;height:100%;}
 #scene-indicator-container{position:absolute;left:5px;right:0;opacity:0.8;z-index:1001;padding:0;height:20px;bottom:30px;}
-#scene-indicator{position:absolute;bottom:20%;top:15%;left:50px;right:10px;z-index:1001;padding:0;}
+#scene-indicator{position:absolute;bottom:20%;top:15%;left:125px;right:10px;z-index:1001;padding:0;}
 .scene-indicator-group{opacity:0.8;height:100%;width:100%;}
 .scene-indicator-active{fill:#fff;stroke:#666;stroke-width:2;}
 .scene-indicator-inactive{fill:#999;}
-.scene-indicator-label{font-size:10px;font-family:sans-serif;font-weight:bold;color:#ddd;}
-.lower-third{position:absolute;height:55px;left:0;right:0;bottom:30px;background-color:#444;opacity:0.8;z-index:1000;padding:5px;display:none;}
+.scene-indicator-label{bottom: 20%; font-size:10px;font-family:sans-serif;font-weight:bold; left: 75px; position: absolute; color:#ddd;}
+.lower-third{position:absolute;height:55px;left:0;right:0;bottom:30px;background-color:#444;opacity:0.8;z-index:1000;padding:5px; display:none;}
 .lower-third-title{font-size:30px;font-family:sans-serif;color:#fff;}
 .subtitles{position:absolute;height:60px;left:0;right:0;bottom:50px;z-index:900;display:none;font-size:20px;font-family:sans-serif;color:#ff6;text-align:center;padding:3px;background-color:#333;overflow-y:scroll;}
 .loading-indicator{position:absolute;height:100%;width:100%;display:none;z-index:1000;}
@@ -76,6 +76,9 @@ img.lesson-teaser{float:right;}
 .navButton:hover{color:#0F0;}
 .on{color: #0F0 !important;}
 
+#toggleComments{color: #ccc; height: 20px; left: 0px; position: absolute; width: 30px; text-align: center;}
+#toggleSubtitles{color: #ccc; left: 30px; height: 20px; position: absolute; width: 30px; text-align: center;}
+#toggleComments:hover, #toggleSubtitles:hover{color:#0F0;}
 #comment-container{bottom: 0px; display: none; height:60px; position: absolute; text-align: right; width:100%;}
 #input-container{background-color: darkgray; height: 30px; position: absolute; top: 0px; width: 100%;}
 #input-field{background-color: lightgray; border: 1px solid white; border-radius: 15px; box-sizing: border-box; color: black; font-size: 16px; margin: 0% 5%; padding-left: 10px; width: 90%;}
@@ -87,8 +90,10 @@ img.lesson-teaser{float:right;}
 #replyToComment{bottom: 5px; position: absolute; right: 35px;}
 .inputDefault{color: gray;}
 #previousMessage{bottom: 15px; color: white; font-size: 30px; left: 5px; position: absolute; text-align: center; width: 30px;}
-#avatar{background-color: white; border: 1px black solid; height: 29px; left: 50px; position: absolute; width: 70px;}
-#message{color: white; font-size: 22px; height: 30px; left: 130px; position: absolute; text-align: left; right: 125px;}
+#avatar{background-color: white; border: 1px black solid; bottom: 30px height: 29px; left: 50px; position: absolute; width: 30px;}
+#message{height: 30px; left: 100px; position: absolute; text-align: left; right: 125px;}
+#messageUsername{color: black; font-family: Lato, sans-serif; font-size: 18px; font-style: italic;}
+#messageText{color: black; font-family: Lato, sans-serif; font-size: 18px; padding-left: 5px;}
 #nextMessage{bottom: 15px; color: white; font-size: 30px; position: absolute; right: 5px; text-align: center; width: 30px;}
 #message-container{background-color: darkgray; bottom: 0px; height: 30px; position: absolute; width: 100%;}
 
