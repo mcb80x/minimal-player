@@ -83,6 +83,8 @@ html
     // QTip2
     // script(src='http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.1.1/jquery.qtip.min.js')
 
+    // EaselJS
+    script(src="http://code.createjs.com/easeljs-0.7.1.min.js")
 
     // The common MCB80x library
     script(src='{{static_base_url}}/lessonplan/lessonplan{{debug_suffix}}.js')
@@ -187,6 +189,9 @@ html
           // the timeline itself
           #timeline.timeline-container
 
+          div#comment-timeline-container
+              div#comment-timeline-canvas-container
+                canvas#comment-timeline-canvas
 
           #clock
             span#clock-text 00:00

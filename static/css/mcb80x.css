@@ -99,4 +99,8 @@ a, i{text-decoration: none;}
 #volume-icon{position: absolute; width: 25px; right: 0;top: 0;}
 #volume-icon i:hover{color:#3d3d3d;}
 .ui-slider-vertical {z-index: 1;margin-left: auto; top:-132px; right:7px;height:100px;}
->>>>>>> master
+
+/* --- Timeline Comment Visualizer --- */
+#comment-timeline-container {position: absolute; z-index: 1000000; position: absolute; top:0; bottom:0; left:40px; right:70px;}
+#comment-timeline-canvas-container {position: absolute; width:100%; height:35%; margin-top: 9px;}
+#comment-timeline-canvas{z-index: 10000001; position: absolute;}
