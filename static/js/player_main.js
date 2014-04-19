@@ -26,6 +26,44 @@
     return maintainAspectRatio();
   };
 
+  window.displayComment = function(comment) {
+    var messageString;
+    messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>';
+    return $('#message').html(messageString);
+  };
+
+  window.submitComment = function() {
+    var comment, text, timestamp, user;
+    user = {
+      username: 'testuser',
+      userID: '12dfeg92345301xsdfj',
+      img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'
+    };
+    timestamp = timeline.currentTimelineURI();
+    text = $('#input-field').val();
+    $('#input-field').val('');
+    comment = {
+      video: timestamp.split('/')[0],
+      user: user,
+      timestamp: timestamp,
+      text: text,
+      display: 'true',
+      parent_id: '',
+      discussion_id: ''
+    };
+    displayComment(comment);
+    return $.ajax({
+      type: "POST",
+      url: "/comments",
+      data: JSON.stringify(comment),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function() {
+        return alert('successful post');
+      }
+    });
+  };
+
   window.maintainAspectRatio = function() {
     var availableHeight, availableWidth, commentHeight, controlsHeight, newHeight, newWidth, subtitleHeight;
     console.log('maintain');
@@ -89,7 +127,7 @@
       }
     }).keypress(function(e) {
       if (e.which === 13) {
-        return submitInput();
+        return submitComment();
       }
     });
     $("#slider-vertical").slider({
