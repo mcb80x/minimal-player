@@ -109,6 +109,24 @@ window.timelineURItoX = (uri) ->
 window.resizeCommentCanvas = (tempComments, stage) ->
   draw(tempComments, stage)
 
+# -----------------------------------------
+# GET comments from Database
+#-----------------------------------------
+
+# Gets all comments from db, installs their callbacks
+window.addCallback = (comments)->
+  for comment in comments
+    timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
+
+window.getComments = ()->
+  $.ajax({
+    type: "GET",
+    url: "/comments",
+    dataType: "json",
+    success: (comments)->
+      addCallback(comments)
+      return
+  });
 
 $ ->
     window.maintainAspectRatio()
@@ -137,6 +155,9 @@ $ ->
     timeline.onNewOnDeckURIs(reportOnDeck)
 
     window.timeline = timeline
+
+    window.getComments()
+    
 
     # -----------------------------------------
     # Input-field JQuery
