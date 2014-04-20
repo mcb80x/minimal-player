@@ -23,6 +23,17 @@ window.toggleComments = ->
     $('#comment-container').show()
   maintainAspectRatio()
 
+window.confirmCommentDeletion = ->
+  comment = $('#message').html()
+  commentText = $('#messageText').text()
+  $('#deleteDialog').dialog();
+  $('#commentToDelete').html(comment)
+
+  $('#confirmDeletion').on('click', ->
+    deleteComment(commentText)
+  )
+
+
 window.displayComment = (comment) ->
   messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>'
   $('#message').html(messageString)
@@ -116,9 +127,10 @@ window.resizeCommentCanvas = (tempComments, stage) ->
 # Gets all comments from db, installs their callbacks
 window.addCallback = (comments)->
   for comment in comments
-    timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
+    if comment['display'] is "true"
+      timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
 
-window.getComments = ()->
+window.getComments = ->
   $.ajax({
     type: "GET",
     url: "/comments",
@@ -126,6 +138,20 @@ window.getComments = ()->
     success: (comments)->
       addCallback(comments)
       return
+  });
+
+window.deleteComment = (messageText)->
+  $('#deleteDialog').dialog('close')
+  updateParameters =
+    selector: {"text": messageText}
+  $.ajax({
+    type: "POST",
+    url: "/delete",
+    data: JSON.stringify(updateParameters),
+    contentType:"application/json; charset=utf-8",
+    dataType: "json",
+    success: ->
+      alert('successful post')
   });
 
 $ ->

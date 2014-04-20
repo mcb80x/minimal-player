@@ -48,6 +48,17 @@
     return maintainAspectRatio();
   };
 
+  window.confirmCommentDeletion = function() {
+    var comment, commentText;
+    comment = $('#message').html();
+    commentText = $('#messageText').text();
+    $('#deleteDialog').dialog();
+    $('#commentToDelete').html(comment);
+    return $('#confirmDeletion').on('click', function() {
+      return deleteComment(commentText);
+    });
+  };
+
   window.displayComment = function(comment) {
     var messageString;
     messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>';
@@ -156,11 +167,15 @@
     _results = [];
     for (_i = 0, _len = comments.length; _i < _len; _i++) {
       comment = comments[_i];
-      _results.push(timeline.atTimelineURI(comment['timestamp'], (function(comment) {
-        return function() {
-          return displayComment(comment);
-        };
-      })(comment)));
+      if (comment['display'] === "true") {
+        _results.push(timeline.atTimelineURI(comment['timestamp'], (function(comment) {
+          return function() {
+            return displayComment(comment);
+          };
+        })(comment)));
+      } else {
+        _results.push(void 0);
+      }
     }
     return _results;
   };
@@ -172,6 +187,26 @@
       dataType: "json",
       success: function(comments) {
         addCallback(comments);
+      }
+    });
+  };
+
+  window.deleteComment = function(messageText) {
+    var updateParameters;
+    $('#deleteDialog').dialog('close');
+    updateParameters = {
+      selector: {
+        "text": messageText
+      }
+    };
+    return $.ajax({
+      type: "POST",
+      url: "/delete",
+      data: JSON.stringify(updateParameters),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function() {
+        return alert('successful post');
       }
     });
   };

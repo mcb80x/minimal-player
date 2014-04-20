@@ -208,7 +208,7 @@ html
           #previousMessage.icon-double-angle-left(title='Display previous message')
           img#avatar(src='http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&amp;r=r')
           #message
-          a(href="javascript:void(0);", onclick="reportComment();")
+          a(href="javascript:void(0);", onclick="confirmCommentDeletion();")
             i#reportComment.icon-warning-sign.commentButton(title='Report this comment')
 
           a(href="javascript:void(0);", onclick="likeComment();")
@@ -218,6 +218,11 @@ html
             i#replyToComment.icon-mail-forward.commentButton(title='Reply to this comment')
           #nextMessage.icon-double-angle-right(title='Display next message')
 
+      #deleteDialog(title="Report this Comment")
+        p Inappropriate comments, including spam and harassment are not tolerated. Reporting a comment allows MCB80x to review and remove this content.
+        p Are you sure you want to report this comment?
+        #commentToDelete
+        #confirmDeletion Report Comment
 
 
     //- #alt-player-link

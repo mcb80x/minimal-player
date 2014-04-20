@@ -96,7 +96,9 @@ img.lesson-teaser{float:right;}
 #messageText{color: black; font-family: Lato, sans-serif; font-size: 18px; padding-left: 5px;}
 #nextMessage{bottom: 15px; color: white; font-size: 30px; position: absolute; right: 5px; text-align: center; width: 30px;}
 #message-container{background-color: darkgray; bottom: 0px; height: 30px; position: absolute; width: 100%;}
-
+#confirmDeletion{background-color: #ccc; border: 1px solid black; border-radius: 15px; font-weight: bold; padding: 5px 0; text-align: center;}
+#confirmDeletion:hover{background-color: #fff;}
+#commentToDelete{padding-bottom: 10px; text-align:center;}
 
 /* --- Volume Control --- */
 a, i{text-decoration: none;}
