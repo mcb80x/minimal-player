@@ -151,6 +151,31 @@
     return draw(tempComments, stage);
   };
 
+  window.addCallback = function(comments) {
+    var comment, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = comments.length; _i < _len; _i++) {
+      comment = comments[_i];
+      _results.push(timeline.atTimelineURI(comment['timestamp'], (function(comment) {
+        return function() {
+          return displayComment(comment);
+        };
+      })(comment)));
+    }
+    return _results;
+  };
+
+  window.getComments = function() {
+    return $.ajax({
+      type: "GET",
+      url: "/comments",
+      dataType: "json",
+      success: function(comments) {
+        addCallback(comments);
+      }
+    });
+  };
+
   $(function() {
     var reportOnDeck, timeline;
     window.maintainAspectRatio();
@@ -170,6 +195,7 @@
     };
     timeline.onNewOnDeckURIs(reportOnDeck);
     window.timeline = timeline;
+    window.getComments();
     $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';
