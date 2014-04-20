@@ -48,6 +48,10 @@
     return maintainAspectRatio();
   };
 
+  window.likeComment = function() {
+    return $('#likeComment').addClass('liked');
+  };
+
   window.confirmCommentDeletion = function() {
     var comment, commentText;
     comment = $('#message').html();
@@ -55,12 +59,15 @@
     $('#deleteDialog').dialog();
     $('#commentToDelete').html(comment);
     return $('#confirmDeletion').on('click', function() {
+      $('#reportComment').addClass('flagged');
       return deleteComment(commentText);
     });
   };
 
   window.displayComment = function(comment) {
     var messageString;
+    $('#reportComment').removeClass('flagged');
+    $('#likeComment').removeClass('liked');
     messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>';
     return $('#message').html(messageString);
   };

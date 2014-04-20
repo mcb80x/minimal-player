@@ -23,18 +23,23 @@ window.toggleComments = ->
     $('#comment-container').show()
   maintainAspectRatio()
 
+window.likeComment = ->
+  $('#likeComment').addClass('liked')
+
 window.confirmCommentDeletion = ->
   comment = $('#message').html()
   commentText = $('#messageText').text()
   $('#deleteDialog').dialog();
   $('#commentToDelete').html(comment)
-
   $('#confirmDeletion').on('click', ->
+    $('#reportComment').addClass('flagged')
     deleteComment(commentText)
   )
 
 
 window.displayComment = (comment) ->
+  $('#reportComment').removeClass('flagged')
+  $('#likeComment').removeClass('liked')
   messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>'
   $('#message').html(messageString)
 

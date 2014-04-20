@@ -83,9 +83,9 @@ img.lesson-teaser{float:right;}
 #input-container{background-color: darkgray; height: 30px; position: absolute; top: 0px; width: 100%;}
 #input-field{background-color: lightgray; border: 1px solid white; border-radius: 15px; box-sizing: border-box; color: black; font-size: 16px; margin: 0% 5%; padding-left: 10px; width: 90%;}
 .commentButton{color:#ccc; font-size: 18px; padding: 3px; text-decoration: none;}
-.commentButton:hover{color:#0F0;}
+.commentButton:hover, .liked{color:#0F0;}
 #reportComment{bottom: 5px; position: absolute; right: 95px;}
-#reportComment:hover{color:#c33;}
+#reportComment:hover, .flagged{color:#c33;}
 #likeComment{bottom: 5px; position: absolute; right: 65px;}
 #replyToComment{bottom: 5px; position: absolute; right: 35px;}
 .inputDefault{color: gray;}
