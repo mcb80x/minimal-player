@@ -221,7 +221,7 @@ window.draw = (comments, stage)->
   canvas = document.getElementById('comment-timeline-canvas')
   canvas.width = $('#comment-timeline-canvas-container').width()
   canvas.height = $('#comment-timeline-canvas-container').height()
-  for comment in comments
+  for comment in comments when comment['display'] isnt 'false'
     canvasWidth = document.getElementById('comment-timeline-canvas').width
     percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth/100)).toPrecision(2)
     line = new createjs.Shape()

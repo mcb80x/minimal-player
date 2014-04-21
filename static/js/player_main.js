@@ -277,6 +277,9 @@
     };
     for (_i = 0, _len = comments.length; _i < _len; _i++) {
       comment = comments[_i];
+      if (!(comment['display'] !== 'false')) {
+        continue;
+      }
       canvasWidth = document.getElementById('comment-timeline-canvas').width;
       percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth / 100)).toPrecision(2);
       line = new createjs.Shape();
