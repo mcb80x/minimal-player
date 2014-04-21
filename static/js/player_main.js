@@ -106,7 +106,7 @@
     return $('#likeCount').text(likeValue);
   };
 
-  window.submitComment = function() {
+  window.submitComment = function(stage) {
     var comment, text, timestamp, user;
     user = {
       username: 'testuser',
@@ -126,7 +126,7 @@
       discussion_id: ''
     };
     displayComment(comment);
-    return $.ajax({
+    $.ajax({
       type: "POST",
       url: "/comments",
       data: JSON.stringify(comment),
@@ -136,6 +136,7 @@
         return alert('successful post');
       }
     });
+    return getComments(stage);
   };
 
   window.submitLike = function(messageText) {
@@ -233,76 +234,76 @@
   };
 
   $(function() {
-    var timeline;
-    window.maintainAspectRatio();
+    var reportOnDeck, stage, timeline;
+    $(window).resize();
     window.sceneController = new lessonplan.SceneController(sceneList);
-    return timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController, function() {
-      var reportOnDeck, stage;
-      console.log("after timeline");
-      if ((window.showSubtitles != null) && window.showSubtitles) {
-        window.toggleSubtitles();
-      }
-      console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
-      reportOnDeck = function(ondecks) {
-        return console.log(ondecks);
-      };
-      timeline.onNewOnDeckURIs(reportOnDeck);
-      window.timeline = timeline;
-      $('#input-field').focus(function() {
-        if (this.value === this.defaultValue) {
-          this.value = '';
-          return $(this).removeClass('inputDefault');
-        }
-      }).blur(function() {
-        if (this.value === '') {
-          this.value = this.defaultValue;
-          return $(this).addClass('inputDefault');
-        }
-      }).keypress(function(e) {
-        if (e.which === 13) {
-          return submitComment();
-        }
-      });
-      $("#slider-vertical").slider({
-        orientation: "vertical",
-        range: "min",
-        min: 0,
-        max: 100,
-        value: 95,
-        slide: function(event, ui) {
-          return video_playing.changeVolume(ui.value / 100);
-        }
-      });
-      $(".icon-volume-down").on({
-        mouseenter: function() {
-          return $(".ui-slider-vertical").show();
-        },
-        mouseleave: function() {
-          return $(".ui-slider-vertical").hide();
-        }
-      });
-      $(".ui-slider-vertical").on({
-        mouseenter: function() {
-          return $(".ui-slider-vertical").show();
-        },
-        mouseleave: function() {
-          return $(".ui-slider-vertical").hide();
-        }
-      });
-      $(".ui-slider-vertical").hide();
-      stage = new createjs.Stage("comment-timeline-canvas");
-      stage.on("stagemousedown", function(evt) {
-        var canvasWidth;
-        console.log("clicked stage");
-        canvasWidth = document.getElementById('comment-timeline-canvas').width;
-        return timeline.seekDirectToX(evt.stageX.toPrecision(2), canvasWidth);
-      });
-      $(window).resize(function() {
-        console.log('resize');
-        window.maintainAspectRatio();
-        return window.getComments(stage);
-      });
+    timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController, function() {
       return window.getComments(stage);
+    });
+    console.log("after timeline");
+    if ((window.showSubtitles != null) && window.showSubtitles) {
+      window.toggleSubtitles();
+    }
+    console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
+    reportOnDeck = function(ondecks) {
+      return console.log(ondecks);
+    };
+    timeline.onNewOnDeckURIs(reportOnDeck);
+    window.timeline = timeline;
+    $("#slider-vertical").slider({
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 95,
+      slide: function(event, ui) {
+        return video_playing.changeVolume(ui.value / 100);
+      }
+    });
+    $(".icon-volume-down").on({
+      mouseenter: function() {
+        return $(".ui-slider-vertical").show();
+      },
+      mouseleave: function() {
+        return $(".ui-slider-vertical").hide();
+      }
+    });
+    $(".ui-slider-vertical").on({
+      mouseenter: function() {
+        return $(".ui-slider-vertical").show();
+      },
+      mouseleave: function() {
+        return $(".ui-slider-vertical").hide();
+      }
+    });
+    $(".ui-slider-vertical").hide();
+    stage = new createjs.Stage("comment-timeline-canvas");
+    stage.on("stagemousedown", function(evt) {
+      var canvasWidth;
+      console.log("clicked stage");
+      canvasWidth = document.getElementById('comment-timeline-canvas').width;
+      return timeline.seekDirectToX(evt.stageX.toPrecision(2), canvasWidth);
+    });
+    $(window).resize(function() {
+      console.log('resize');
+      window.maintainAspectRatio();
+      return window.getComments(stage);
+    });
+    $(window).resize();
+    return $('#input-field').focus(function() {
+      if (this.value === this.defaultValue) {
+        this.value = '';
+        return $(this).removeClass('inputDefault');
+      }
+    }).blur(function() {
+      if (this.value === '') {
+        this.value = this.defaultValue;
+        return $(this).addClass('inputDefault');
+      }
+    }).keypress(function(e) {
+      if (e.which === 13) {
+        return submitComment(stage);
+      }
     });
   });
 
