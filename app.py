@@ -78,8 +78,8 @@ class Comment(Document):
         'created_at': basestring,
         'timestamp': basestring,
         'display': basestring,
-        #'parent_id': basestring,
-        #'discussion_id': basestring #ids are basestring because mongokit is not recognising objid
+        'parent_id': basestring,
+        'discussion_id': basestring #ids are basestring because mongokit is not recognising objid
     }
     default_values = {'created_at': datetime.datetime.utcnow().isoformat(), 'display': 'true'} #format: ISODate("2014-04-04T02:45:04.226Z")
     required_fields = ['video', 'user', 'text', 'created_at', 'timestamp', 'display']
