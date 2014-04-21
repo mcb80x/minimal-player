@@ -99,7 +99,9 @@ window.checkCommentAge = ->
   # clears comments that are > 5 seconds old
   commentDate = $('#message').data('time-displayed')
   currentDate = new Date().getTime()
-  if currentDate - commentDate > 5000 then $('#message').html('')
+  if currentDate - commentDate > 5000
+    $('#message-container a').hide()
+    $('#message').html('')
 
 # -----------------------------------------
 # Database: POST

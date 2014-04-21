@@ -125,6 +125,7 @@
     commentDate = $('#message').data('time-displayed');
     currentDate = new Date().getTime();
     if (currentDate - commentDate > 5000) {
+      $('#message-container a').hide();
       return $('#message').html('');
     }
   };
