@@ -106,8 +106,8 @@ img.lesson-teaser{float:right;}
 #message{color: black; font-family: Lato, sans-serif; font-size: 16px; padding-left: 5px; word-wrap: break-word; text-align: left; left: 55px; position: absolute; right: 40px; top: 15px;}
 .parentDetail{background-color: white; color: black; font-size: 12px; position: absolute; padding-top: 0px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; border-radius: 5px; z-index: 1000;}
 .parentDetail:before{font-size: 8px; content:"original comment\A"; white-space: pre;}
-#likeCount{position: absolute; right: 15px; top: 10px; z-index: 1000; font-size: 12px;}
-#message-container{background-color: darkgray; /*bottom: 0px;*/top: 0px; height: 35px; left: 40%; position: absolute; width: 60%; border-bottom-right-radius:5px;}
+#likeCount{font-family: sans-serif; font-size: 14px; position: absolute; right: 15px; top: 10px; z-index: 1000; font-size: 12px; z-index:10000;}
+#message-container{background-color: darkgray; /*bottom: 0px;*/top: 0px; height: 35px; right: 0%; position: absolute; width: 60%; border-bottom-right-radius:5px;}
 .dialogButton{background-color: #ccc; border: 1px solid black; border-radius: 15px; font-weight: bold; padding: 5px 0; text-align: center;}
 .dialogButton:hover{background-color: #fff;}
 #commentToDelete{padding-bottom: 10px; text-align:center;}

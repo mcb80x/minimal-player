@@ -92,7 +92,7 @@
     if (!$('#likeComment').hasClass('liked')) {
       $('#likeComment').addClass('liked');
       likeCount = $('#likeCount').text();
-      $('#likeCount').text(likeCount + 1);
+      $('#likeCount').text(parseInt(likeCount) + 1);
       queryString = $('#message').data('id') === '' ? {
         'text': $('#message').text()
       } : {
