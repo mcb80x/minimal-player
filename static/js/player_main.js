@@ -131,7 +131,7 @@
       img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'
     };
     timestamp = timeline.currentTimelineURI();
-    text = $('#input-field').val();
+    text = $('#reply-label').text() + $('#input-field').val();
     $('#input-field').val('');
     comment = {
       video: timestamp.split('/')[0],
