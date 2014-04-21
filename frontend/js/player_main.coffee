@@ -60,6 +60,8 @@ window.maintainAspectRatio = ->
 
 window.replyToComment = () ->
   $('#reply-label').text($('#username').text()).show()
+  $('#input-field').data('parent_id', $('#message').data('id'))
+  $('#input-field').data('parent_text', $('#message').text())
   $('#cancel-button').show()
   $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
 
@@ -100,6 +102,8 @@ window.displayComment = (comment) ->
   likeValue = if comment['likes'] > 0 then comment['likes'] else ''
   $('#likeCount').text(likeValue)
   $('#message').data('time-created', new Date().getTime())
+  commentID = if comment['_id']? then comment['_id']['$oid'] else ''
+  $('#message').data('id', commentID)
 
 window.checkCommentAge = ->
   timeCreated = $('#message').data('time-created')
@@ -119,14 +123,16 @@ window.submitComment = (stage)->
   timestamp = timeline.currentTimelineURI()
   text = $('#reply-label').text() + $('#input-field').val()
   $('#input-field').val('')
+  parent_id = $('#input-field').data('parent_id') || ''
+  parent_text = $('#input-field').data('parent_text') || ''
   comment = 
               video: timestamp.split('/')[0]
               user: user,
               timestamp: timestamp, 
               text: text,
               display: 'true'
-              parent_id: ''
-              discussion_id: ''
+              parent_id: parent_id
+              parent_text: parent_text
   displayComment(comment)
   $.ajax({
     type: "POST",

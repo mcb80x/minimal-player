@@ -79,7 +79,7 @@ class Comment(Document):
         'timestamp': basestring,
         'display': basestring,
         'parent_id': basestring,
-        'discussion_id': basestring, #ids are basestring because mongokit is not recognising objid
+        'parent_text': basestring,
         'likes': int
     }
     default_values = {'created_at': datetime.datetime.utcnow().isoformat(), 'display': 'true'} #format: ISODate("2014-04-04T02:45:04.226Z")
@@ -193,7 +193,7 @@ def comment_post():
     newComment['user'] = request.json['user']
     newComment['display'] = request.json['display']
     newComment['parent_id'] = request.json['parent_id']
-    newComment['discussion_id'] = request.json['discussion_id']
+    newComment['parent_text'] = request.json['parent_text']
     newComment['likes'] = 0
     newComment.save()
 
