@@ -201,89 +201,91 @@ window.timelineURItoX = (uri) ->
 
 #---------------------------------------------------------------------------------
 $ ->
-    window.maintainAspectRatio()
+    $(window).resize()
 
     # Create a scene controller
     window.sceneController = new lessonplan.SceneController(sceneList)
 
     # Create a new timeline object, and associate it with the scene
-    timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController, ->
-      console.log "after timeline"
-
-
-      if window.showSubtitles? and window.showSubtitles
-        window.toggleSubtitles()
-
-
-      # Test reportOnDeck
-      console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
-      reportOnDeck = (ondecks) ->
-          console.log ondecks
-
-      timeline.onNewOnDeckURIs(reportOnDeck)
-
-      window.timeline = timeline
-
-      # -----------------------------------------
-      # Input-field JQuery
-      #-----------------------------------------
-      $('#input-field').focus( ->
-        if this.value is this.defaultValue
-          this.value = '';
-          $(this).removeClass('inputDefault');
-        #else
-        #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
-      ).blur( ->
-        if this.value is ''
-          this.value = this.defaultValue;
-          $(this).addClass('inputDefault');
-      ).keypress((e)->
-        if e.which is 13 then submitComment()
-      )
-
-      # -----------------------------------------
-      # Volume-related JQuery
-      # -----------------------------------------
-      $( "#slider-vertical" ).slider(
-        orientation: "vertical",
-        range: "min",
-        min: 0,
-        max: 100,
-        value: 95,
-        slide: ( event, ui )->
-          video_playing.changeVolume(ui.value/100)
-      );
-
-      $(".icon-volume-down").on(
-        mouseenter: ->
-            $(".ui-slider-vertical").show()
-        mouseleave: ->
-            $(".ui-slider-vertical").hide()
-      );
-      $(".ui-slider-vertical").on(
-        mouseenter: ->
-            $(".ui-slider-vertical").show()
-        mouseleave: ->
-            $(".ui-slider-vertical").hide()
-      );
-
-      #hides the volume slider on load
-      $(".ui-slider-vertical").hide()
-
-
-      # -----------------------------------------
-      # Add timeline comment visualizer stage
-      # -----------------------------------------
-      stage = new createjs.Stage("comment-timeline-canvas")
-      stage.on("stagemousedown", (evt)->
-        console.log("clicked stage")
-        canvasWidth = document.getElementById('comment-timeline-canvas').width
-        timeline.seekDirectToX((evt.stageX).toPrecision(2), canvasWidth)
-      )
-      $(window).resize( ->
-        console.log('resize')
-        window.maintainAspectRatio()
-        window.getComments(stage)
-      );
+    timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController, -> 
       window.getComments(stage)
     )
+    console.log "after timeline"
+
+
+    if window.showSubtitles? and window.showSubtitles
+      window.toggleSubtitles()
+
+
+    # Test reportOnDeck
+    console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
+    reportOnDeck = (ondecks) ->
+        console.log ondecks
+
+    timeline.onNewOnDeckURIs(reportOnDeck)
+
+    window.timeline = timeline
+
+    # -----------------------------------------
+    # Input-field JQuery
+    #-----------------------------------------
+    $('#input-field').focus( ->
+      if this.value is this.defaultValue
+        this.value = '';
+        $(this).removeClass('inputDefault');
+      #else
+      #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
+    ).blur( ->
+      if this.value is ''
+        this.value = this.defaultValue;
+        $(this).addClass('inputDefault');
+    ).keypress((e)->
+      if e.which is 13 then submitComment()
+    )
+
+    # -----------------------------------------
+    # Volume-related JQuery
+    # -----------------------------------------
+    $( "#slider-vertical" ).slider(
+      orientation: "vertical",
+      range: "min",
+      min: 0,
+      max: 100,
+      value: 95,
+      slide: ( event, ui )->
+        video_playing.changeVolume(ui.value/100)
+    );
+
+    $(".icon-volume-down").on(
+      mouseenter: ->
+          $(".ui-slider-vertical").show()
+      mouseleave: ->
+          $(".ui-slider-vertical").hide()
+    );
+    $(".ui-slider-vertical").on(
+      mouseenter: ->
+          $(".ui-slider-vertical").show()
+      mouseleave: ->
+          $(".ui-slider-vertical").hide()
+    );
+
+    #hides the volume slider on load
+    $(".ui-slider-vertical").hide()
+
+
+    # -----------------------------------------
+    # Add timeline comment visualizer stage
+    # -----------------------------------------
+    stage = new createjs.Stage("comment-timeline-canvas")
+    stage.on("stagemousedown", (evt)->
+      console.log("clicked stage")
+      canvasWidth = document.getElementById('comment-timeline-canvas').width
+      timeline.seekDirectToX((evt.stageX).toPrecision(2), canvasWidth)
+    )
+    $(window).resize( ->
+      console.log('resize')
+      window.maintainAspectRatio()
+      window.getComments(stage)
+    );
+    $(window).resize()
+    
