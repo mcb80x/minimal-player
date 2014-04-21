@@ -211,21 +211,22 @@ window.draw = (comments, stage)->
     percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth/100)).toPrecision(2)
     line = new createjs.Shape()
     line.graphics.beginFill("3d3d3d").drawRect(percentAcrossCanvas,0,2,canvasWidth)
-    line.x = percentAcrossCanvas
-    line.y = 0
-    line.w = 2
-    line.h = canvasWidth
+    line.canvasX = percentAcrossCanvas
+    line.canvasY = 0
+    line.canvasW = 2
+    line.canvasH = canvasWidth
     # Draws comments to timeline
     stage.addChild(line)
     do(comment)->
       line.on("mouseover", (event)->
         target = event.target;
-        target.graphics.clear().beginFill("33cc33").drawRect(target.x, target.y, target.w, target.h).endFill();
+        target.graphics.clear().beginFill("33cc33").drawRect(target.canvasX, target.canvasY, target.canvasW, target.canvasH).endFill();
         stage.update()
+        displayComment(comment)
       )
       line.on("mouseout", (event)->
         target = event.target;
-        target.graphics.clear().beginFill("3d3d3d").drawRect(target.x, target.y, target.w, target.h).endFill();
+        target.graphics.clear().beginFill("3d3d3d").drawRect(target.canvasX, target.canvasY, target.canvasW, target.canvasH).endFill();
         stage.update()
       )
   stage.update()

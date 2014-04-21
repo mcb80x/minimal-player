@@ -249,13 +249,14 @@
       line.on("mouseover", function(event) {
         var target;
         target = event.target;
-        target.graphics.clear().beginFill("33cc33").drawRect(target.x, target.y, target.w, target.h).endFill();
-        return stage.update();
+        target.graphics.clear().beginFill("33cc33").drawRect(target.canvasX, target.canvasY, target.canvasW, target.canvasH).endFill();
+        stage.update();
+        return displayComment(comment);
       });
       return line.on("mouseout", function(event) {
         var target;
         target = event.target;
-        target.graphics.clear().beginFill("3d3d3d").drawRect(target.x, target.y, target.w, target.h).endFill();
+        target.graphics.clear().beginFill("3d3d3d").drawRect(target.canvasX, target.canvasY, target.canvasW, target.canvasH).endFill();
         return stage.update();
       });
     };
@@ -265,10 +266,10 @@
       percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth / 100)).toPrecision(2);
       line = new createjs.Shape();
       line.graphics.beginFill("3d3d3d").drawRect(percentAcrossCanvas, 0, 2, canvasWidth);
-      line.x = percentAcrossCanvas;
-      line.y = 0;
-      line.w = 2;
-      line.h = canvasWidth;
+      line.canvasX = percentAcrossCanvas;
+      line.canvasY = 0;
+      line.canvasW = 2;
+      line.canvasH = canvasWidth;
       stage.addChild(line);
       _fn(comment);
     }
