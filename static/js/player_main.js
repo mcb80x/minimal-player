@@ -116,7 +116,17 @@
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
     messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>';
-    return $('#message').html(messageString);
+    $('#message').html(messageString);
+    return $('#message').data('time-displayed', new Date().getTime());
+  };
+
+  window.checkCommentAge = function() {
+    var commentDate, currentDate;
+    commentDate = $('#message').data('time-displayed');
+    currentDate = new Date().getTime();
+    if (currentDate - commentDate > 5000) {
+      return $('#message').html('');
+    }
   };
 
   window.submitComment = function() {
@@ -233,7 +243,7 @@
   };
 
   $(function() {
-    var reportOnDeck, timeline;
+    var intervalHandler, reportOnDeck, timeline;
     window.maintainAspectRatio();
     $(window).resize(function() {
       console.log('resize');
@@ -252,6 +262,9 @@
     timeline.onNewOnDeckURIs(reportOnDeck);
     window.timeline = timeline;
     window.getComments();
+    intervalHandler = setInterval(function() {
+      return window.checkCommentAge();
+    }, 1000);
     $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';

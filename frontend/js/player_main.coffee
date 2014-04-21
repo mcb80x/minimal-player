@@ -93,6 +93,13 @@ window.displayComment = (comment) ->
   $('#likeComment').removeClass('liked')
   messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>'
   $('#message').html(messageString)
+  $('#message').data('time-displayed', new Date().getTime())
+
+window.checkCommentAge = ->
+  # clears comments that are > 5 seconds old
+  commentDate = $('#message').data('time-displayed')
+  currentDate = new Date().getTime()
+  if currentDate - commentDate > 5000 then $('#message').html('')
 
 # -----------------------------------------
 # Database: POST
@@ -218,6 +225,11 @@ $ ->
     window.timeline = timeline
 
     window.getComments()
+
+
+    intervalHandler = setInterval(->
+      window.checkCommentAge()
+    , 1000)
     
 
     # -----------------------------------------
