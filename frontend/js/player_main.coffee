@@ -98,9 +98,10 @@ window.confirmCommentDeletion = ->
 #-----------------------------------------
 
 window.displayComment = (comment) ->
+  $('#message-background').css('display', 'block')
   $('#reportComment').removeClass('flagged')
   $('#likeComment').removeClass('liked')
-  $('#message-container').children().show()
+  $('#message-background').children().show()
   if comment['parent_text'] is ''
     $('#message').html('<span id="messageText">' + comment['text'] + '</span>')
   else
@@ -127,6 +128,7 @@ window.checkCommentAge = ->
     $('#reportComment').removeClass('flagged')
     $('#likeComment').removeClass('liked')
     $('#message-container').children().hide()
+  
 
 
 # -----------------------------------------

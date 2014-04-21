@@ -116,9 +116,10 @@
 
   window.displayComment = function(comment) {
     var commentID, likeValue;
+    $('#message-background').css('display', 'block');
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
-    $('#message-container').children().show();
+    $('#message-background').children().show();
     if (comment['parent_text'] === '') {
       $('#message').html('<span id="messageText">' + comment['text'] + '</span>');
     } else {
