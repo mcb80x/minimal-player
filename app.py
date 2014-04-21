@@ -16,7 +16,7 @@ from flask import (Flask,
                    abort)
 
 # from flask.ext import restful
-from mongokit import Connection, Document
+from mongokit import Connection, Document, ObjectId
 import datetime
 from bson import Binary, Code
 from bson.json_util import dumps
@@ -201,13 +201,27 @@ def comment_post():
 
 @app.route('/like', methods=['POST'])
 def comment_like():
-  comment = connection.Comment.find_one(request.json['selector'])
+  try:
+    request.json['selector']['id']
+  except:
+    comment = connection.Comment.find_one(request.json['selector'])
+  else:
+    query_id = {"_id": ObjectId(request.json['selector']['id'])};
+    comment = connection.Comment.find_one(query_id)
+  
   comment['likes'] = comment['likes']+1
   comment.save()
 
 @app.route('/delete', methods=['POST'])
 def comment_delete():
-  comment = connection.Comment.find_one(request.json['selector'])
+  try:
+    request.json['selector']['id']
+  except:
+    comment = connection.Comment.find_one(request.json['selector'])
+  else:
+    query_id = {"_id": ObjectId(request.json['selector']['id'])};
+    comment = connection.Comment.find_one(query_id)
+
   comment['display'] = 'false'
   comment.save()
 

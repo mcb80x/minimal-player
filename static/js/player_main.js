@@ -77,25 +77,38 @@
   };
 
   window.likeComment = function() {
-    var commentText, likeCount;
+    var commentText, likeCount, queryString;
     commentText = $('#message').text();
     if (!$('#likeComment').hasClass('liked')) {
       $('#likeComment').addClass('liked');
       likeCount = $('#likeCount').text();
       $('#likeCount').text(likeCount + 1);
-      return submitLike(commentText);
+      queryString = $('#message').data('id') === '' ? {
+        'text': $('#message').text()
+      } : {
+        'id': $('#message').data('id')
+      };
+      return submitLike(queryString);
     }
   };
 
   window.confirmCommentDeletion = function() {
-    var comment, commentText;
+    var comment, commentID, commentText;
     comment = $('#message').html();
     commentText = $('#message').text();
+    commentID = $('#message').data('id');
     $('#deleteDialog').dialog();
     $('#commentToDelete').html(comment);
     return $('#confirmDeletion').on('click', function() {
+      var queryString;
       $('#reportComment').addClass('flagged');
-      return deleteComment(commentText);
+      queryString = commentID === '' ? {
+        'text': commentText
+      } : {
+        'id': commentID
+      };
+      console.log('queryString', queryString);
+      return deleteComment(queryString);
     });
   };
 
@@ -159,12 +172,10 @@
     return getComments(stage);
   };
 
-  window.submitLike = function(messageText) {
+  window.submitLike = function(queryObject) {
     var updateParameters;
     updateParameters = {
-      selector: {
-        "text": messageText
-      }
+      selector: queryObject
     };
     return $.ajax({
       type: "POST",
@@ -178,13 +189,11 @@
     });
   };
 
-  window.deleteComment = function(messageText) {
+  window.deleteComment = function(queryObject) {
     var updateParameters;
     $('#deleteDialog').dialog('close');
     updateParameters = {
-      selector: {
-        "text": messageText
-      }
+      selector: queryObject
     };
     return $.ajax({
       type: "POST",

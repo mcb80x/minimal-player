@@ -75,16 +75,20 @@ window.likeComment = ->
     $('#likeComment').addClass('liked')
     likeCount = $('#likeCount').text()
     $('#likeCount').text(likeCount + 1)
-    submitLike(commentText)
+    queryString = if $('#message').data('id') is '' then {'text': $('#message').text()} else {'id': $('#message').data('id')}
+    submitLike(queryString)
 
 window.confirmCommentDeletion = ->
   comment = $('#message').html()
   commentText = $('#message').text()
+  commentID = $('#message').data('id')
   $('#deleteDialog').dialog();
   $('#commentToDelete').html(comment)
   $('#confirmDeletion').on('click', ->
     $('#reportComment').addClass('flagged')
-    deleteComment(commentText)
+    queryString = if commentID is '' then {'text': commentText} else {'id': commentID}
+    console.log('queryString', queryString)
+    deleteComment(queryString)
   )
 
 # -----------------------------------------
@@ -144,9 +148,9 @@ window.submitComment = (stage)->
   });
   getComments(stage)
 
-window.submitLike = (messageText)->
+window.submitLike = (queryObject)->
   updateParameters =
-    selector: {"text": messageText}
+    selector: queryObject
   $.ajax({
     type: "POST",
     url: "/like",
@@ -157,10 +161,10 @@ window.submitLike = (messageText)->
       alert('successful post')
   });
 
-window.deleteComment = (messageText)->
+window.deleteComment = (queryObject)->
   $('#deleteDialog').dialog('close')
   updateParameters =
-    selector: {"text": messageText}
+    selector: queryObject
   $.ajax({
     type: "POST",
     url: "/delete",
