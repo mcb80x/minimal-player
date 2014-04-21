@@ -93,7 +93,7 @@ img.lesson-teaser{float:right;}
 #replyToComment{bottom: 0px; position: absolute; right: 5px;}
 #message-container a{display:none;}
 
-.inputDefault{color: gray;}
+
 
 
 #avatar{background-color: white; border: 1px black solid; display: none; top: 4px; height: 50px; left: 5px; position: absolute; width: 50px; border-radius: 5px;}
@@ -104,7 +104,7 @@ img.lesson-teaser{float:right;}
 #confirmDeletion{background-color: #ccc; border: 1px solid black; border-radius: 15px; font-weight: bold; padding: 5px 0; text-align: center;}
 #confirmDeletion:hover{background-color: #fff;}
 #commentToDelete{padding-bottom: 10px; text-align:center;}
-
+.inputDefault{color: gray;}
 /* --- Volume Control --- */
 a, i{text-decoration: none;}
 .icon-volume-down{color:#999;}

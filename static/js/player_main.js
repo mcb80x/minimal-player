@@ -72,10 +72,8 @@
   };
 
   window.resetInputField = function() {
-    console.log('reset');
-    $('#input-field').val('Say something...').addClass('default');
-    $('#reply-label, #cancel-button').hide();
-    return $('#input-field').css('padding-left', 5);
+    $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5);
+    return $('#reply-label, #cancel-button').hide();
   };
 
   window.likeComment = function() {
@@ -135,7 +133,6 @@
     };
     timestamp = timeline.currentTimelineURI();
     text = $('#reply-label').text() + $('#input-field').val();
-    $('#input-field').val('');
     parent_id = $('#input-field').data('parent_id') || '';
     parent_text = $('#input-field').data('parent_text') || '';
     comment = {
@@ -148,6 +145,7 @@
       parent_text: parent_text
     };
     displayComment(comment);
+    resetInputField();
     $.ajax({
       type: "POST",
       url: "/comments",

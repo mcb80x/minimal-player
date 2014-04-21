@@ -66,10 +66,8 @@ window.replyToComment = () ->
   $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
 
 window.resetInputField = ->
-  console.log('reset')
-  $('#input-field').val('Say something...').addClass('default')
+  $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5);
   $('#reply-label, #cancel-button').hide()
-  $('#input-field').css('padding-left', 5)
 
 window.likeComment = ->
   commentText = $('#message').text()
@@ -113,6 +111,7 @@ window.checkCommentAge = ->
     $('#likeComment').removeClass('liked')
     $('#message-container').children().hide()
 
+
 # -----------------------------------------
 # Database: POST
 #-----------------------------------------
@@ -122,7 +121,6 @@ window.submitComment = (stage)->
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#reply-label').text() + $('#input-field').val()
-  $('#input-field').val('')
   parent_id = $('#input-field').data('parent_id') || ''
   parent_text = $('#input-field').data('parent_text') || ''
   comment = 
@@ -134,6 +132,7 @@ window.submitComment = (stage)->
               parent_id: parent_id
               parent_text: parent_text
   displayComment(comment)
+  resetInputField()
   $.ajax({
     type: "POST",
     url: "/comments",
