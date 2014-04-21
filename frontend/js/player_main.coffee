@@ -32,7 +32,12 @@ window.toggleComments = ->
   maintainAspectRatio()
 
 window.toggleHelp = ->
+  window.timeline.pause()
   $('#helpDialog').dialog()
+  $('#helpDialog').bind('dialogclose', ->
+     window.timeline.play()
+  )
+
 
 window.maintainAspectRatio = ->
   console.log('maintain')
@@ -84,10 +89,15 @@ window.confirmCommentDeletion = ->
   comment = $('#message').html()
   commentText = $('#message').text()
   commentID = $('#message').data('id')
+  window.timeline.pause()
   $('#deleteDialog').dialog();
+  $('#deleteDialog').bind('dialogclose', ->
+     window.timeline.play()
+  )
   $('#commentToDelete').html(comment)
   $('#confirmDeletion').on('click', ->
     $('#reportComment').addClass('flagged')
+    window.timeline.play()
     queryString = if commentID is '' then {'text': commentText} else {'id': commentID}
     console.log('queryString', queryString)
     deleteComment(queryString)
@@ -341,12 +351,20 @@ $ ->
       if this.value is this.defaultValue
         this.value = '';
         $(this).removeClass('inputDefault');
+        $('#input-field').css('height', 52)
+        #$(this).css('height', 52)
       #else
       #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
     ).blur( ->
       if this.value is ''
         this.value = this.defaultValue;
         $(this).addClass('inputDefault');
+        $('#input-field').css('height', 25)
+      #$(this).css('height', 25)
     ).keypress((e)->
-      if e.which is 13 then submitComment(stage)
+      if e.which is 13
+        submitComment(stage)
+        $('#input-field').blur()
     )
+
+    $('#input-field').blur()

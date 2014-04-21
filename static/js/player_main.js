@@ -40,7 +40,11 @@
   };
 
   window.toggleHelp = function() {
-    return $('#helpDialog').dialog();
+    window.timeline.pause();
+    $('#helpDialog').dialog();
+    return $('#helpDialog').bind('dialogclose', function() {
+      return window.timeline.play();
+    });
   };
 
   window.maintainAspectRatio = function() {
@@ -99,11 +103,16 @@
     comment = $('#message').html();
     commentText = $('#message').text();
     commentID = $('#message').data('id');
+    window.timeline.pause();
     $('#deleteDialog').dialog();
+    $('#deleteDialog').bind('dialogclose', function() {
+      return window.timeline.play();
+    });
     $('#commentToDelete').html(comment);
     return $('#confirmDeletion').on('click', function() {
       var queryString;
       $('#reportComment').addClass('flagged');
+      window.timeline.play();
       queryString = commentID === '' ? {
         'text': commentText
       } : {
@@ -362,21 +371,25 @@
       return window.getComments(stage);
     });
     $(window).resize();
-    return $('#input-field').focus(function() {
+    $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';
-        return $(this).removeClass('inputDefault');
+        $(this).removeClass('inputDefault');
+        return $('#input-field').css('height', 52);
       }
     }).blur(function() {
       if (this.value === '') {
         this.value = this.defaultValue;
-        return $(this).addClass('inputDefault');
+        $(this).addClass('inputDefault');
+        return $('#input-field').css('height', 25);
       }
     }).keypress(function(e) {
       if (e.which === 13) {
-        return submitComment(stage);
+        submitComment(stage);
+        return $('#input-field').blur();
       }
     });
+    return $('#input-field').blur();
   });
 
 }).call(this);
