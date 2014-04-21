@@ -1,7 +1,3 @@
-
-window.tempComments = [{"text": "early comment", "created_at": "2014-04-10T18:56:02.796132", "parent_id": "", "video": "fleet_week", "user": {"username": "testuser", "userID": "12dfeg92345301xsdfj", "img": "http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r"}, "timestamp": "fleet_week/19.86303", "_id": {"$oid": "534b04b5074fb2b003e30879"}, "display": "true", "discussion_id": ""}]
-window.stage
-
 # -----------------------------------------
 # Player Configuration/Display
 #-----------------------------------------
@@ -162,13 +158,14 @@ window.addCallback = (comments)->
     if comment['display'] is "true"
       timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
 
-window.getComments = ->
+window.getComments = (stage)->
   $.ajax({
     type: "GET",
     url: "/comments",
     dataType: "json",
     success: (comments)->
       addCallback(comments)
+      draw(comments, stage)
       return
   });
 
@@ -177,19 +174,16 @@ window.getComments = ->
 #-----------------------------------------
 
 window.draw = (comments, stage)->
-  console.log("draw")
+  console.log("drawing comments on timeline")
   stage.autoClear = true; 
   stage.removeAllChildren();
   canvas = document.getElementById('comment-timeline-canvas')
   canvas.width = $('#comment-timeline-canvas-container').width()
   canvas.height = $('#comment-timeline-canvas-container').height()
   for comment in comments
-    console.log("drawing comment")
     canvasWidth = document.getElementById('comment-timeline-canvas').width
-    console.log canvasWidth
-    percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * canvasWidth/100).toPrecision(2)
+    percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth/100)).toPrecision(2)
     line = new createjs.Shape()
-    console.log(line)
     line.graphics.beginFill("3d3d3d").drawRect(percentAcrossCanvas,0,2,canvasWidth)
     # Draws comments to timeline
     stage.addChild(line)
@@ -199,100 +193,93 @@ window.timelineURItoX = (uri) ->
   time = uri.split('/')[1]
   (time/timeline.totalDuration) * 100
 
-window.resizeCommentCanvas = (tempComments, stage) ->
-  draw(tempComments, stage)
-
 # --------------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------------
 $ ->
     window.maintainAspectRatio()
 
-    $(window).resize( ->
-      console.log('resize')
-      window.maintainAspectRatio()
-      window.resizeCommentCanvas(tempComments, stage)
-    );
-
     # Create a scene controller
     window.sceneController = new lessonplan.SceneController(sceneList)
 
     # Create a new timeline object, and associate it with the scene
-    timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController)
-
-    if window.showSubtitles? and window.showSubtitles
-      window.toggleSubtitles()
+    timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController, ->
+      console.log "after timeline"
 
 
-    # Test reportOnDeck
-    console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
-    reportOnDeck = (ondecks) ->
-        console.log ondecks
+      if window.showSubtitles? and window.showSubtitles
+        window.toggleSubtitles()
 
-    timeline.onNewOnDeckURIs(reportOnDeck)
 
-    window.timeline = timeline
+      # Test reportOnDeck
+      console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
+      reportOnDeck = (ondecks) ->
+          console.log ondecks
 
-    window.getComments()
-    
+      timeline.onNewOnDeckURIs(reportOnDeck)
 
-    # -----------------------------------------
-    # Input-field JQuery
-    #-----------------------------------------
-    $('#input-field').focus( ->
-      if this.value is this.defaultValue
-        this.value = '';
-        $(this).removeClass('inputDefault');
-      #else
-      #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
-    ).blur( ->
-      if this.value is ''
-        this.value = this.defaultValue;
-        $(this).addClass('inputDefault');
-    ).keypress((e)->
-      if e.which is 13 then submitComment()
+      window.timeline = timeline
+
+      # -----------------------------------------
+      # Input-field JQuery
+      #-----------------------------------------
+      $('#input-field').focus( ->
+        if this.value is this.defaultValue
+          this.value = '';
+          $(this).removeClass('inputDefault');
+        #else
+        #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
+      ).blur( ->
+        if this.value is ''
+          this.value = this.defaultValue;
+          $(this).addClass('inputDefault');
+      ).keypress((e)->
+        if e.which is 13 then submitComment()
+      )
+
+      # -----------------------------------------
+      # Volume-related JQuery
+      # -----------------------------------------
+      $( "#slider-vertical" ).slider(
+        orientation: "vertical",
+        range: "min",
+        min: 0,
+        max: 100,
+        value: 95,
+        slide: ( event, ui )->
+          video_playing.changeVolume(ui.value/100)
+      );
+
+      $(".icon-volume-down").on(
+        mouseenter: ->
+            $(".ui-slider-vertical").show()
+        mouseleave: ->
+            $(".ui-slider-vertical").hide()
+      );
+      $(".ui-slider-vertical").on(
+        mouseenter: ->
+            $(".ui-slider-vertical").show()
+        mouseleave: ->
+            $(".ui-slider-vertical").hide()
+      );
+
+      #hides the volume slider on load
+      $(".ui-slider-vertical").hide()
+
+
+      # -----------------------------------------
+      # Add timeline comment visualizer stage
+      # -----------------------------------------
+      stage = new createjs.Stage("comment-timeline-canvas")
+      stage.on("stagemousedown", (evt)->
+        console.log("clicked stage")
+        canvasWidth = document.getElementById('comment-timeline-canvas').width
+        timeline.seekDirectToX((evt.stageX).toPrecision(2), canvasWidth)
+      )
+      $(window).resize( ->
+        console.log('resize')
+        window.maintainAspectRatio()
+        window.getComments(stage)
+      );
+      window.getComments(stage)
     )
-
-    # -----------------------------------------
-    # Volume-related JQuery
-    # -----------------------------------------
-    $( "#slider-vertical" ).slider(
-      orientation: "vertical",
-      range: "min",
-      min: 0,
-      max: 100,
-      value: 95,
-      slide: ( event, ui )->
-        video_playing.changeVolume(ui.value/100)
-    );
-
-    $(".icon-volume-down").on(
-      mouseenter: ->
-          $(".ui-slider-vertical").show()
-      mouseleave: ->
-          $(".ui-slider-vertical").hide()
-    );
-    $(".ui-slider-vertical").on(
-      mouseenter: ->
-          $(".ui-slider-vertical").show()
-      mouseleave: ->
-          $(".ui-slider-vertical").hide()
-    );
-
-    #hides the volume slider on load
-    $(".ui-slider-vertical").hide()
-
-
-    # -----------------------------------------
-    # Add timeline comment visualizer stage
-    # -----------------------------------------
-    window.stage = new createjs.Stage("comment-timeline-canvas")
-    window.stage.on("stagemousedown", (evt)->
-      console.log("clicked stage")
-      canvasWidth = document.getElementById('comment-timeline-canvas').width
-      timeline.seekDirectToX((evt.stageX).toPrecision(2), canvasWidth)
-    )
-    draw(window.tempComments, window.stage)
-    setTimeout(->
-      draw(window.tempComments, window.stage)
-    , 2000)
