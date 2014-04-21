@@ -207,18 +207,19 @@ html
           span#reply-label
           textarea#input-field(rows="2", value="Say something...", placeholder="Say something...", maxlength="100")
         #message-container
-          img#avatar(src='http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&amp;r=r')
-          #message
-          #username
-          #likeCount
-          a(href="javascript:void(0);", onclick="confirmCommentDeletion();")
-            i#reportComment.icon-warning-sign.commentButton(title='Report this comment')
+          #message-background
+            img#avatar(src='http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&amp;r=r')
+            #message
+            #username
+            #likeCount
+            a(href="javascript:void(0);", onclick="confirmCommentDeletion();")
+              i#reportComment.icon-warning-sign.commentButton(title='Report this comment')
 
-          a(href="javascript:void(0);", onclick="likeComment();")
-            i#likeComment.icon-thumbs-up.commentButton(title='Like this comment')
+            a(href="javascript:void(0);", onclick="likeComment();")
+              i#likeComment.icon-thumbs-up.commentButton(title='Like this comment')
 
-          a(href="javascript:void(0);", onclick="replyToComment();")
-            i#replyToComment.icon-mail-forward.commentButton(title='Reply to this comment')
+            a(href="javascript:void(0);", onclick="replyToComment();")
+              i#replyToComment.icon-mail-forward.commentButton(title='Reply to this comment')
 
       #deleteDialog(title="Report this Comment")
         p Inappropriate comments, including spam and harassment are not tolerated. Reporting a comment allows MCB80x to review and remove this content.

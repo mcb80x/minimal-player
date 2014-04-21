@@ -98,9 +98,10 @@ window.confirmCommentDeletion = ->
 #-----------------------------------------
 
 window.displayComment = (comment) ->
+  $('#message-background').css('display', 'block')
   $('#reportComment').removeClass('flagged')
   $('#likeComment').removeClass('liked')
-  $('#message-container').children().show()
+  $('#message-background').children().show()
   if comment['parent_text'] is ''
     $('#message').html('<span id="messageText">' + comment['text'] + '</span>')
   else
@@ -127,6 +128,7 @@ window.checkCommentAge = ->
     $('#reportComment').removeClass('flagged')
     $('#likeComment').removeClass('liked')
     $('#message-container').children().hide()
+  
 
 
 # -----------------------------------------
@@ -221,7 +223,7 @@ window.draw = (comments, stage)->
   canvas = document.getElementById('comment-timeline-canvas')
   canvas.width = $('#comment-timeline-canvas-container').width()
   canvas.height = $('#comment-timeline-canvas-container').height()
-  for comment in comments
+  for comment in comments when comment['display'] isnt 'false'
     canvasWidth = document.getElementById('comment-timeline-canvas').width
     percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth/100)).toPrecision(2)
     line = new createjs.Shape()

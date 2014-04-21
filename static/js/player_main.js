@@ -116,9 +116,10 @@
 
   window.displayComment = function(comment) {
     var commentID, likeValue;
+    $('#message-background').css('display', 'block');
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
-    $('#message-container').children().show();
+    $('#message-background').children().show();
     if (comment['parent_text'] === '') {
       $('#message').html('<span id="messageText">' + comment['text'] + '</span>');
     } else {
@@ -277,6 +278,9 @@
     };
     for (_i = 0, _len = comments.length; _i < _len; _i++) {
       comment = comments[_i];
+      if (!(comment['display'] !== 'false')) {
+        continue;
+      }
       canvasWidth = document.getElementById('comment-timeline-canvas').width;
       percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth / 100)).toPrecision(2);
       line = new createjs.Shape();
