@@ -22,6 +22,19 @@
 
   window.stage;
 
+  window.toggleVolume = function() {
+    video_playing.toggleMute();
+    if (video_playing.muted === true) {
+      return $("#slider-vertical").slider({
+        value: 0
+      });
+    } else {
+      return $("#slider-vertical").slider({
+        value: 100
+      });
+    }
+  };
+
   window.toggleSubtitles = function() {
     if ($('#toggleSubtitles').hasClass('on')) {
       $('#toggleSubtitles').removeClass('on');
@@ -46,6 +59,39 @@
       $('#comment-container').show();
     }
     return maintainAspectRatio();
+  };
+
+  window.maintainAspectRatio = function() {
+    var availableHeight, availableWidth, commentHeight, controlsHeight, newHeight, newWidth, subtitleHeight;
+    console.log('maintain');
+    commentHeight = $('#toggleComments').hasClass('on') ? 60 : 0;
+    subtitleHeight = $('#toggleSubtitles').hasClass('on') ? 60 : 0;
+    controlsHeight = 50;
+    availableHeight = $('#player-wrapper').height() - commentHeight - subtitleHeight - controlsHeight;
+    availableWidth = $('#player-wrapper').width();
+    $('#stage').css('bottom', commentHeight + subtitleHeight + controlsHeight);
+    newWidth = (availableWidth / availableHeight) >= 16 / 9 ? Math.round(availableHeight * (16 / 9)) : availableWidth;
+    newHeight = (availableWidth / availableHeight) >= 16 / 9 ? availableHeight : Math.round(availableWidth * (9 / 16));
+    if (newWidth < availableWidth) {
+      $('#stage').css('left', .5 * (availableWidth - newWidth));
+    } else {
+      $('#stage').css('left', 0);
+    }
+    $('#stage').css('height', newHeight);
+    return $('#stage').css('width', newWidth);
+  };
+
+  window.replyToComment = function() {
+    $('#reply-label').text('@' + $('#messageUsername').text()).show();
+    $('#cancel-button').show();
+    return $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25);
+  };
+
+  window.resetInputField = function() {
+    console.log('reset');
+    $('#input-field').val('Say something...').addClass('default');
+    $('#reply-label, #cancel-button').hide();
+    return $('#input-field').css('padding-left', 5);
   };
 
   window.likeComment = function() {
@@ -104,37 +150,53 @@
     });
   };
 
-  window.maintainAspectRatio = function() {
-    var availableHeight, availableWidth, commentHeight, controlsHeight, newHeight, newWidth, subtitleHeight;
-    console.log('maintain');
-    commentHeight = $('#toggleComments').hasClass('on') ? 60 : 0;
-    subtitleHeight = $('#toggleSubtitles').hasClass('on') ? 60 : 0;
-    controlsHeight = 50;
-    availableHeight = $('#player-wrapper').height() - commentHeight - subtitleHeight - controlsHeight;
-    availableWidth = $('#player-wrapper').width();
-    $('#stage').css('bottom', commentHeight + subtitleHeight + controlsHeight);
-    newWidth = (availableWidth / availableHeight) >= 16 / 9 ? Math.round(availableHeight * (16 / 9)) : availableWidth;
-    newHeight = (availableWidth / availableHeight) >= 16 / 9 ? availableHeight : Math.round(availableWidth * (9 / 16));
-    if (newWidth < availableWidth) {
-      $('#stage').css('left', .5 * (availableWidth - newWidth));
-    } else {
-      $('#stage').css('left', 0);
-    }
-    $('#stage').css('height', newHeight);
-    return $('#stage').css('width', newWidth);
+  window.deleteComment = function(messageText) {
+    var updateParameters;
+    $('#deleteDialog').dialog('close');
+    updateParameters = {
+      selector: {
+        "text": messageText
+      }
+    };
+    return $.ajax({
+      type: "POST",
+      url: "/delete",
+      data: JSON.stringify(updateParameters),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function() {
+        return alert('successful post');
+      }
+    });
   };
 
-  window.toggleVolume = function() {
-    video_playing.toggleMute();
-    if (video_playing.muted === true) {
-      return $("#slider-vertical").slider({
-        value: 0
-      });
-    } else {
-      return $("#slider-vertical").slider({
-        value: 100
-      });
+  window.addCallback = function(comments) {
+    var comment, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = comments.length; _i < _len; _i++) {
+      comment = comments[_i];
+      if (comment['display'] === "true") {
+        _results.push(timeline.atTimelineURI(comment['timestamp'], (function(comment) {
+          return function() {
+            return displayComment(comment);
+          };
+        })(comment)));
+      } else {
+        _results.push(void 0);
+      }
     }
+    return _results;
+  };
+
+  window.getComments = function() {
+    return $.ajax({
+      type: "GET",
+      url: "/comments",
+      dataType: "json",
+      success: function(comments) {
+        addCallback(comments);
+      }
+    });
   };
 
   window.draw = function(comments, stage) {
@@ -167,55 +229,6 @@
 
   window.resizeCommentCanvas = function(tempComments, stage) {
     return draw(tempComments, stage);
-  };
-
-  window.addCallback = function(comments) {
-    var comment, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = comments.length; _i < _len; _i++) {
-      comment = comments[_i];
-      if (comment['display'] === "true") {
-        _results.push(timeline.atTimelineURI(comment['timestamp'], (function(comment) {
-          return function() {
-            return displayComment(comment);
-          };
-        })(comment)));
-      } else {
-        _results.push(void 0);
-      }
-    }
-    return _results;
-  };
-
-  window.getComments = function() {
-    return $.ajax({
-      type: "GET",
-      url: "/comments",
-      dataType: "json",
-      success: function(comments) {
-        addCallback(comments);
-      }
-    });
-  };
-
-  window.deleteComment = function(messageText) {
-    var updateParameters;
-    $('#deleteDialog').dialog('close');
-    updateParameters = {
-      selector: {
-        "text": messageText
-      }
-    };
-    return $.ajax({
-      type: "POST",
-      url: "/delete",
-      data: JSON.stringify(updateParameters),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function() {
-        return alert('successful post');
-      }
-    });
   };
 
   $(function() {

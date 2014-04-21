@@ -1,6 +1,18 @@
 
 window.tempComments = [{"text": "early comment", "created_at": "2014-04-10T18:56:02.796132", "parent_id": "", "video": "fleet_week", "user": {"username": "testuser", "userID": "12dfeg92345301xsdfj", "img": "http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r"}, "timestamp": "fleet_week/19.86303", "_id": {"$oid": "534b04b5074fb2b003e30879"}, "display": "true", "discussion_id": ""}]
 window.stage
+
+# -----------------------------------------
+# Player Configuration
+#-----------------------------------------
+
+window.toggleVolume = ->
+  video_playing.toggleMute()
+  if video_playing.muted is true
+    $( "#slider-vertical" ).slider({value: 0})
+  else
+    $( "#slider-vertical" ).slider({value: 100})
+
 window.toggleSubtitles = ->
   if $('#toggleSubtitles').hasClass('on')
     $('#toggleSubtitles').removeClass('on')
@@ -23,6 +35,41 @@ window.toggleComments = ->
     $('#comment-container').show()
   maintainAspectRatio()
 
+window.maintainAspectRatio = ->
+  console.log('maintain')
+  commentHeight = if $('#toggleComments').hasClass('on') then 60 else 0
+  subtitleHeight = if $('#toggleSubtitles').hasClass('on') then 60 else 0
+  controlsHeight =  50
+
+  availableHeight = $('#player-wrapper').height()-commentHeight-subtitleHeight-controlsHeight
+  availableWidth = $('#player-wrapper').width()
+  
+
+  $('#stage').css('bottom', commentHeight + subtitleHeight + controlsHeight)
+
+  newWidth = if (availableWidth/availableHeight) >= 16/9 then Math.round(availableHeight * (16/9)) else availableWidth
+  newHeight = if (availableWidth/availableHeight) >= 16/9 then availableHeight else Math.round(availableWidth * (9/16))
+
+  if newWidth < availableWidth then $('#stage').css('left', .5*(availableWidth-newWidth)) else $('#stage').css('left', 0)
+
+  $('#stage').css('height', newHeight)
+  $('#stage').css('width', newWidth)
+
+# -----------------------------------------
+# Functions for Comment Buttons
+#-----------------------------------------
+
+window.replyToComment = () ->
+  $('#reply-label').text('@' + $('#messageUsername').text()).show()
+  $('#cancel-button').show()
+  $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
+
+window.resetInputField = ->
+  console.log('reset')
+  $('#input-field').val('Say something...').addClass('default')
+  $('#reply-label, #cancel-button').hide()
+  $('#input-field').css('padding-left', 5)
+
 window.likeComment = ->
   $('#likeComment').addClass('liked')
 
@@ -36,12 +83,19 @@ window.confirmCommentDeletion = ->
     deleteComment(commentText)
   )
 
+# -----------------------------------------
+# Comment Display
+#-----------------------------------------
 
 window.displayComment = (comment) ->
   $('#reportComment').removeClass('flagged')
   $('#likeComment').removeClass('liked')
   messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>'
   $('#message').html(messageString)
+
+# -----------------------------------------
+# Database: POST
+#-----------------------------------------
 
 window.submitComment = ()->
   # HARDCODED - will need to be updated with actual user info once user database is integrated
@@ -68,35 +122,41 @@ window.submitComment = ()->
       alert('successful post')
   });
 
-window.maintainAspectRatio = ->
-  console.log('maintain')
-  commentHeight = if $('#toggleComments').hasClass('on') then 60 else 0
-  subtitleHeight = if $('#toggleSubtitles').hasClass('on') then 60 else 0
-  controlsHeight =  50
-
-  availableHeight = $('#player-wrapper').height()-commentHeight-subtitleHeight-controlsHeight
-  availableWidth = $('#player-wrapper').width()
-  
-
-  $('#stage').css('bottom', commentHeight + subtitleHeight + controlsHeight)
-
-  newWidth = if (availableWidth/availableHeight) >= 16/9 then Math.round(availableHeight * (16/9)) else availableWidth
-  newHeight = if (availableWidth/availableHeight) >= 16/9 then availableHeight else Math.round(availableWidth * (9/16))
-
-  if newWidth < availableWidth then $('#stage').css('left', .5*(availableWidth-newWidth)) else $('#stage').css('left', 0)
-
-  $('#stage').css('height', newHeight)
-  $('#stage').css('width', newWidth)
-
-window.toggleVolume = ->
-  video_playing.toggleMute()
-  if video_playing.muted is true
-    $( "#slider-vertical" ).slider({value: 0})
-  else
-    $( "#slider-vertical" ).slider({value: 100})
+window.deleteComment = (messageText)->
+  $('#deleteDialog').dialog('close')
+  updateParameters =
+    selector: {"text": messageText}
+  $.ajax({
+    type: "POST",
+    url: "/delete",
+    data: JSON.stringify(updateParameters),
+    contentType:"application/json; charset=utf-8",
+    dataType: "json",
+    success: ->
+      alert('successful post')
+  });
 
 # -----------------------------------------
-# Display of Lines on Timeline
+# Database: GET
+#------------------------------------------
+
+window.addCallback = (comments)->
+  for comment in comments
+    if comment['display'] is "true"
+      timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
+
+window.getComments = ->
+  $.ajax({
+    type: "GET",
+    url: "/comments",
+    dataType: "json",
+    success: (comments)->
+      addCallback(comments)
+      return
+  });
+
+# -----------------------------------------
+# Draw Lines on Timeline
 #-----------------------------------------
 
 window.draw = (comments, stage)->
@@ -125,40 +185,9 @@ window.timelineURItoX = (uri) ->
 window.resizeCommentCanvas = (tempComments, stage) ->
   draw(tempComments, stage)
 
-# -----------------------------------------
-# GET comments from Database
-#-----------------------------------------
+# --------------------------------------------------------------------------------
 
-# Gets all comments from db, installs their callbacks
-window.addCallback = (comments)->
-  for comment in comments
-    if comment['display'] is "true"
-      timeline.atTimelineURI(comment['timestamp'], do(comment)-> ->displayComment(comment))
-
-window.getComments = ->
-  $.ajax({
-    type: "GET",
-    url: "/comments",
-    dataType: "json",
-    success: (comments)->
-      addCallback(comments)
-      return
-  });
-
-window.deleteComment = (messageText)->
-  $('#deleteDialog').dialog('close')
-  updateParameters =
-    selector: {"text": messageText}
-  $.ajax({
-    type: "POST",
-    url: "/delete",
-    data: JSON.stringify(updateParameters),
-    contentType:"application/json; charset=utf-8",
-    dataType: "json",
-    success: ->
-      alert('successful post')
-  });
-
+#---------------------------------------------------------------------------------
 $ ->
     window.maintainAspectRatio()
 
