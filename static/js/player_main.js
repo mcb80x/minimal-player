@@ -73,10 +73,12 @@
   };
 
   window.likeComment = function() {
-    var commentText;
+    var commentText, likeCount;
     commentText = $('#message').text();
     if (!$('#likeComment').hasClass('liked')) {
       $('#likeComment').addClass('liked');
+      likeCount = $('#likeCount').text();
+      $('#likeCount').text(likeCount + 1);
       return submitLike(commentText);
     }
   };
@@ -94,11 +96,14 @@
   };
 
   window.displayComment = function(comment) {
+    var likeValue;
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
     $('#message-container').children().show();
     $('#message').text(comment['text']);
-    return $('#username').text('@ ' + comment['user']['username']);
+    $('#username').text('@ ' + comment['user']['username']);
+    likeValue = comment['likes'] > 0 ? comment['likes'] : '';
+    return $('#likeCount').text(likeValue);
   };
 
   window.submitComment = function() {
@@ -109,7 +114,7 @@
       img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'
     };
     timestamp = timeline.currentTimelineURI();
-    text = $('#input-field').val();
+    text = $('#reply-label').text() + $('#input-field').val();
     $('#input-field').val('');
     comment = {
       video: timestamp.split('/')[0],

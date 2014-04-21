@@ -70,6 +70,8 @@ window.likeComment = ->
   commentText = $('#message').text()
   if !$('#likeComment').hasClass('liked')
     $('#likeComment').addClass('liked')
+    likeCount = $('#likeCount').text()
+    $('#likeCount').text(likeCount + 1)
     submitLike(commentText)
 
 window.confirmCommentDeletion = ->
@@ -92,6 +94,8 @@ window.displayComment = (comment) ->
   $('#message-container').children().show()
   $('#message').text(comment['text'])
   $('#username').text('@ ' + comment['user']['username'])
+  likeValue = if comment['likes'] > 0 then comment['likes'] else ''
+  $('#likeCount').text(likeValue)
 
 # -----------------------------------------
 # Database: POST
@@ -101,7 +105,7 @@ window.submitComment = ()->
   # HARDCODED - will need to be updated with actual user info once user database is integrated
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
-  text = $('#input-field').val()
+  text = $('#reply-label').text() + $('#input-field').val()
   $('#input-field').val('')
   comment = 
               video: timestamp.split('/')[0]
