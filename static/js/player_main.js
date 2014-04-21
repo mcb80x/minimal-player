@@ -232,17 +232,17 @@
     canvas = document.getElementById('comment-timeline-canvas');
     canvas.width = $('#comment-timeline-canvas-container').width();
     canvas.height = $('#comment-timeline-canvas-container').height();
-    _fn = function(comment) {
+    _fn = function() {
       line.on("mouseover", function(event) {
         var target;
         target = event.target;
-        target.graphics.clear().beginFill("33cc33").drawRect(target.x, target.y, target.w, target.h).endFill();
+        target.graphics.clear().beginFill("33cc33").drawRect(target.canvasX, target.canvasY, target.canvasW, target.canvasH).endFill();
         return stage.update();
       });
       return line.on("mouseout", function(event) {
         var target;
         target = event.target;
-        target.graphics.clear().beginFill("3d3d3d").drawRect(target.x, target.y, target.w, target.h).endFill();
+        target.graphics.clear().beginFill("3d3d3d").drawRect(target.canvasX, target.canvasY, target.canvasW, target.canvasH).endFill();
         return stage.update();
       });
     };
@@ -252,12 +252,12 @@
       percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth / 100)).toPrecision(2);
       line = new createjs.Shape();
       line.graphics.beginFill("3d3d3d").drawRect(percentAcrossCanvas, 0, 2, canvasWidth);
-      line.x = percentAcrossCanvas;
-      line.y = 0;
-      line.w = 2;
-      line.h = canvasWidth;
+      line.canvasX = percentAcrossCanvas;
+      line.canvasY = 0;
+      line.canvasW = 2;
+      line.canvasH = canvasWidth;
       stage.addChild(line);
-      _fn(comment);
+      _fn();
     }
     return stage.update();
   };
