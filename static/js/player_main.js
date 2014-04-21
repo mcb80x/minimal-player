@@ -42,6 +42,10 @@
   window.toggleHelp = function() {
     window.timeline.pause();
     $('#helpDialog').dialog();
+    $('#helpDialog').dialog("option", "width", 400);
+    $('#closeHelpDialog').click(function() {
+      return $('#helpDialog').dialog('close');
+    });
     return $('#helpDialog').bind('dialogclose', function() {
       return window.timeline.play();
     });
@@ -105,6 +109,7 @@
     commentID = $('#message').data('id');
     window.timeline.pause();
     $('#deleteDialog').dialog();
+    $('#deleteDialog').dialog("option", "width", 400);
     $('#deleteDialog').bind('dialogclose', function() {
       return window.timeline.play();
     });

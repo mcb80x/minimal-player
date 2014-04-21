@@ -34,6 +34,10 @@ window.toggleComments = ->
 window.toggleHelp = ->
   window.timeline.pause()
   $('#helpDialog').dialog()
+  $('#helpDialog').dialog("option", "width", 400)
+  $('#closeHelpDialog').click( ->
+    $('#helpDialog').dialog('close')
+  )
   $('#helpDialog').bind('dialogclose', ->
      window.timeline.play()
   )
@@ -91,6 +95,7 @@ window.confirmCommentDeletion = ->
   commentID = $('#message').data('id')
   window.timeline.pause()
   $('#deleteDialog').dialog();
+  $('#deleteDialog').dialog("option", "width", 400);
   $('#deleteDialog').bind('dialogclose', ->
      window.timeline.play()
   )
