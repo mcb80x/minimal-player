@@ -31,6 +31,9 @@ window.toggleComments = ->
     $('#comment-container').show()
   maintainAspectRatio()
 
+window.toggleHelp = ->
+  $('#helpDialog').dialog()
+
 window.maintainAspectRatio = ->
   console.log('maintain')
   commentHeight = if $('#toggleComments').hasClass('on') then 60 else 0
@@ -96,6 +99,15 @@ window.displayComment = (comment) ->
   $('#username').text('@ ' + comment['user']['username'])
   likeValue = if comment['likes'] > 0 then comment['likes'] else ''
   $('#likeCount').text(likeValue)
+  $('#message').data('time-created', new Date().getTime())
+
+window.checkCommentAge = ->
+  timeCreated = $('#message').data('time-created')
+  now = new Date().getTime()
+  if (now - timeCreated > 5000)
+    $('#reportComment').removeClass('flagged')
+    $('#likeComment').removeClass('liked')
+    $('#message-container').children().hide()
 
 # -----------------------------------------
 # Database: POST
@@ -216,7 +228,9 @@ $ ->
     if window.showSubtitles? and window.showSubtitles
       window.toggleSubtitles()
 
-
+    intervalHandler = setInterval( ->
+      window.checkCommentAge()
+    , 1000)
     # Test reportOnDeck
     console.log "~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~"
     reportOnDeck = (ondecks) ->

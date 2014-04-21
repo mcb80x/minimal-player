@@ -39,6 +39,10 @@
     return maintainAspectRatio();
   };
 
+  window.toggleHelp = function() {
+    return $('#helpDialog').dialog();
+  };
+
   window.maintainAspectRatio = function() {
     var availableHeight, availableWidth, commentHeight, controlsHeight, newHeight, newWidth, subtitleHeight;
     console.log('maintain');
@@ -103,7 +107,19 @@
     $('#message').text(comment['text']);
     $('#username').text('@ ' + comment['user']['username']);
     likeValue = comment['likes'] > 0 ? comment['likes'] : '';
-    return $('#likeCount').text(likeValue);
+    $('#likeCount').text(likeValue);
+    return $('#message').data('time-created', new Date().getTime());
+  };
+
+  window.checkCommentAge = function() {
+    var now, timeCreated;
+    timeCreated = $('#message').data('time-created');
+    now = new Date().getTime();
+    if (now - timeCreated > 5000) {
+      $('#reportComment').removeClass('flagged');
+      $('#likeComment').removeClass('liked');
+      return $('#message-container').children().hide();
+    }
   };
 
   window.submitComment = function() {
@@ -233,7 +249,7 @@
   };
 
   $(function() {
-    var reportOnDeck, stage, timeline;
+    var intervalHandler, reportOnDeck, stage, timeline;
     $(window).resize();
     window.sceneController = new lessonplan.SceneController(sceneList);
     timeline = new lessonplan.Timeline('#timeline-controls', window.sceneController, function() {
@@ -243,6 +259,9 @@
     if ((window.showSubtitles != null) && window.showSubtitles) {
       window.toggleSubtitles();
     }
+    intervalHandler = setInterval(function() {
+      return window.checkCommentAge();
+    }, 1000);
     console.log("~~~~~~~~~ REPORT ON DECK ~~~~~~~~~~~~~");
     reportOnDeck = function(ondecks) {
       return console.log(ondecks);
