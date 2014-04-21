@@ -60,7 +60,7 @@ window.maintainAspectRatio = ->
 #-----------------------------------------
 
 window.replyToComment = () ->
-  $('#reply-label').text('@' + $('#messageUsername').text()).show()
+  $('#reply-label').text($('#username').text()).show()
   $('#cancel-button').show()
   $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
 
@@ -71,14 +71,14 @@ window.resetInputField = ->
   $('#input-field').css('padding-left', 5)
 
 window.likeComment = ->
-  commentText = $('#messageText').text()
+  commentText = $('#message').text()
   if !$('#likeComment').hasClass('liked')
     $('#likeComment').addClass('liked')
     submitLike(commentText)
 
 window.confirmCommentDeletion = ->
   comment = $('#message').html()
-  commentText = $('#messageText').text()
+  commentText = $('#message').text()
   $('#deleteDialog').dialog();
   $('#commentToDelete').html(comment)
   $('#confirmDeletion').on('click', ->
@@ -93,9 +93,9 @@ window.confirmCommentDeletion = ->
 window.displayComment = (comment) ->
   $('#reportComment').removeClass('flagged')
   $('#likeComment').removeClass('liked')
-  $('#message-container a').show()
-  messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>'
-  $('#message').html(messageString)
+  $('#message-container').children().show()
+  $('#message').text(comment['text'])
+  $('#username').text('@ ' + comment['user']['username'])
 
 # -----------------------------------------
 # Database: POST

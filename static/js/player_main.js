@@ -82,7 +82,7 @@
   };
 
   window.replyToComment = function() {
-    $('#reply-label').text('@' + $('#messageUsername').text()).show();
+    $('#reply-label').text($('#username').text()).show();
     $('#cancel-button').show();
     return $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25);
   };
@@ -96,7 +96,7 @@
 
   window.likeComment = function() {
     var commentText;
-    commentText = $('#messageText').text();
+    commentText = $('#message').text();
     if (!$('#likeComment').hasClass('liked')) {
       $('#likeComment').addClass('liked');
       return submitLike(commentText);
@@ -106,7 +106,7 @@
   window.confirmCommentDeletion = function() {
     var comment, commentText;
     comment = $('#message').html();
-    commentText = $('#messageText').text();
+    commentText = $('#message').text();
     $('#deleteDialog').dialog();
     $('#commentToDelete').html(comment);
     return $('#confirmDeletion').on('click', function() {
@@ -116,12 +116,11 @@
   };
 
   window.displayComment = function(comment) {
-    var messageString;
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
-    $('#message-container a').show();
-    messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>';
-    return $('#message').html(messageString);
+    $('#message-container').children().show();
+    $('#message').text(comment['text']);
+    return $('#username').text('@ ' + comment['user']['username']);
   };
 
   window.submitComment = function() {
