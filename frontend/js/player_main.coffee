@@ -202,8 +202,23 @@ window.draw = (comments, stage)->
     percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth/100)).toPrecision(2)
     line = new createjs.Shape()
     line.graphics.beginFill("3d3d3d").drawRect(percentAcrossCanvas,0,2,canvasWidth)
+    line.x = percentAcrossCanvas
+    line.y = 0
+    line.w = 2
+    line.h = canvasWidth
     # Draws comments to timeline
     stage.addChild(line)
+    do(comment)->
+      line.on("mouseover", (event)->
+        target = event.target;
+        target.graphics.clear().beginFill("33cc33").drawRect(target.x, target.y, target.w, target.h).endFill();
+        stage.update()
+      )
+      line.on("mouseout", (event)->
+        target = event.target;
+        target.graphics.clear().beginFill("3d3d3d").drawRect(target.x, target.y, target.w, target.h).endFill();
+        stage.update()
+      )
   stage.update()
 
 window.timelineURItoX = (uri) ->
@@ -280,6 +295,11 @@ $ ->
       canvasWidth = document.getElementById('comment-timeline-canvas').width
       timeline.seekDirectToX((evt.stageX).toPrecision(2), canvasWidth)
     )
+    stage.enableMouseOver()
+
+    # -----------------------------------------
+    # Resize video controls on window resize
+    # -----------------------------------------
     $(window).resize( ->
       console.log('resize')
       window.maintainAspectRatio()
