@@ -61,6 +61,10 @@
     return maintainAspectRatio();
   };
 
+  window.toggleHelp = function() {
+    return $("#helpDialog").dialog();
+  };
+
   window.maintainAspectRatio = function() {
     var availableHeight, availableWidth, commentHeight, controlsHeight, newHeight, newWidth, subtitleHeight;
     console.log('maintain');

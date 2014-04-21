@@ -35,6 +35,9 @@ window.toggleComments = ->
     $('#comment-container').show()
   maintainAspectRatio()
 
+window.toggleHelp = ->
+  $( "#helpDialog" ).dialog();
+
 window.maintainAspectRatio = ->
   console.log('maintain')
   commentHeight = if $('#toggleComments').hasClass('on') then 60 else 0
