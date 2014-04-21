@@ -3,7 +3,7 @@ window.tempComments = [{"text": "early comment", "created_at": "2014-04-10T18:56
 window.stage
 
 # -----------------------------------------
-# Player Configuration
+# Player Configuration/Display
 #-----------------------------------------
 
 window.toggleVolume = ->
@@ -34,9 +34,6 @@ window.toggleComments = ->
     $('#controls').css('bottom', 60)
     $('#comment-container').show()
   maintainAspectRatio()
-
-window.toggleHelp = ->
-  $( "#helpDialog" ).dialog();
 
 window.maintainAspectRatio = ->
   console.log('maintain')
@@ -74,7 +71,10 @@ window.resetInputField = ->
   $('#input-field').css('padding-left', 5)
 
 window.likeComment = ->
-  $('#likeComment').addClass('liked')
+  commentText = $('#messageText').text()
+  if !$('#likeComment').hasClass('liked')
+    $('#likeComment').addClass('liked')
+    submitLike(commentText)
 
 window.confirmCommentDeletion = ->
   comment = $('#message').html()
@@ -91,20 +91,11 @@ window.confirmCommentDeletion = ->
 #-----------------------------------------
 
 window.displayComment = (comment) ->
-  $('#message-container a').show()
   $('#reportComment').removeClass('flagged')
   $('#likeComment').removeClass('liked')
+  $('#message-container a').show()
   messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>'
   $('#message').html(messageString)
-  $('#message').data('time-displayed', new Date().getTime())
-
-window.checkCommentAge = ->
-  # clears comments that are > 5 seconds old
-  commentDate = $('#message').data('time-displayed')
-  currentDate = new Date().getTime()
-  if currentDate - commentDate > 5000
-    $('#message-container a').hide()
-    $('#message').html('')
 
 # -----------------------------------------
 # Database: POST
@@ -129,6 +120,19 @@ window.submitComment = ()->
     type: "POST",
     url: "/comments",
     data: JSON.stringify(comment),
+    contentType:"application/json; charset=utf-8",
+    dataType: "json",
+    success: ->
+      alert('successful post')
+  });
+
+window.submitLike = (messageText)->
+  updateParameters =
+    selector: {"text": messageText}
+  $.ajax({
+    type: "POST",
+    url: "/like",
+    data: JSON.stringify(updateParameters),
     contentType:"application/json; charset=utf-8",
     dataType: "json",
     success: ->
@@ -230,11 +234,6 @@ $ ->
     window.timeline = timeline
 
     window.getComments()
-
-
-    intervalHandler = setInterval(->
-      window.checkCommentAge()
-    , 1000)
     
 
     # -----------------------------------------

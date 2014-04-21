@@ -61,10 +61,6 @@
     return maintainAspectRatio();
   };
 
-  window.toggleHelp = function() {
-    return $("#helpDialog").dialog();
-  };
-
   window.maintainAspectRatio = function() {
     var availableHeight, availableWidth, commentHeight, controlsHeight, newHeight, newWidth, subtitleHeight;
     console.log('maintain');
@@ -99,7 +95,12 @@
   };
 
   window.likeComment = function() {
-    return $('#likeComment').addClass('liked');
+    var commentText;
+    commentText = $('#messageText').text();
+    if (!$('#likeComment').hasClass('liked')) {
+      $('#likeComment').addClass('liked');
+      return submitLike(commentText);
+    }
   };
 
   window.confirmCommentDeletion = function() {
@@ -116,22 +117,11 @@
 
   window.displayComment = function(comment) {
     var messageString;
-    $('#message-container a').show();
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
+    $('#message-container a').show();
     messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>';
-    $('#message').html(messageString);
-    return $('#message').data('time-displayed', new Date().getTime());
-  };
-
-  window.checkCommentAge = function() {
-    var commentDate, currentDate;
-    commentDate = $('#message').data('time-displayed');
-    currentDate = new Date().getTime();
-    if (currentDate - commentDate > 5000) {
-      $('#message-container a').hide();
-      return $('#message').html('');
-    }
+    return $('#message').html(messageString);
   };
 
   window.submitComment = function() {
@@ -158,6 +148,25 @@
       type: "POST",
       url: "/comments",
       data: JSON.stringify(comment),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function() {
+        return alert('successful post');
+      }
+    });
+  };
+
+  window.submitLike = function(messageText) {
+    var updateParameters;
+    updateParameters = {
+      selector: {
+        "text": messageText
+      }
+    };
+    return $.ajax({
+      type: "POST",
+      url: "/like",
+      data: JSON.stringify(updateParameters),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function() {
@@ -248,7 +257,7 @@
   };
 
   $(function() {
-    var intervalHandler, reportOnDeck, timeline;
+    var reportOnDeck, timeline;
     window.maintainAspectRatio();
     $(window).resize(function() {
       console.log('resize');
@@ -267,9 +276,6 @@
     timeline.onNewOnDeckURIs(reportOnDeck);
     window.timeline = timeline;
     window.getComments();
-    intervalHandler = setInterval(function() {
-      return window.checkCommentAge();
-    }, 1000);
     $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';
