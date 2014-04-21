@@ -80,29 +80,27 @@ img.lesson-teaser{float:right;}
 #toggleSubtitles{color: #ccc; left: 30px; height: 20px; position: absolute; width: 30px; text-align: center;}
 #toggleComments:hover, #toggleSubtitles:hover{color:#0F0;}
 #comment-container{bottom: 0px; display: none; height:60px; position: absolute; text-align: right; width:100%;}
-#input-container{background-color: darkgray; height: 30px; position: absolute; top: 0px; width: 100%;}
+#input-container{background-color: darkgray; height: 100%; position: absolute; top: 0px; width: 40%;}
 #cancel-button{display:none; left: 5%; height: 20px; position: absolute; top: 3px; width: 20px; z-index: 1000;}
 #cancel-button:hover{color: #c33;}
 #reply-label{display:none; left: 5%; padding-left: 25px; position: absolute; top: 3px;}
-#input-field{background-color: lightgray; border: 1px solid white; border-radius: 15px; box-sizing: border-box; color: black; font-size: 16px; margin: 0% 5%; padding-left: 10px; width: 90%;}
+#input-field{background-color: lightgray; border: 1px solid white; box-sizing: border-box; color: black; font-size: 16px; padding-left: 10px; width: 98%; top:0px; position: absolute; left: 5px; height: 52px; outline: none; border-radius: 5px;}
 
-.commentButton{color:#ccc; font-size: 18px; padding: 3px; text-decoration: none;}
+.commentButton{color:#ccc; font-size: 24px; padding: 3px; text-decoration: none;}
 .commentButton:hover, .liked{color:#0F0;}
-#reportComment{bottom: 5px; position: absolute; right: 95px;}
+#reportComment{bottom: 2px; font-size: 14px; position: absolute; left: 45px;}
 #reportComment:hover, .flagged{color:#c33;}
-#likeComment{bottom: 5px; position: absolute; right: 65px;}
-#replyToComment{bottom: 5px; position: absolute; right: 35px;}
+#likeComment{top: 0px; position: absolute; right:  5px;}
+#replyToComment{bottom: 0px; position: absolute; right: 5px;}
 #message-container a{display:none;}
 
 .inputDefault{color: gray;}
 
-#previousMessage{bottom: 15px; color: white; font-size: 30px; left: 5px; position: absolute; text-align: center; width: 30px;}
-#avatar{background-color: white; border: 1px black solid; bottom: 3px; height: 29px; left: 50px; position: absolute; width: 30px;}
-#message{height: 30px; left: 100px; position: absolute; text-align: left; right: 125px;}
-#messageUsername{color: black; font-family: Lato, sans-serif; font-size: 18px; font-style: italic;}
-#messageText{color: black; font-family: Lato, sans-serif; font-size: 18px; padding-left: 5px;}
-#nextMessage{bottom: 15px; color: white; font-size: 30px; position: absolute; right: 5px; text-align: center; width: 30px;}
-#message-container{background-color: darkgray; bottom: 0px; height: 30px; position: absolute; width: 100%;}
+
+#avatar{background-color: white; border: 1px black solid; display: none; top: 0px; height: 50px; left: 5px; position: absolute; width: 50px; border-radius: 5px;}
+#username{color: black; font-family: Lato, sans-serif; font-size: 18px; font-style: italic; left: 65px; top: -5px; text-align: left; position: absolute; letter-spacing: 3px;}
+#message{color: black; font-family: Lato, sans-serif; font-size: 16px; padding-left: 5px; word-wrap: break-word; text-align: left; left: 62px; position: absolute; right: 40px; top: 15px;}
+#message-container{background-color: darkgray; bottom: 0px; height: 100%; left: 40%; position: absolute; width: 60%; border-bottom-right-radius:15px;}
 #confirmDeletion{background-color: #ccc; border: 1px solid black; border-radius: 15px; font-weight: bold; padding: 5px 0; text-align: center;}
 #confirmDeletion:hover{background-color: #fff;}
 #commentToDelete{padding-bottom: 10px; text-align:center;}
