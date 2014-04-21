@@ -122,7 +122,7 @@
     }
   };
 
-  window.submitComment = function() {
+  window.submitComment = function(stage) {
     var comment, text, timestamp, user;
     user = {
       username: 'testuser',
@@ -142,7 +142,7 @@
       discussion_id: ''
     };
     displayComment(comment);
-    return $.ajax({
+    $.ajax({
       type: "POST",
       url: "/comments",
       data: JSON.stringify(comment),
@@ -152,6 +152,7 @@
         return alert('successful post');
       }
     });
+    return getComments(stage);
   };
 
   window.submitLike = function(messageText) {
@@ -268,21 +269,6 @@
     };
     timeline.onNewOnDeckURIs(reportOnDeck);
     window.timeline = timeline;
-    $('#input-field').focus(function() {
-      if (this.value === this.defaultValue) {
-        this.value = '';
-        return $(this).removeClass('inputDefault');
-      }
-    }).blur(function() {
-      if (this.value === '') {
-        this.value = this.defaultValue;
-        return $(this).addClass('inputDefault');
-      }
-    }).keypress(function(e) {
-      if (e.which === 13) {
-        return submitComment();
-      }
-    });
     $("#slider-vertical").slider({
       orientation: "vertical",
       range: "min",
@@ -322,7 +308,22 @@
       window.maintainAspectRatio();
       return window.getComments(stage);
     });
-    return $(window).resize();
+    $(window).resize();
+    return $('#input-field').focus(function() {
+      if (this.value === this.defaultValue) {
+        this.value = '';
+        return $(this).removeClass('inputDefault');
+      }
+    }).blur(function() {
+      if (this.value === '') {
+        this.value = this.defaultValue;
+        return $(this).addClass('inputDefault');
+      }
+    }).keypress(function(e) {
+      if (e.which === 13) {
+        return submitComment(stage);
+      }
+    });
   });
 
 }).call(this);

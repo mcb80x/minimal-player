@@ -113,7 +113,7 @@ window.checkCommentAge = ->
 # Database: POST
 #-----------------------------------------
 
-window.submitComment = ()->
+window.submitComment = (stage)->
   # HARDCODED - will need to be updated with actual user info once user database is integrated
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
@@ -137,6 +137,7 @@ window.submitComment = ()->
     success: ->
       alert('successful post')
   });
+  getComments(stage)
 
 window.submitLike = (messageText)->
   updateParameters =
@@ -241,23 +242,6 @@ $ ->
     window.timeline = timeline
 
     # -----------------------------------------
-    # Input-field JQuery
-    #-----------------------------------------
-    $('#input-field').focus( ->
-      if this.value is this.defaultValue
-        this.value = '';
-        $(this).removeClass('inputDefault');
-      #else
-      #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
-    ).blur( ->
-      if this.value is ''
-        this.value = this.defaultValue;
-        $(this).addClass('inputDefault');
-    ).keypress((e)->
-      if e.which is 13 then submitComment()
-    )
-
-    # -----------------------------------------
     # Volume-related JQuery
     # -----------------------------------------
     $( "#slider-vertical" ).slider(
@@ -303,3 +287,19 @@ $ ->
     );
     $(window).resize()
     
+    # -----------------------------------------
+    # Input-field JQuery
+    #-----------------------------------------
+    $('#input-field').focus( ->
+      if this.value is this.defaultValue
+        this.value = '';
+        $(this).removeClass('inputDefault');
+      #else
+      #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
+    ).blur( ->
+      if this.value is ''
+        this.value = this.defaultValue;
+        $(this).addClass('inputDefault');
+    ).keypress((e)->
+      if e.which is 13 then submitComment(stage)
+    )
