@@ -66,6 +66,7 @@
   window.replyToComment = function() {
     $('#reply-label').text($('#username').text()).show();
     $('#input-field').data('parent_id', $('#message').data('id'));
+    $('#input-field').data('parent_username', $('#username').text());
     $('#input-field').data('parent_text', $('#message').text());
     $('#cancel-button').show();
     return $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25);
@@ -73,6 +74,7 @@
 
   window.resetInputField = function() {
     $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5);
+    $('#input-field').removeData();
     return $('#reply-label, #cancel-button').hide();
   };
 
@@ -118,7 +120,7 @@
     $('#likeComment').removeClass('liked');
     $('#message-container').children().show();
     $('#message').text(comment['text']);
-    $('#username').text('@ ' + comment['user']['username']);
+    $('#username').text(comment['user']['username']);
     likeValue = comment['likes'] > 0 ? comment['likes'] : '';
     $('#likeCount').text(likeValue);
     $('#message').data('time-created', new Date().getTime());
@@ -138,7 +140,7 @@
   };
 
   window.submitComment = function(stage) {
-    var comment, parent_id, parent_text, text, timestamp, user;
+    var comment, parent_id, parent_text, parent_username, text, timestamp, user;
     user = {
       username: 'testuser',
       userID: '12dfeg92345301xsdfj',
@@ -147,6 +149,7 @@
     timestamp = timeline.currentTimelineURI();
     text = $('#reply-label').text() + $('#input-field').val();
     parent_id = $('#input-field').data('parent_id') || '';
+    parent_username = $('#input-field').data('parent_username') || '';
     parent_text = $('#input-field').data('parent_text') || '';
     comment = {
       video: timestamp.split('/')[0],
@@ -155,6 +158,7 @@
       text: text,
       display: 'true',
       parent_id: parent_id,
+      parent_username: parent_username,
       parent_text: parent_text
     };
     displayComment(comment);

@@ -61,12 +61,14 @@ window.maintainAspectRatio = ->
 window.replyToComment = () ->
   $('#reply-label').text($('#username').text()).show()
   $('#input-field').data('parent_id', $('#message').data('id'))
+  $('#input-field').data('parent_username', $('#username').text())
   $('#input-field').data('parent_text', $('#message').text())
   $('#cancel-button').show()
   $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
 
 window.resetInputField = ->
   $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5);
+  $('#input-field').removeData()
   $('#reply-label, #cancel-button').hide()
 
 window.likeComment = ->
@@ -100,7 +102,7 @@ window.displayComment = (comment) ->
   $('#likeComment').removeClass('liked')
   $('#message-container').children().show()
   $('#message').text(comment['text'])
-  $('#username').text('@ ' + comment['user']['username'])
+  $('#username').text(comment['user']['username'])
   likeValue = if comment['likes'] > 0 then comment['likes'] else ''
   $('#likeCount').text(likeValue)
   $('#message').data('time-created', new Date().getTime())
@@ -126,14 +128,16 @@ window.submitComment = (stage)->
   timestamp = timeline.currentTimelineURI()
   text = $('#reply-label').text() + $('#input-field').val()
   parent_id = $('#input-field').data('parent_id') || ''
+  parent_username = $('#input-field').data('parent_username') || ''
   parent_text = $('#input-field').data('parent_text') || ''
   comment = 
               video: timestamp.split('/')[0]
               user: user,
               timestamp: timestamp, 
               text: text,
-              display: 'true'
-              parent_id: parent_id
+              display: 'true',
+              parent_id: parent_id,
+              parent_username: parent_username,
               parent_text: parent_text
   displayComment(comment)
   resetInputField()

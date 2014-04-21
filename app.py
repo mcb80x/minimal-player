@@ -79,6 +79,7 @@ class Comment(Document):
         'timestamp': basestring,
         'display': basestring,
         'parent_id': basestring,
+        'parent_username': basestring,
         'parent_text': basestring,
         'likes': int
     }
@@ -193,6 +194,7 @@ def comment_post():
     newComment['user'] = request.json['user']
     newComment['display'] = request.json['display']
     newComment['parent_id'] = request.json['parent_id']
+    newComment['parent_username'] = request.json['parent_username']
     newComment['parent_text'] = request.json['parent_text']
     newComment['likes'] = 0
     newComment.save()
