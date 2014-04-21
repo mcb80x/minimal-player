@@ -232,12 +232,13 @@
     canvas = document.getElementById('comment-timeline-canvas');
     canvas.width = $('#comment-timeline-canvas-container').width();
     canvas.height = $('#comment-timeline-canvas-container').height();
-    _fn = function() {
+    _fn = function(comment) {
       line.on("mouseover", function(event) {
         var target;
         target = event.target;
         target.graphics.clear().beginFill("33cc33").drawRect(target.canvasX, target.canvasY, target.canvasW, target.canvasH).endFill();
-        return stage.update();
+        stage.update();
+        return displayComment(comment);
       });
       return line.on("mouseout", function(event) {
         var target;
@@ -257,7 +258,7 @@
       line.canvasW = 2;
       line.canvasH = canvasWidth;
       stage.addChild(line);
-      _fn();
+      _fn(comment);
     }
     return stage.update();
   };

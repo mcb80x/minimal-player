@@ -208,11 +208,12 @@ window.draw = (comments, stage)->
     line.canvasH = canvasWidth
     # Draws comments to timeline
     stage.addChild(line)
-    do()->
+    do(comment)->
       line.on("mouseover", (event)->
         target = event.target;
         target.graphics.clear().beginFill("33cc33").drawRect(target.canvasX, target.canvasY, target.canvasW, target.canvasH).endFill();
         stage.update()
+        displayComment(comment)
       )
       line.on("mouseout", (event)->
         target = event.target;
