@@ -74,6 +74,8 @@ window.likeComment = ->
   commentText = $('#message').text()
   if !$('#likeComment').hasClass('liked')
     $('#likeComment').addClass('liked')
+    likeCount = $('#likeCount').text()
+    $('#likeCount').text(likeCount + 1)
     submitLike(commentText)
 
 window.confirmCommentDeletion = ->
@@ -96,6 +98,8 @@ window.displayComment = (comment) ->
   $('#message-container').children().show()
   $('#message').text(comment['text'])
   $('#username').text('@ ' + comment['user']['username'])
+  likeValue = if comment['likes'] > 0 then comment['likes'] else ''
+  $('#likeCount').text(likeValue)
 
 # -----------------------------------------
 # Database: POST

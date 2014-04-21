@@ -95,10 +95,12 @@
   };
 
   window.likeComment = function() {
-    var commentText;
+    var commentText, likeCount;
     commentText = $('#message').text();
     if (!$('#likeComment').hasClass('liked')) {
       $('#likeComment').addClass('liked');
+      likeCount = $('#likeCount').text();
+      $('#likeCount').text(likeCount + 1);
       return submitLike(commentText);
     }
   };
@@ -116,11 +118,14 @@
   };
 
   window.displayComment = function(comment) {
+    var likeValue;
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
     $('#message-container').children().show();
     $('#message').text(comment['text']);
-    return $('#username').text('@ ' + comment['user']['username']);
+    $('#username').text('@ ' + comment['user']['username']);
+    likeValue = comment['likes'] > 0 ? comment['likes'] : '';
+    return $('#likeCount').text(likeValue);
   };
 
   window.submitComment = function() {
