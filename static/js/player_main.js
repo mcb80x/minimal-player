@@ -65,42 +65,55 @@
 
   window.replyToComment = function() {
     $('#reply-label').text($('#username').text()).show();
+    $('#input-field').data('parent_id', $('#message').data('id'));
+    $('#input-field').data('parent_text', $('#message').text());
     $('#cancel-button').show();
     return $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25);
   };
 
   window.resetInputField = function() {
-    console.log('reset');
-    $('#input-field').val('Say something...').addClass('default');
-    $('#reply-label, #cancel-button').hide();
-    return $('#input-field').css('padding-left', 5);
+    $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5);
+    return $('#reply-label, #cancel-button').hide();
   };
 
   window.likeComment = function() {
-    var commentText, likeCount;
+    var commentText, likeCount, queryString;
     commentText = $('#message').text();
     if (!$('#likeComment').hasClass('liked')) {
       $('#likeComment').addClass('liked');
       likeCount = $('#likeCount').text();
       $('#likeCount').text(likeCount + 1);
-      return submitLike(commentText);
+      queryString = $('#message').data('id') === '' ? {
+        'text': $('#message').text()
+      } : {
+        'id': $('#message').data('id')
+      };
+      return submitLike(queryString);
     }
   };
 
   window.confirmCommentDeletion = function() {
-    var comment, commentText;
+    var comment, commentID, commentText;
     comment = $('#message').html();
     commentText = $('#message').text();
+    commentID = $('#message').data('id');
     $('#deleteDialog').dialog();
     $('#commentToDelete').html(comment);
     return $('#confirmDeletion').on('click', function() {
+      var queryString;
       $('#reportComment').addClass('flagged');
-      return deleteComment(commentText);
+      queryString = commentID === '' ? {
+        'text': commentText
+      } : {
+        'id': commentID
+      };
+      console.log('queryString', queryString);
+      return deleteComment(queryString);
     });
   };
 
   window.displayComment = function(comment) {
-    var likeValue;
+    var commentID, likeValue;
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
     $('#message-container').children().show();
@@ -108,7 +121,9 @@
     $('#username').text('@ ' + comment['user']['username']);
     likeValue = comment['likes'] > 0 ? comment['likes'] : '';
     $('#likeCount').text(likeValue);
-    return $('#message').data('time-created', new Date().getTime());
+    $('#message').data('time-created', new Date().getTime());
+    commentID = comment['_id'] != null ? comment['_id']['$oid'] : '';
+    return $('#message').data('id', commentID);
   };
 
   window.checkCommentAge = function() {
@@ -123,7 +138,7 @@
   };
 
   window.submitComment = function(stage) {
-    var comment, text, timestamp, user;
+    var comment, parent_id, parent_text, text, timestamp, user;
     user = {
       username: 'testuser',
       userID: '12dfeg92345301xsdfj',
@@ -131,17 +146,19 @@
     };
     timestamp = timeline.currentTimelineURI();
     text = $('#reply-label').text() + $('#input-field').val();
-    $('#input-field').val('');
+    parent_id = $('#input-field').data('parent_id') || '';
+    parent_text = $('#input-field').data('parent_text') || '';
     comment = {
       video: timestamp.split('/')[0],
       user: user,
       timestamp: timestamp,
       text: text,
       display: 'true',
-      parent_id: '',
-      discussion_id: ''
+      parent_id: parent_id,
+      parent_text: parent_text
     };
     displayComment(comment);
+    resetInputField();
     $.ajax({
       type: "POST",
       url: "/comments",
@@ -155,12 +172,10 @@
     return getComments(stage);
   };
 
-  window.submitLike = function(messageText) {
+  window.submitLike = function(queryObject) {
     var updateParameters;
     updateParameters = {
-      selector: {
-        "text": messageText
-      }
+      selector: queryObject
     };
     return $.ajax({
       type: "POST",
@@ -174,13 +189,11 @@
     });
   };
 
-  window.deleteComment = function(messageText) {
+  window.deleteComment = function(queryObject) {
     var updateParameters;
     $('#deleteDialog').dialog('close');
     updateParameters = {
-      selector: {
-        "text": messageText
-      }
+      selector: queryObject
     };
     return $.ajax({
       type: "POST",

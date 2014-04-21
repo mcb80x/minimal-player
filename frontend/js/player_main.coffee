@@ -60,14 +60,14 @@ window.maintainAspectRatio = ->
 
 window.replyToComment = () ->
   $('#reply-label').text($('#username').text()).show()
+  $('#input-field').data('parent_id', $('#message').data('id'))
+  $('#input-field').data('parent_text', $('#message').text())
   $('#cancel-button').show()
   $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
 
 window.resetInputField = ->
-  console.log('reset')
-  $('#input-field').val('Say something...').addClass('default')
+  $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5);
   $('#reply-label, #cancel-button').hide()
-  $('#input-field').css('padding-left', 5)
 
 window.likeComment = ->
   commentText = $('#message').text()
@@ -75,16 +75,20 @@ window.likeComment = ->
     $('#likeComment').addClass('liked')
     likeCount = $('#likeCount').text()
     $('#likeCount').text(likeCount + 1)
-    submitLike(commentText)
+    queryString = if $('#message').data('id') is '' then {'text': $('#message').text()} else {'id': $('#message').data('id')}
+    submitLike(queryString)
 
 window.confirmCommentDeletion = ->
   comment = $('#message').html()
   commentText = $('#message').text()
+  commentID = $('#message').data('id')
   $('#deleteDialog').dialog();
   $('#commentToDelete').html(comment)
   $('#confirmDeletion').on('click', ->
     $('#reportComment').addClass('flagged')
-    deleteComment(commentText)
+    queryString = if commentID is '' then {'text': commentText} else {'id': commentID}
+    console.log('queryString', queryString)
+    deleteComment(queryString)
   )
 
 # -----------------------------------------
@@ -100,6 +104,8 @@ window.displayComment = (comment) ->
   likeValue = if comment['likes'] > 0 then comment['likes'] else ''
   $('#likeCount').text(likeValue)
   $('#message').data('time-created', new Date().getTime())
+  commentID = if comment['_id']? then comment['_id']['$oid'] else ''
+  $('#message').data('id', commentID)
 
 window.checkCommentAge = ->
   timeCreated = $('#message').data('time-created')
@@ -108,6 +114,7 @@ window.checkCommentAge = ->
     $('#reportComment').removeClass('flagged')
     $('#likeComment').removeClass('liked')
     $('#message-container').children().hide()
+
 
 # -----------------------------------------
 # Database: POST
@@ -118,16 +125,18 @@ window.submitComment = (stage)->
   user = {username: 'testuser', userID: '12dfeg92345301xsdfj', img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'}
   timestamp = timeline.currentTimelineURI()
   text = $('#reply-label').text() + $('#input-field').val()
-  $('#input-field').val('')
+  parent_id = $('#input-field').data('parent_id') || ''
+  parent_text = $('#input-field').data('parent_text') || ''
   comment = 
               video: timestamp.split('/')[0]
               user: user,
               timestamp: timestamp, 
               text: text,
               display: 'true'
-              parent_id: ''
-              discussion_id: ''
+              parent_id: parent_id
+              parent_text: parent_text
   displayComment(comment)
+  resetInputField()
   $.ajax({
     type: "POST",
     url: "/comments",
@@ -139,9 +148,9 @@ window.submitComment = (stage)->
   });
   getComments(stage)
 
-window.submitLike = (messageText)->
+window.submitLike = (queryObject)->
   updateParameters =
-    selector: {"text": messageText}
+    selector: queryObject
   $.ajax({
     type: "POST",
     url: "/like",
@@ -152,10 +161,10 @@ window.submitLike = (messageText)->
       alert('successful post')
   });
 
-window.deleteComment = (messageText)->
+window.deleteComment = (queryObject)->
   $('#deleteDialog').dialog('close')
   updateParameters =
-    selector: {"text": messageText}
+    selector: queryObject
   $.ajax({
     type: "POST",
     url: "/delete",
