@@ -79,7 +79,8 @@ class Comment(Document):
         'timestamp': basestring,
         'display': basestring,
         'parent_id': basestring,
-        'discussion_id': basestring #ids are basestring because mongokit is not recognising objid
+        'discussion_id': basestring, #ids are basestring because mongokit is not recognising objid
+        'likes': int
     }
     default_values = {'created_at': datetime.datetime.utcnow().isoformat(), 'display': 'true'} #format: ISODate("2014-04-04T02:45:04.226Z")
     required_fields = ['video', 'user', 'text', 'created_at', 'timestamp', 'display']
@@ -193,12 +194,19 @@ def comment_post():
     newComment['display'] = request.json['display']
     newComment['parent_id'] = request.json['parent_id']
     newComment['discussion_id'] = request.json['discussion_id']
+    newComment['likes'] = 0
     newComment.save()
 
     return 'COMMENTS POST'
 
+@app.route('/like', methods=['POST'])
+def comment_like():
+  comment = connection.Comment.find_one(request.json['selector'])
+  comment['likes'] = comment['likes']+1
+  comment.save()
+
 @app.route('/delete', methods=['POST'])
-def comment_edit():
+def comment_delete():
   comment = connection.Comment.find_one(request.json['selector'])
   comment['display'] = 'false'
   comment.save()
