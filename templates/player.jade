@@ -158,7 +158,7 @@ html
           a(href='download-link')
             i#videoDownload.icon-download.navButton(title='Download Video')
 
-          a(href="javascript:void(0);", onclick="toggleSubtitles();")
+          a(href="javascript:void(0);", onclick="toggleHelp();")
             i#toggleHelp.icon-question.navButton(title='Help!')
 
       #controls
@@ -225,6 +225,10 @@ html
         p Are you sure you want to report this comment?
         #commentToDelete
         #confirmDeletion Report Comment
+
+      #helpDialog(title="Help")
+        p Welcome to MCB80x's video layout!
+        p Hover over icons at any time during the video to see what they do.
 
 
     //- #alt-player-link

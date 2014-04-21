@@ -61,6 +61,10 @@
     return maintainAspectRatio();
   };
 
+  window.toggleHelp = function() {
+    return $("#helpDialog").dialog();
+  };
+
   window.maintainAspectRatio = function() {
     var availableHeight, availableWidth, commentHeight, controlsHeight, newHeight, newWidth, subtitleHeight;
     console.log('maintain');
@@ -112,10 +116,22 @@
 
   window.displayComment = function(comment) {
     var messageString;
+    $('#message-container a').show();
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
     messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>';
-    return $('#message').html(messageString);
+    $('#message').html(messageString);
+    return $('#message').data('time-displayed', new Date().getTime());
+  };
+
+  window.checkCommentAge = function() {
+    var commentDate, currentDate;
+    commentDate = $('#message').data('time-displayed');
+    currentDate = new Date().getTime();
+    if (currentDate - commentDate > 5000) {
+      $('#message-container a').hide();
+      return $('#message').html('');
+    }
   };
 
   window.submitComment = function() {
@@ -232,7 +248,7 @@
   };
 
   $(function() {
-    var reportOnDeck, timeline;
+    var intervalHandler, reportOnDeck, timeline;
     window.maintainAspectRatio();
     $(window).resize(function() {
       console.log('resize');
@@ -251,6 +267,9 @@
     timeline.onNewOnDeckURIs(reportOnDeck);
     window.timeline = timeline;
     window.getComments();
+    intervalHandler = setInterval(function() {
+      return window.checkCommentAge();
+    }, 1000);
     $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';
