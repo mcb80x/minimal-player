@@ -85,13 +85,17 @@ img.lesson-teaser{float:right;}
 #cancel-button:hover{color: #c33;}
 #reply-label{display:none; left: 5%; padding-left: 25px; position: absolute; top: 3px;}
 #input-field{background-color: lightgray; border: 1px solid white; border-radius: 15px; box-sizing: border-box; color: black; font-size: 16px; margin: 0% 5%; padding-left: 10px; width: 90%;}
+
 .commentButton{color:#ccc; font-size: 18px; padding: 3px; text-decoration: none;}
 .commentButton:hover, .liked{color:#0F0;}
 #reportComment{bottom: 5px; position: absolute; right: 95px;}
 #reportComment:hover, .flagged{color:#c33;}
 #likeComment{bottom: 5px; position: absolute; right: 65px;}
 #replyToComment{bottom: 5px; position: absolute; right: 35px;}
+#message-container a{display:none;}
+
 .inputDefault{color: gray;}
+
 #previousMessage{bottom: 15px; color: white; font-size: 30px; left: 5px; position: absolute; text-align: center; width: 30px;}
 #avatar{background-color: white; border: 1px black solid; bottom: 3px; height: 29px; left: 50px; position: absolute; width: 30px;}
 #message{height: 30px; left: 100px; position: absolute; text-align: left; right: 125px;}

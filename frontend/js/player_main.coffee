@@ -88,6 +88,7 @@ window.confirmCommentDeletion = ->
 #-----------------------------------------
 
 window.displayComment = (comment) ->
+  $('#message-container a').show()
   $('#reportComment').removeClass('flagged')
   $('#likeComment').removeClass('liked')
   messageString = '<span id="messageUsername">' + comment['user']['username'] + ': </span><span id="messageText">' + comment['text'] + '</span>'
