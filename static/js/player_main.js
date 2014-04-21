@@ -225,20 +225,39 @@
   };
 
   window.draw = function(comments, stage) {
-    var canvas, canvasWidth, comment, line, percentAcrossCanvas, _i, _len;
+    var canvas, canvasWidth, comment, line, percentAcrossCanvas, _fn, _i, _len;
     console.log("drawing comments on timeline");
     stage.autoClear = true;
     stage.removeAllChildren();
     canvas = document.getElementById('comment-timeline-canvas');
     canvas.width = $('#comment-timeline-canvas-container').width();
     canvas.height = $('#comment-timeline-canvas-container').height();
+    _fn = function(comment) {
+      line.on("mouseover", function(event) {
+        var target;
+        target = event.target;
+        target.graphics.clear().beginFill("33cc33").drawRect(target.x, target.y, target.w, target.h).endFill();
+        return stage.update();
+      });
+      return line.on("mouseout", function(event) {
+        var target;
+        target = event.target;
+        target.graphics.clear().beginFill("3d3d3d").drawRect(target.x, target.y, target.w, target.h).endFill();
+        return stage.update();
+      });
+    };
     for (_i = 0, _len = comments.length; _i < _len; _i++) {
       comment = comments[_i];
       canvasWidth = document.getElementById('comment-timeline-canvas').width;
       percentAcrossCanvas = (timelineURItoX(comment['timestamp']) * (canvasWidth / 100)).toPrecision(2);
       line = new createjs.Shape();
       line.graphics.beginFill("3d3d3d").drawRect(percentAcrossCanvas, 0, 2, canvasWidth);
+      line.x = percentAcrossCanvas;
+      line.y = 0;
+      line.w = 2;
+      line.h = canvasWidth;
       stage.addChild(line);
+      _fn(comment);
     }
     return stage.update();
   };
@@ -303,6 +322,7 @@
       canvasWidth = document.getElementById('comment-timeline-canvas').width;
       return timeline.seekDirectToX(evt.stageX.toPrecision(2), canvasWidth);
     });
+    stage.enableMouseOver();
     $(window).resize(function() {
       console.log('resize');
       window.maintainAspectRatio();
