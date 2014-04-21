@@ -119,7 +119,18 @@
     $('#reportComment').removeClass('flagged');
     $('#likeComment').removeClass('liked');
     $('#message-container').children().show();
-    $('#message').text(comment['text']);
+    if (comment['parent_text'] === '') {
+      $('#message').html('<span id="messageText">' + comment['text'] + '</span>');
+    } else {
+      $('#message').html('<span id="messageParent">@' + comment['parent_username'] + ' </span><span class="messageText">' + comment['text'] + '</span>');
+      $('#messageParent').hover(function() {
+        var $parentDetail;
+        $parentDetail = $('<div/>').addClass('parentDetail').html(comment['parent_text']);
+        return $('#messageParent').append($parentDetail);
+      }, function() {
+        return $('.parentDetail').remove();
+      });
+    }
     $('#username').text(comment['user']['username']);
     likeValue = comment['likes'] > 0 ? comment['likes'] : '';
     $('#likeCount').text(likeValue);
@@ -147,7 +158,7 @@
       img: 'http://www.gravatar.com/avatar/705a657e42d328a1eaac27fbd83eeda2?s=200&r=r'
     };
     timestamp = timeline.currentTimelineURI();
-    text = $('#reply-label').text() + $('#input-field').val();
+    text = $('#input-field').val();
     parent_id = $('#input-field').data('parent_id') || '';
     parent_username = $('#input-field').data('parent_username') || '';
     parent_text = $('#input-field').data('parent_text') || '';
