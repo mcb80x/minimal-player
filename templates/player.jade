@@ -191,13 +191,13 @@ html
               div#comment-timeline-canvas-container
                 canvas#comment-timeline-canvas
 
-          #clock
+          #clock(title="Remaining Video")
             span#clock-text 00:00
           
           //- i.volume-icon.icon-volume-down
           
           #volume-icon
-            a(href="javascript:void(0);", onclick="toggleVolume();")
+            a(href="javascript:void(0);", onclick="toggleVolume();", title="Adjust volume")
               i(class="icon-volume-down icon-2x")
           div#slider-vertical
 
@@ -225,11 +225,12 @@ html
         p Inappropriate comments, including spam and harassment are not tolerated. Reporting a comment allows MCB80x to review and remove this content.
         p Are you sure you want to report this comment?
         #commentToDelete
-        #confirmDeletion Report Comment
+        #confirmDeletion.dialogButton Report Comment
 
       #helpDialog(title="Help")
         p Welcome to MCB80x's video layout!
         p Hover over icons at any time during the video to see what they do.
+        #closeHelpDialog.dialogButton OK
 
 
     //- #alt-player-link

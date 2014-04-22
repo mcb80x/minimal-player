@@ -40,18 +40,25 @@
   };
 
   window.toggleHelp = function() {
-    return $('#helpDialog').dialog();
+    var $helpDialog;
+    $helpDialog = $('#helpDialog');
+    window.timeline.pause();
+    $helpDialog.dialog().dialog("option", "width", 400);
+    $('#closeHelpDialog').click(function() {
+      return $helpDialog.dialog('close');
+    });
+    return $helpDialog.bind('dialogclose', function() {
+      return window.timeline.play();
+    });
   };
 
   window.maintainAspectRatio = function() {
     var availableHeight, availableWidth, commentHeight, controlsHeight, newHeight, newWidth, subtitleHeight;
-    console.log('maintain');
     commentHeight = $('#toggleComments').hasClass('on') ? 60 : 0;
     subtitleHeight = $('#toggleSubtitles').hasClass('on') ? 60 : 0;
     controlsHeight = 50;
     availableHeight = $('#player-wrapper').height() - commentHeight - subtitleHeight - controlsHeight;
     availableWidth = $('#player-wrapper').width();
-    $('#stage').css('bottom', commentHeight + subtitleHeight + controlsHeight);
     newWidth = (availableWidth / availableHeight) >= 16 / 9 ? Math.round(availableHeight * (16 / 9)) : availableWidth;
     newHeight = (availableWidth / availableHeight) >= 16 / 9 ? availableHeight : Math.round(availableWidth * (9 / 16));
     if (newWidth < availableWidth) {
@@ -59,32 +66,31 @@
     } else {
       $('#stage').css('left', 0);
     }
-    $('#stage').css('height', newHeight);
-    return $('#stage').css('width', newWidth);
+    return $('#stage').css('height', newHeight).css('width', newWidth).css('bottom', commentHeight + subtitleHeight + controlsHeight);
   };
 
   window.replyToComment = function() {
-    $('#reply-label').text($('#username').text()).show();
-    $('#input-field').data('parent_id', $('#message').data('id'));
-    $('#input-field').data('parent_username', $('#username').text());
-    $('#input-field').data('parent_text', $('#message').text());
-    $('#cancel-button').show();
-    return $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25);
+    var $inputField;
+    $inputField = $('#input-field');
+    $('#reply-label').text('@' + $('#username').text()).show();
+    $inputField.data('parent_id', $('#message').data('id'));
+    $inputField.data('parent_username', $('#username').text());
+    $inputField.data('parent_text', $('#message').text());
+    $inputField.css('padding-left', $('#reply-label').width() + 6 + 25);
+    return $('#cancel-button').show();
   };
 
   window.resetInputField = function() {
-    $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5);
-    $('#input-field').removeData();
+    $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5).removeData();
     return $('#reply-label, #cancel-button').hide();
   };
 
   window.likeComment = function() {
-    var commentText, likeCount, queryString;
-    commentText = $('#message').text();
+    var count, queryString;
     if (!$('#likeComment').hasClass('liked')) {
+      count = $('#likeCount').text() || 0;
+      $('#likeCount').text(parseInt(count) + 1);
       $('#likeComment').addClass('liked');
-      likeCount = $('#likeCount').text();
-      $('#likeCount').text(likeCount + 1);
       queryString = $('#message').data('id') === '' ? {
         'text': $('#message').text()
       } : {
@@ -95,21 +101,25 @@
   };
 
   window.confirmCommentDeletion = function() {
-    var comment, commentID, commentText;
-    comment = $('#message').html();
-    commentText = $('#message').text();
-    commentID = $('#message').data('id');
-    $('#deleteDialog').dialog();
+    var $message, comment, commentID, commentText;
+    $message = $('#message');
+    comment = $message.html();
+    commentText = $message.text();
+    commentID = $message.data('id');
+    window.timeline.pause();
+    $('#deleteDialog').dialog().dialog("option", "width", 400).bind('dialogclose', function() {
+      return window.timeline.play();
+    });
     $('#commentToDelete').html(comment);
     return $('#confirmDeletion').on('click', function() {
       var queryString;
       $('#reportComment').addClass('flagged');
+      window.timeline.play();
       queryString = commentID === '' ? {
         'text': commentText
       } : {
         'id': commentID
       };
-      console.log('queryString', queryString);
       return deleteComment(queryString);
     });
   };
@@ -135,9 +145,8 @@
     $('#username').text(comment['user']['username']);
     likeValue = comment['likes'] > 0 ? comment['likes'] : '';
     $('#likeCount').text(likeValue);
-    $('#message').data('time-created', new Date().getTime());
     commentID = comment['_id'] != null ? comment['_id']['$oid'] : '';
-    return $('#message').data('id', commentID);
+    return $('#message').data('time-created', new Date().getTime()).data('id', commentID);
   };
 
   window.checkCommentAge = function() {
@@ -255,7 +264,6 @@
 
   window.draw = function(comments, stage) {
     var canvas, canvasWidth, comment, line, percentAcrossCanvas, _fn, _i, _len;
-    console.log("drawing comments on timeline");
     stage.autoClear = true;
     stage.removeAllChildren();
     canvas = document.getElementById('comment-timeline-canvas');
@@ -351,32 +359,34 @@
     stage = new createjs.Stage("comment-timeline-canvas");
     stage.on("stagemousedown", function(evt) {
       var canvasWidth;
-      console.log("clicked stage");
       canvasWidth = document.getElementById('comment-timeline-canvas').width;
       return timeline.seekDirectToX(evt.stageX.toPrecision(2), canvasWidth);
     });
     stage.enableMouseOver();
     $(window).resize(function() {
-      console.log('resize');
       window.maintainAspectRatio();
       return window.getComments(stage);
     });
     $(window).resize();
-    return $('#input-field').focus(function() {
+    $('#input-field').focus(function() {
       if (this.value === this.defaultValue) {
         this.value = '';
-        return $(this).removeClass('inputDefault');
+        $(this).removeClass('inputDefault');
+        return $('#input-field').css('height', 52);
       }
     }).blur(function() {
       if (this.value === '') {
         this.value = this.defaultValue;
-        return $(this).addClass('inputDefault');
+        $(this).addClass('inputDefault');
+        return $('#input-field').css('height', 25);
       }
     }).keypress(function(e) {
       if (e.which === 13) {
-        return submitComment(stage);
+        submitComment(stage);
+        return $('#input-field').blur();
       }
     });
+    return $('#input-field').blur();
   });
 
 }).call(this);

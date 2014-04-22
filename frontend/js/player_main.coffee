@@ -32,10 +32,18 @@ window.toggleComments = ->
   maintainAspectRatio()
 
 window.toggleHelp = ->
-  $('#helpDialog').dialog()
+  $helpDialog = $('#helpDialog')
+
+  window.timeline.pause()
+  $helpDialog.dialog().dialog("option", "width", 400)
+  $('#closeHelpDialog').click( ->
+    $helpDialog.dialog('close')
+  )
+  $helpDialog.bind('dialogclose', ->
+     window.timeline.play()
+  )
 
 window.maintainAspectRatio = ->
-  console.log('maintain')
   commentHeight = if $('#toggleComments').hasClass('on') then 60 else 0
   subtitleHeight = if $('#toggleSubtitles').hasClass('on') then 60 else 0
   controlsHeight =  50
@@ -43,53 +51,53 @@ window.maintainAspectRatio = ->
   availableHeight = $('#player-wrapper').height()-commentHeight-subtitleHeight-controlsHeight
   availableWidth = $('#player-wrapper').width()
   
-
-  $('#stage').css('bottom', commentHeight + subtitleHeight + controlsHeight)
-
   newWidth = if (availableWidth/availableHeight) >= 16/9 then Math.round(availableHeight * (16/9)) else availableWidth
   newHeight = if (availableWidth/availableHeight) >= 16/9 then availableHeight else Math.round(availableWidth * (9/16))
 
   if newWidth < availableWidth then $('#stage').css('left', .5*(availableWidth-newWidth)) else $('#stage').css('left', 0)
 
-  $('#stage').css('height', newHeight)
-  $('#stage').css('width', newWidth)
+  $('#stage').css('height', newHeight).css('width', newWidth).css('bottom', commentHeight + subtitleHeight + controlsHeight)
 
 # -----------------------------------------
 # Functions for Comment Buttons
 #-----------------------------------------
 
 window.replyToComment = () ->
-  $('#reply-label').text($('#username').text()).show()
-  $('#input-field').data('parent_id', $('#message').data('id'))
-  $('#input-field').data('parent_username', $('#username').text())
-  $('#input-field').data('parent_text', $('#message').text())
+  $inputField = $('#input-field')
+  $('#reply-label').text('@' + $('#username').text()).show()
+  $inputField.data('parent_id', $('#message').data('id'))
+  $inputField.data('parent_username', $('#username').text())
+  $inputField.data('parent_text', $('#message').text())
+  $inputField.css('padding-left', $('#reply-label').width() + 6 + 25)
   $('#cancel-button').show()
-  $('#input-field').css('padding-left', $('#reply-label').width() + 6 + 25)
 
 window.resetInputField = ->
-  $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5);
-  $('#input-field').removeData()
+  $('#input-field').blur().val('').addClass('inputDefault').css('padding-left', 5).removeData()
   $('#reply-label, #cancel-button').hide()
 
 window.likeComment = ->
-  commentText = $('#message').text()
   if !$('#likeComment').hasClass('liked')
+    count = $('#likeCount').text() || 0
+    $('#likeCount').text(parseInt(count) + 1)
     $('#likeComment').addClass('liked')
-    likeCount = $('#likeCount').text()
-    $('#likeCount').text(likeCount + 1)
     queryString = if $('#message').data('id') is '' then {'text': $('#message').text()} else {'id': $('#message').data('id')}
     submitLike(queryString)
 
 window.confirmCommentDeletion = ->
-  comment = $('#message').html()
-  commentText = $('#message').text()
-  commentID = $('#message').data('id')
-  $('#deleteDialog').dialog();
+  $message = $('#message')
+  comment = $message.html()
+  commentText = $message.text()
+  commentID = $message.data('id')
+
+  window.timeline.pause()
+  $('#deleteDialog').dialog().dialog("option", "width", 400).bind('dialogclose', ->
+     window.timeline.play()
+  )
   $('#commentToDelete').html(comment)
   $('#confirmDeletion').on('click', ->
     $('#reportComment').addClass('flagged')
+    window.timeline.play()
     queryString = if commentID is '' then {'text': commentText} else {'id': commentID}
-    console.log('queryString', queryString)
     deleteComment(queryString)
   )
 
@@ -102,6 +110,7 @@ window.displayComment = (comment) ->
   $('#reportComment').removeClass('flagged')
   $('#likeComment').removeClass('liked')
   $('#message-background').children().show()
+
   if comment['parent_text'] is ''
     $('#message').html('<span id="messageText">' + comment['text'] + '</span>')
   else
@@ -110,16 +119,16 @@ window.displayComment = (comment) ->
       $parentDetail = $('<div/>').addClass('parentDetail').html(comment['parent_text'])
       $('#messageParent').append($parentDetail);
     , ->
-      #console.log('Hi')
       $('.parentDetail').remove()
     )
 
   $('#username').text(comment['user']['username'])
+
   likeValue = if comment['likes'] > 0 then comment['likes'] else ''
   $('#likeCount').text(likeValue)
-  $('#message').data('time-created', new Date().getTime())
+
   commentID = if comment['_id']? then comment['_id']['$oid'] else ''
-  $('#message').data('id', commentID)
+  $('#message').data('time-created', new Date().getTime()).data('id', commentID)
 
 window.checkCommentAge = ->
   timeCreated = $('#message').data('time-created')
@@ -129,8 +138,6 @@ window.checkCommentAge = ->
     $('#likeComment').removeClass('liked')
     $('#message-container').children().hide()
   
-
-
 # -----------------------------------------
 # Database: POST
 #-----------------------------------------
@@ -217,7 +224,6 @@ window.getComments = (stage)->
 #-----------------------------------------
 
 window.draw = (comments, stage)->
-  console.log("drawing comments on timeline")
   stage.autoClear = true; 
   stage.removeAllChildren();
   canvas = document.getElementById('comment-timeline-canvas')
@@ -318,7 +324,6 @@ $ ->
     # -----------------------------------------
     stage = new createjs.Stage("comment-timeline-canvas")
     stage.on("stagemousedown", (evt)->
-      console.log("clicked stage")
       canvasWidth = document.getElementById('comment-timeline-canvas').width
       timeline.seekDirectToX((evt.stageX).toPrecision(2), canvasWidth)
     )
@@ -328,7 +333,6 @@ $ ->
     # Resize video controls on window resize
     # -----------------------------------------
     $(window).resize( ->
-      console.log('resize')
       window.maintainAspectRatio()
       window.getComments(stage)
     );
@@ -341,12 +345,16 @@ $ ->
       if this.value is this.defaultValue
         this.value = '';
         $(this).removeClass('inputDefault');
-      #else
-      #  $('#input-icon').replaceWith('<i id="cancel-button" class="icon-undo" title="Clear the input field" onclick="resetInputField();"></i>')
+        $('#input-field').css('height', 52)
     ).blur( ->
       if this.value is ''
         this.value = this.defaultValue;
         $(this).addClass('inputDefault');
+        $('#input-field').css('height', 25)
     ).keypress((e)->
-      if e.which is 13 then submitComment(stage)
+      if e.which is 13
+        submitComment(stage)
+        $('#input-field').blur()
     )
+
+    $('#input-field').blur()
