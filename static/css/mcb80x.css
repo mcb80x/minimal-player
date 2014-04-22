@@ -70,48 +70,55 @@ img.lesson-teaser{float:right;}
 .alt-player-link a{color:#ccc;hover-color:#f00;}
 .ui-front{z-index:1000000 !important;}
 
-/* Added by HR ----------------------------------------------------------------------------*/
-/* Upper-Right Nav Buttons --*/
+/* --- Added by HR ----------------------------------------------------------------------------*/
+/* --- Upper-Right Nav Buttons --- */
 .navButton{color:#ccc; font-size: 18px; padding: 3px; text-decoration: none;}
 .navButton:hover{color:#0c0;}
 .on{color: #0c0 !important;}
 
+/* --- Lower Left Toggles --- */
 #toggleComments{color: #ccc; height: 20px; left: 0px; position: absolute; top: 1px; width: 30px; text-align: center;}
 #toggleSubtitles{color: #ccc; left: 30px; height: 20px; position: absolute; width: 30px; top: 2px; text-align: center;}
 #toggleComments:hover, #toggleSubtitles:hover{color:#0c0;}
+
+/* --- Layout Setup for Comments --- */
 #comment-container{bottom: 0px; display: none; height:60px; position: absolute; text-align: right; width:100%;}
+#message-container a{display:none;}
+#message-container{background-color: darkgray; /*bottom: 0px;*/top: 0px; height: 35px; right: 0%; position: absolute; width: 60%; border-bottom-right-radius:5px;}
+
+/* --- Comment Input --- */
 #input-container{background-color: darkgray; height: 35px; position: absolute; top: 0px; width: 40%; border-bottom-left-radius: 5px;}
 #cancel-button{display:none; left: 5px; height: 20px; position: absolute; top: 6px; width: 20px; z-index: 1000;}
 #cancel-button:hover{color: #c33;}
 #reply-label{display:none; left: 30px; position: absolute; top: 6px; z-index: 1000; font-style: italic; font-size: 14px; font-family: Lato, sans-serif;}
 #input-field{background-color: lightgray; border: 1px solid white; box-sizing: border-box; color: black; font-size: 16px; padding-left: 10px; width: 98%; top:4px; position: absolute; left: 5px; height: 52px; outline: none; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; resize: none;}
+.inputDefault{color: darkgray;}
+
+/* --- Comment Buttons --- */
 .commentButton{color:darkgray; font-size: 20px; padding: 3px; text-decoration: none;}
 .commentButton:hover, .liked{color:#33CC33}
 #reportComment{bottom: 2px; font-size: 14px; position: absolute; left: 38px;}
 #reportComment:hover, .flagged{color:#c33;}
 #likeComment{top: 0px; position: absolute; right:  5px;}
 #replyToComment{bottom: 0px; position: absolute; right: 5px;}
-#message-container a{display:none;}
-#messageParent{color: navy; font-style: italic; text-decoration: underline;}
-#message-background{background-color: lightgray; border: 1px solid white; border-radius: 5px; display: none; height: 50px; left: 5px;position: absolute; right: 5px; top: 5px;}
-#commentToDelete{font-family: serif; font-size: 14px; font-style:italic;}
-#commentToDelete:before{content:"\"";}
-#commentToDelete:after{content:"\"";}
 
-
-
-
+/* --- Comment Display --- */
 #avatar{background-color: white; border: 1px black solid; display: none; top: 4px; height: 40px; left: 5px; position: absolute; width: 40px; border-radius: 5px;}
 #username{color: black; font-family: Lato, sans-serif; font-size: 16px; font-style: italic; left: 57px; top: 0px; text-align: left; position: absolute; letter-spacing: 3px;}
 #message{color: black; font-family: Lato, sans-serif; font-size: 16px; padding-left: 5px; word-wrap: break-word; text-align: left; left: 55px; position: absolute; right: 40px; top: 15px;}
 .parentDetail{background-color: white; color: black; font-size: 12px; position: absolute; padding-top: 0px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; border-radius: 5px; z-index: 1000;}
 .parentDetail:before{font-size: 8px; content:"original comment\A"; white-space: pre;}
 #likeCount{font-family: sans-serif; font-size: 14px; position: absolute; right: 15px; top: 10px; z-index: 1000; font-size: 12px; z-index:10000;}
-#message-container{background-color: darkgray; /*bottom: 0px;*/top: 0px; height: 35px; right: 0%; position: absolute; width: 60%; border-bottom-right-radius:5px;}
+#messageParent{color: navy; font-style: italic; text-decoration: underline;}
+#message-background{background-color: lightgray; border: 1px solid white; border-radius: 5px; display: none; height: 50px; left: 5px;position: absolute; right: 5px; top: 5px;}
+
+/* --- Dialogs --- */
 .dialogButton{background-color: #ccc; border: 1px solid black; border-radius: 15px; font-weight: bold; padding: 5px 0; text-align: center;}
 .dialogButton:hover{background-color: #fff;}
-#commentToDelete{padding-bottom: 10px; text-align:center;}
-.inputDefault{color: darkgray;}
+#commentToDelete{font-family: serif; font-size: 14px; font-style:italic; padding-bottom: 10px; text-align:center;}
+#commentToDelete:before{content:"\"";}
+#commentToDelete:after{content:"\"";}
+
 /* --- Volume Control --- */
 a, i{text-decoration: none;}
 .icon-volume-down{color:#999;}
